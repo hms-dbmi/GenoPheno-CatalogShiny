@@ -3,7 +3,7 @@ library(shinyjs)
 library(shinydashboard)
 library(shinythemes)
 library(shinycssloaders)
-
+library(rdrop2)
 
 ######################################################################################
 # Define global #
@@ -151,7 +151,7 @@ ui <- fluidPage(
                             uiOutput("patientValue")),
                     column( 3, 
                             uiOutput("sampleValue")))
-                  
+                    
                 )
                 ,
                 # Main panel for displaying outputs ----
@@ -180,7 +180,7 @@ ui <- fluidPage(
                 column(4,  textInput("diseaseSpec_submit", labelMandatory("Disease information"))), 
                 
                 actionButton("submit", "Submit", class = "btn-primary")
-                
+                  
               ),
               shinyjs::hidden(
                 div(
@@ -322,14 +322,30 @@ server <- function(input, output, session) {
     dataSubmission
   })
   
+  ###This is not valid for shiny.io, we need to save it remotely
+  # saveData <- function(dataSubmission) {
+  #    fileName <- sprintf("%s_%s.csv",
+  #                        humanTime(),
+  #                        digest::digest(dataSubmission))
+  #    
+  #    write.csv(x = dataSubmission, file = file.path(responsesDir, fileName),
+  #              row.names = FALSE, quote = TRUE)
+  # }
+  
+  ##Remotely saved in dropbox
+  outputDir <- "responses"
+  
   saveData <- function(dataSubmission) {
-    fileName <- sprintf("%s_%s.csv",
-                        humanTime(),
-                        digest::digest(dataSubmission))
-    
-    write.csv(x = dataSubmission, file = file.path(responsesDir, fileName),
-              row.names = FALSE, quote = TRUE)
+    dataSubmission <- t(dataSubmission)
+    # Create a unique file name
+    fileName <- sprintf("%s_%s.csv", as.integer(Sys.time()), digest::digest(dataSubmission))
+    # Write the data to a temporary file locally
+    filePath <- file.path(tempdir(), fileName)
+    write.csv(dataSubmission, filePath, row.names = FALSE, quote = TRUE)
+    # Upload the file to Dropbox
+    drop_upload(filePath, path = outputDir)
   }
+
   
   # action to take when submit button is pressed
   observeEvent(input$submit, {
