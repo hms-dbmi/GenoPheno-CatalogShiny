@@ -1,0 +1,16 @@
+Biobank,Country,Number_Of_Samples,Number_Of_Patients,Phenotypic_Data,Genomic_data,Disease_Specific
+biobank1,UK,3560,1200,Questionnaires,SNP array,General
+biobank2,USA,894592,130000,Questionnaires,WES,Rare disease
+biobank3,USA,83940,12000,EHR,WES; WGS,Cardiovascular
+biobank4,USA,256382,144000,EHR,WGS,Heart; lung; blood; sleep (HLBS) and multi-phenotype disorders
+biobank5,Spain,43011,15749,Billing codes,WES; WGS,Intellectual and developmental disabilities
+biobank6,Canada,56291,5700,EHR,SNP array,General
+biobank7,USA,123596,175000,EHR,WGS,General
+biobank8,UK,156792,2600,Questionnaries,WES,Autism
+biobank9,Africa,193945,625432,Clinical notes,WES,Undiagnosed disease
+biobank10,UK,192862,500000,EHR,SNP array,General
+biobank11,France,749291,38291,Billing codes,WES,General
+biobank12,Finland,193956,299000,Billing codes,WES,General
+biobank13,China,63721,510000,Questionnaires,GWAS,Common chronic diseases
+biobank14,USA,268472,562000,Questionnaires,WES; WGS,
+biobank15,Canada,,300000,Questionnaires,WES,Cancer and chronic diseases
