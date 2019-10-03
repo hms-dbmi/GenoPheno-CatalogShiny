@@ -50,7 +50,7 @@ ui <- fluidPage(
                    tabPanel("Biobank Catalog",
                             mainPanel(
                               p(
-                                "blablabla"
+                                "The biobank catalog contains the country where the data was collected, the number of patients present in the biobank, the number of samples collected, the type of phenotypic data (electronic health records -EHR-, questionnaires, clinical notes), the type of genomic data (SNP array, whole genome sequencing data -WGS -, whole exome sequencing data -WES- ) and the disease focus (general or disease specific). Filtering based on all those parameters are available. "
                               ),
                               br(),
                               width = 12
@@ -74,9 +74,15 @@ ui <- fluidPage(
                                    ))),
                    tabPanel("Submit a new entry",
                             mainPanel(
-                              tags$h3(HTML("<u>Inclusion Criteria</u>")),
+                              tags$h5(HTML("<u>Inclusion Criteria</u>")),
                               p(
-                                HTML("blablabla")
+                                HTML("<ol>
+                                <li>XXXX Number of patients</li>
+                                <li>XXXX Number of samples</li>
+                                <li>Detailed clinical information (~50-100 phenotypes/clinical variables)</li>
+                                <li>SNP arrays and/or whole genome or exome sequencing data available</li>
+                                <li>The dataset has to be accessible to the user</li>
+                                </ol>")
                               ),
                               br(), p(img(src = 'warning.png', align = "rigth", width="25px", height="20px"),
                                       "Do we need a warning? we usually need a warning! :P ", 
