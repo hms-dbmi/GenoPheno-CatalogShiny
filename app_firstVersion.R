@@ -4,8 +4,6 @@ library(shinydashboard)
 library(shinythemes)
 library(shinycssloaders)
 library(rdrop2)
-library(shinyalert)
-
 
 ######################################################################################
 # Define global #
@@ -46,7 +44,98 @@ ui <- fluidPage(
   navbarPage(
     title = "", id="main_panel",
     theme = shinythemes::shinytheme("cosmo"),
-   ##first the table
+    tabPanel(value="main",
+             title = p("Cataloging large scale clinical and genomic human biobanks", 
+                       style = "font-size: 20px; padding-bottom: -0.5cm"),
+             fluidRow( 
+               column ( 6,
+                        sidebarLayout(
+                          sidebarPanel(
+                            h3( "Welcome to the Biobank Catalog Shiny App!" ),
+                            br(),
+                            tags$p(HTML( "The objective of this Shiny App is to provide a dynamic online biobank catalog. We welcome the community to correct and complete it." ) ),
+                            tags$p(HTML(
+                              "Shiny app GitHub repo: <a href=\"\">https://github.com/hms-dbmi/biobankCatalogShiny</a>."
+                            )),
+                            br(),
+                            h5( HTML("What can you find in here?\n\n" ) ),
+                            
+                            tags$p(
+                              HTML(
+                                "<ol start='1'> <li>Current catalog of human biobanks.</li>
+                                <li>\"Submit a new entry.</li>
+                                </ol>"
+                              )
+                            ),
+                            br(),
+                            tags$p(HTML(
+                              "For further details see the <a href=\"\">awesome paper</a>."
+                            )),
+                            
+                            width = 12
+                          ),
+                          #mainPanel(img(src = 'testing.png', align = "center", width="1000px", height="500px"))
+                          mainPanel(img(src = 'logo.png', align = "center", height="30px"))
+                          
+                        )
+               ), column(
+                 6,
+                 tabsetPanel(
+                   id = "tabsetLoadOptions",
+                   tabPanel("Biobank Catalog",
+                            mainPanel(
+                              p(
+                                "The biobank catalog contains the country where the data was collected, the number of patients present in the biobank, the number of samples collected, the type of phenotypic data (electronic health records -EHR-, questionnaires, clinical notes), the type of genomic data (SNP array, whole genome sequencing data -WGS -, whole exome sequencing data -WES- ) and the disease focus (general or disease specific). Filtering based on all those parameters are available. "
+                              ),
+                              br(),
+                              width = 12
+                            ),
+                            column(12,
+                                   sidebarLayout(
+                                     sidebarPanel(
+                                       # fluidRow(selectInput("demodatasetSelection",  
+                                       #                      label = "Select analysis period", 
+                                       #                      choices = c("Year", "Month", "Week"), 
+                                       #                      selected = "Month")),
+                                       width = 12,
+                                       fluidRow(
+                                         tags$button(id="confirm0", 
+                                                     type="button", 
+                                                     class="btn action-button btn-large btn-primary", 
+                                                     HTML('<i class="icon-star"></i>Go to the catalog!'))
+                                       )
+                                     ),
+                                     mainPanel( )
+                                   ))),
+                   tabPanel("Submit a new entry",
+                            mainPanel(
+                              tags$h5(HTML("<u>Inclusion Criteria</u>")),
+                              p(
+                                HTML("<ol>
+                                <li>XXXX Number of patients</li>
+                                <li>XXXX Number of samples</li>
+                                <li>Detailed clinical information (~50-100 phenotypes/clinical variables)</li>
+                                <li>SNP arrays and/or whole genome or exome sequencing data available</li>
+                                <li>The dataset has to be accessible to the user</li>
+                                </ol>")
+                              ),
+                              br(), p(img(src = 'warning.png', align = "rigth", width="25px", height="20px"),
+                                      "Do we need a warning? we usually need a warning! :P ", 
+                                      img(src = 'warning.png', align = "rigth", width="25px", height="20px")
+                                      , style="color:red;"),
+                              br(),
+                              width = 12, 
+                              fluidRow(
+                                tags$button(id="confirm1", 
+                                            type="button", 
+                                            class="btn action-button btn-large btn-primary", 
+                                            HTML('<i class="icon-star"></i>Submit a new entry!'))
+                              )
+                            ))
+                   
+                 )
+               ))
+    ),
     tabPanel( value="catalog",
               p("Biobank Catalog"),
               
@@ -62,7 +151,7 @@ ui <- fluidPage(
                             uiOutput("patientValue")),
                     column( 3, 
                             uiOutput("sampleValue")))
-                  
+                    
                 )
                 ,
                 # Main panel for displaying outputs ----
@@ -91,7 +180,7 @@ ui <- fluidPage(
                 column(4,  textInput("diseaseSpec_submit", labelMandatory("Disease information"))), 
                 
                 actionButton("submit", "Submit", class = "btn-primary")
-                
+                  
               ),
               shinyjs::hidden(
                 div(
@@ -107,101 +196,7 @@ ui <- fluidPage(
                 )
               )
               
-    ),
-   tabPanel(value="main",
-            title = p("About"),
-            fluidRow( 
-              column ( 6,
-                       sidebarLayout(
-                         sidebarPanel(
-                           h3( "Welcome to the Biobank Catalog Shiny App!" ),
-                           br(),
-                           tags$p(HTML( "The objective of this Shiny App is to provide a dynamic online biobank catalog. We welcome the community to correct and complete it." ) ),
-                           tags$p(HTML(
-                             "Shiny app GitHub repo: <a href=\"\">https://github.com/hms-dbmi/biobankCatalogShiny</a>."
-                           )),
-                           br(),
-                           h5( HTML("What can you find in here?\n\n" ) ),
-                           
-                           tags$p(
-                             HTML(
-                               "<ol start='1'> <li>Current catalog of human biobanks.</li>
-                                <li>\"Submit a new entry.</li>
-                                </ol>"
-                             )
-                           ),
-                           br(),
-                           tags$p(HTML(
-                             "For further details see the <a href=\"\">awesome paper</a>."
-                           )),
-                           
-                           width = 12
-                         ),
-                         #mainPanel(img(src = 'testing.png', align = "center", width="1000px", height="500px"))
-                         mainPanel(img(src = 'logo.png', align = "center", height="30px"))
-                         
-                       )
-              ), column(
-                6,
-                tabsetPanel(
-                  id = "tabsetLoadOptions",
-                  tabPanel("Biobank Catalog",
-                           mainPanel(
-                             p(
-                               "The biobank catalog contains the country where the data was collected, the number of patients present in the biobank, the number of samples collected, the type of phenotypic data (electronic health records -EHR-, questionnaires, clinical notes), the type of genomic data (SNP array, whole genome sequencing data -WGS -, whole exome sequencing data -WES- ) and the disease focus (general or disease specific). Filtering based on all those parameters are available. "
-                             ),
-                             br(),
-                             width = 12
-                           ),
-                           column(12,
-                                  sidebarLayout(
-                                    sidebarPanel(
-                                      # fluidRow(selectInput("demodatasetSelection",  
-                                      #                      label = "Select analysis period", 
-                                      #                      choices = c("Year", "Month", "Week"), 
-                                      #                      selected = "Month")),
-                                      width = 12,
-                                      fluidRow(
-                                        useShinyalert(),  # Set up shinyalert
-                                        textInput("dataset", "Biobank/Dataset Name (ex.UK Biobank)", ""),
-                                        tags$button(id="confirm0", 
-                                                    type="button", 
-                                                    class="btn action-button btn-large btn-primary", 
-                                                    HTML('<i class="icon-star"></i>Go to the full catalog!')) 
-                                        
-                                      )
-                                    ),
-                                    mainPanel( )
-                                  ))),
-                  tabPanel("Submit a new entry",
-                           mainPanel(
-                             tags$h5(HTML("<u>Inclusion Criteria</u>")),
-                             p(
-                               HTML("<ol>
-                                <li>XXXX Number of patients</li>
-                                <li>XXXX Number of samples</li>
-                                <li>Detailed clinical information (~50-100 phenotypes/clinical variables)</li>
-                                <li>SNP arrays and/or whole genome or exome sequencing data available</li>
-                                <li>The dataset has to be accessible to the user</li>
-                                </ol>")
-                             ),
-                             br(), p(img(src = 'warning.png', align = "rigth", width="25px", height="20px"),
-                                     "Do we need a warning? we usually need a warning! :P ", 
-                                     img(src = 'warning.png', align = "rigth", width="25px", height="20px")
-                                     , style="color:red;"),
-                             br(),
-                             width = 12, 
-                             fluidRow(
-                               tags$button(id="confirm1", 
-                                           type="button", 
-                                           class="btn action-button btn-large btn-primary", 
-                                           HTML('<i class="icon-star"></i>Submit a new entry!'))
-                             )
-                           ))
-                  
-                )
-              ))
-   )
+    )
   )
 )
 
@@ -222,34 +217,11 @@ server <- function(input, output, session) {
     #biobanks <- read.delim( "BiobankList_test.csv", 
     #                        sep = ",", 
     #                        header = TRUE)
-    if( input$dataset == ""){
-      biobanks <- read.csv("https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/BiobankList_test.csv")
-      
-      updateTabsetPanel(session, "main_panel",
-                        selected = "catalog")
-    }else{
-      biobanks <- read.csv("https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/BiobankList_test.csv")
-      
-      updateTabsetPanel(session, "main_panel",
-                        selected = "catalog")
-      
-      output$mytable1 <- DT::renderDataTable(DT::datatable({
-        data <- biobanks
-        if (input$dataset %in% data$Biobank) {
-          data <- data[data$Biobank == input$dataset,]
-          colnames(data) <- gsub("_", " ", colnames(data))
-          data
-        }else{
-        
-            # Show a modal when the button is pressed
-            shinyalert("Oops!", "There is not any biobank/datase with that name in the catalog", type = "error")
-        }
-      
-        
-      }))
-      
-    }
-   
+    
+    biobanks <- read.csv("https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/BiobankList_test.csv")
+    
+    updateTabsetPanel(session, "main_panel",
+                      selected = "catalog")
     
   })
   
@@ -373,7 +345,7 @@ server <- function(input, output, session) {
     # Upload the file to Dropbox
     drop_upload(filePath, path = outputDir)
   }
-  
+
   
   # action to take when submit button is pressed
   observeEvent(input$submit, {
