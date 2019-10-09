@@ -53,6 +53,17 @@ ui <- fluidPage(
                            h3( "Welcome to the Biobank Catalog Shiny App!" ),
                            br(),
                            tags$p(HTML( "The objective of this Shiny App is to provide a dynamic online biobank catalog. We welcome the community to correct and complete it." ) ),
+                           tags$h5(HTML("<u>Inclusion Criteria</u>")),
+                           p(
+                             HTML("<ol>
+                                <li>Contain both genotype and phenotype data of the same patients</li>
+                                <li>Include at least one hundred (100) recorded clinical variables</li>
+                                <li>Include Whole Genome Sequencing (WGS) or Whole Exome Sequencing (WES) data as part of their genomic data content</li>
+                               <li>Over 1,000 patients (unless the dataset is focused on rare diseases)</li>
+                               <li>The data has to be accessible to the public, either through an open-access license</li>
+                                  </ol>")
+                           ),
+                           br(),
                            tags$p(HTML( "The biobank catalog contains:
                                         <li>Biobank/dataset name</li>
                                         <li>Country</li>
@@ -68,19 +79,10 @@ ui <- fluidPage(
                                         <li>Ancestry</li>
                                         <li>Consent</li>
                                         <li>Accession</li>
-                                        <li>Link</li>" ) ),
+                                        <li>Link</li>
+                                        <li>PubMed Link</li>" ) ),
                            br(),
-                           tags$h5(HTML("<u>Inclusion Criteria</u>")),
-                           p(
-                             HTML("<ol>
-                                <li>Detailed clinical information (at least 100 clinical variables)</li>
-                                <li>SNP arrays and/or whole genome or exome sequencing data available</li>
-                                <li>The dataset has to be accessible to the user</li>
-                                <li>XXXX Number of patients</li>
-                                <li>XXXX Number of samples</li>
-                                </ol>")
-                           ),
-                           br(),
+            
                            tags$p(HTML("For further details see the <a href=\"\">manuscript</a>.")),
                            tags$p(HTML( "Shiny app GitHub repo: <a href=\"\">https://github.com/hms-dbmi/biobankCatalogShiny</a>.")),
                            tags$p(HTML( "To submit new entries or correct the existing ones, update the CSV file \"xxxx\" available at the GitHub repo: <a href=\"\">https://github.com/hms-dbmi/biobankCatalogShiny</a>.")),
@@ -106,7 +108,7 @@ server <- function(input, output, session) {
   
   #biobanks <- read.csv("https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/BiobankList_test.csv")
   #biobanks <- read.csv("/Users/alba/Desktop/biobankPaper/Biobanks/catalogBiobanks6oct.csv")
-  biobanks <- fread( "/Users/alba/Desktop/biobankPaper/Biobanks/catalogBiobanks7octTest.csv", nrows=-1L, verbose=getOption("datatable.verbose"),header=T, stringsAsFactors=FALSE)
+  biobanks <- fread( "/Users/alba/Desktop/biobankPaper/Biobanks/test2.csv", nrows=-1L, verbose=getOption("datatable.verbose"),header=T, stringsAsFactors=FALSE)
   
   observeEvent(input$confirm0, {
     
@@ -116,7 +118,7 @@ server <- function(input, output, session) {
     if( input$dataset == ""){
       #biobanks <- read.csv("https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/BiobankList_test.csv")
       #biobanks <- read.csv("/Users/alba/Desktop/biobankPaper/Biobanks/catalogBiobanks6oct.csv")
-      biobanks <- fread( "/Users/alba/Desktop/biobankPaper/Biobanks/catalogBiobanks7octTest.csv", nrows=-1L, verbose=getOption("datatable.verbose"),header=T, stringsAsFactors=FALSE)
+      biobanks <- fread( "/Users/alba/Desktop/biobankPaper/Biobanks/test2.csv", nrows=-1L, verbose=getOption("datatable.verbose"),header=T, stringsAsFactors=FALSE)
       
       updateTabsetPanel(session, "main_panel",
                         selected = "catalog")
@@ -124,7 +126,7 @@ server <- function(input, output, session) {
       #biobanks <- read.csv("https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/BiobankList_test.csv")
       #biobanks <- read.csv("/Users/alba/Desktop/biobankPaper/Biobanks/catalogBiobanks6Oct.csv")
       #biobanks <- read.csv("/Users/alba/Desktop/biobankPaper/Biobanks/catalogBiobanks6oct.csv")
-      biobanks <- fread( "/Users/alba/Desktop/biobankPaper/Biobanks/catalogBiobanks7octTest.csv", nrows=-1L, verbose=getOption("datatable.verbose"),header=T, stringsAsFactors=FALSE)
+      biobanks <- fread( "/Users/alba/Desktop/biobankPaper/Biobanks/test2.csv", nrows=-1L, verbose=getOption("datatable.verbose"),header=T, stringsAsFactors=FALSE)
       
       updateTabsetPanel(session, "main_panel",
                         selected = "catalog")
@@ -161,17 +163,17 @@ server <- function(input, output, session) {
     renderUI({
       sliderInput("patientValue", "Subject count:",
                   min = min(biobanks$Subject, na.rm = TRUE),
-                  max = max(as.numeric(as.character(biobanks$Subject.Count)), na.rm = TRUE),
-                  value = c(min(as.numeric(as.character(biobanks$Subject.Count)), na.rm = TRUE), max = max(as.numeric(as.character(biobanks$Subject.Count)), na.rm = TRUE))
+                  max = max(as.numeric(as.character(biobanks$`Subject Count`)), na.rm = TRUE),
+                    value = c(min(as.numeric(as.character(biobanks$`Subject Count`)), na.rm = TRUE), max = max(as.numeric(as.character(biobanks$`Subject Count`)), na.rm = TRUE))
       )
     })
   
   output$sampleValue <-
     renderUI({
       sliderInput("sampleValue", "Sample size:",
-                  min = min(as.numeric(as.character(biobanks$Sample.Size)), na.rm = TRUE),
-                  max = max(as.numeric(as.character(biobanks$Sample.Size)), na.rm = TRUE),
-                  value = c(min(as.numeric(as.character(biobanks$Sample.Size)), na.rm = TRUE), max = max(as.numeric(as.character(biobanks$Sample.Size)), na.rm = TRUE))
+                  min = min(as.numeric(as.character(biobanks$`Sample Size`)), na.rm = TRUE),
+                  max = max(as.numeric(as.character(biobanks$`Sample Size`)), na.rm = TRUE),
+                  value = c(min(as.numeric(as.character(biobanks$`Sample Size`)), na.rm = TRUE), max = max(as.numeric(as.character(biobanks$`Sample Size`)), na.rm = TRUE))
       )
     })
   
@@ -194,24 +196,23 @@ server <- function(input, output, session) {
     data <- biobanks
     if (input$diseasetype != "all") {
       if (input$diseasetype == "general") {
-        data <- data[data$Disease.Focus == "General" & !is.na(data$Disease.Focus),]
+        data <- data[data$`Disease/Focus` == "General" & !is.na(data$`Disease/Focus`),]
       }
       if (input$diseasetype != "general") {
-        data <- data[data$Disease.Focus != "General"  & !is.na(data$Disease.Focus),]
+        data <- data[data$`Disease/Focus` != "General"  & !is.na(data$`Disease/Focus`),]
       }
     }
     if (input$country != "All") {
       data <- data[data$Country == input$country,]
     }
     if( ! is.null(input$patientValue) ){
-      data <- data[ as.numeric(as.character(data$Subject.Count)) >= input$patientValue[1] &
-                      as.numeric(as.character(data$Subject.Count)) <= input$patientValue[2] , ]
+      data <- data[ as.numeric(as.character(data$`Subject Count`)) >= input$patientValue[1] &
+                      as.numeric(as.character(data$`Subject Count`)) <= input$patientValue[2] , ]
     }
     if( ! is.null(input$sampleValue) ){
-      data <- data[ as.numeric(as.character(data$Sample.Size)) >= input$sampleValue[1] &
-                      as.numeric(as.character(data$Sample.Size)) <= input$sampleValue[2] , ]
+      data <- data[ as.numeric(as.character(data$`Sample Size`)) >= input$sampleValue[1] &
+                      as.numeric(as.character(data$`Sample Size`)) <= input$sampleValue[2] , ]
     }
-    colnames(data) <- gsub("_", " ", colnames(data))
     data
   }))
   
