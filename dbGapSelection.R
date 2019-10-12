@@ -263,7 +263,9 @@ newRows <- function( newEntries, data){
   return( data )
 }
 
-f5b <- newRows( newEntries = c("UK Biobank", "Undiagnosed Disease Network (UDN)"), data = f5b)
+f5b <- newRows( newEntries = c("UK Biobank", "Undiagnosed Disease Network (UDN)", "Boston Children's Biobank", 
+                               "Genomics Research and Innovation Network (GRIN)",  "H3Africa", 
+                               "All of Us", "Simons Simplex Collection (SSC)"), data = f5b)
 
 
 # UK Biobank
@@ -271,7 +273,7 @@ setValue("UK Biobank", "Country", "UK")
 setValue("UK Biobank", "Sample_Size", 538050)
 setValue("UK Biobank", "Subject_Count", 500000)
 setValue("UK Biobank", "Study_Design", "Prospective study")
-setValue("UK Biobank", "Phenotypic_Variables", 0)
+#setValue("UK Biobank", "Phenotypic_Variables", 0)
 setValue("UK Biobank", "Phenotypic_Data_Type", "Health Record Data; Questionnaires; Physical Measures; Lifestyle")
 setValue("UK Biobank", "Molecular_Data_Type", "WGS; WES")
 setValue("UK Biobank", "Markerset", "Exome: IDT xGen Exome Research Panel v1.0")
@@ -302,6 +304,98 @@ setValue("Undiagnosed Disease Network (UDN)", "Link", "<a href='https://undiagno
 setValue("Undiagnosed Disease Network (UDN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26220576[PMID]', target='_blank'>26220576</a>")
 setValue("Undiagnosed Disease Network (UDN)", "Notes", "<a href='http://undiagnosed.hms.harvard.edu/wp-content/uploads/UDN-Manual-of-Operations_February-2016.pdf', target='_blank'>UDN Manual of Operations</a>")
 
+
+# Boston Children's Biobank
+setValue("Boston Children's Biobank", "Country", "USA")
+setValue("Boston Children's Biobank", "Sample_Size", 6000)
+setValue("Boston Children's Biobank", "Subject_Count", 6000 )
+setValue("Boston Children's Biobank", "Study_Design", "Prospective longitudinal cohort")
+#setValue("Boston Children's Biobank", "Phenotypic_Variables", )
+setValue("Boston Children's Biobank", "Phenotypic_Data_Type", "EHR")
+setValue("Boston Children's Biobank", "Molecular_Data_Type", "WES")
+#setValue("Boston Children's Biobank", "Markerset", "")
+setValue("Boston Children's Biobank", "Disease_Focus", "Pediatric and rare diseases")
+setValue("Boston Children's Biobank","Patients_Age", "0-18 (80.5%); >18 (19.5%)")
+setValue("Boston Children's Biobank", "Ancestry", "White (75%); Black (9.6%); Asian (3.4%); Navite American/Alaska Native (0.2%); Native Hawaiian/Pacific Islander (0.1%); Other (4.3%); Prefere not to answer (1.0%); Unknown (6.3%)")
+setValue("Boston Children's Biobank", "Consent", "<a href='http://www.mdpi.com/2075-4426/7/4/21/s1', target='_blank'>Research Consent</a>")
+setValue("Boston Children's Biobank", "Accession", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children's Biobank</a>")
+setValue("Boston Children's Biobank", "Link", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children's Biobank</a>")
+setValue("Boston Children's Biobank", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29244735[PMID]', target='_blank'>29244735</a>")
+setValue("Boston Children's Biobank", "Notes", "The parents provide consent until participants are 18")
+
+# Genomics Research and Innovation Network (GRIN)
+setValue("Genomics Research and Innovation Network (GRIN)", "Country", "USA")
+setValue("Genomics Research and Innovation Network (GRIN)", "Sample_Size", 96000 )
+setValue("Genomics Research and Innovation Network (GRIN)", "Subject_Count", 96000)
+setValue("Genomics Research and Innovation Network (GRIN)", "Study_Design", "Pediatric Network")
+#setValue("Genomics Research and Innovation Network (GRIN)", "Phenotypic_Variables", )
+setValue("Genomics Research and Innovation Network (GRIN)", "Phenotypic_Data_Type", "EHR")
+setValue("Genomics Research and Innovation Network (GRIN)", "Molecular_Data_Type", "WES")
+#setValue("Genomics Research and Innovation Network (GRIN)", "Markerset", "")
+#setValue("Genomics Research and Innovation Network (GRIN)", "Disease_Focus", "")
+#setValue("Genomics Research and Innovation Network (GRIN)","Patients_Age", "")
+#setValue("Genomics Research and Innovation Network (GRIN)", "Ancestry", "")
+setValue("Genomics Research and Innovation Network (GRIN)", "Consent", "Research <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=31481752[PMID]', target='_blank'>(More details in: IRB protocol section)</a>")
+setValue("Genomics Research and Innovation Network (GRIN)", "Accession", "<a href='https://www.grinnetwork.org/', target='_blank'>PIC-SURE application programming interface (API) is used to access genotype and phenotype data from databases at each site of care</a>")
+setValue("Genomics Research and Innovation Network (GRIN)", "Link", "<a href='https://www.grinnetwork.org/', target='_blank'>Genomics Research and Innovation Network (GRIN)</a>")
+setValue("Genomics Research and Innovation Network (GRIN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=31481752[PMID]', target='_blank'>31481752</a>")
+#setValue("Genomics Research and Innovation Network (GRIN)", "Notes", "")
+
+# H3Africa
+setValue("H3Africa", "Country", "Africa")
+setValue("H3Africa", "Sample_Size", 75000)
+setValue("H3Africa", "Subject_Count", 75000)
+#setValue("H3Africa", "Study_Design", "")
+#setValue("H3Africa", "Phenotypic_Variables", )
+setValue("H3Africa", "Phenotypic_Data_Type", "Demographic data, clinical measurements")
+setValue("H3Africa", "Molecular_Data_Type", "WGS, WES")
+#setValue("H3Africa", "Markerset", "")
+setValue("H3Africa", "Disease_Focus", "Diseases affecting people in Africa")
+#setValue("H3Africa","Patients_Age", "")
+setValue("H3Africa", "Ancestry", "African")
+setValue("H3Africa", "Consent", "<a href='https://h3africa.org/wp-content/uploads/2018/05/H3A%202017%20Revised%20IC%20guideline%20for%20SC%2020_10_2017.pdf', target='_blank'>H3Africa Guideline for Informed Consent</a>")
+setValue("H3Africa", "Accession", "<a href='https://h3africa.org/', target='_blank'>H3Africa</a>")
+setValue("H3Africa", "Link", "<a href='https://h3africa.org/', target='_blank'>H3Africa</a>")
+setValue("H3Africa", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29692621[PMID]', target='_blank'>29692621</a>; <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=28470782[PMID]', target='_blank'>28470782</a>")
+#setValue("H3Africa", "Notes", "")
+
+# All of Us
+setValue("All of Us", "Country", "USA")
+setValue("All of Us", "Sample_Size", 241000)
+setValue("All of Us", "Subject_Count", 241000)
+setValue("All of Us", "Study_Design", "Population-based cohort")
+setValue("All of Us", "Phenotypic_Variables", 12735)
+setValue("All of Us", "Phenotypic_Data_Type", "EHR; Surver Questions; Program Physiscal Measurements")
+setValue("All of Us", "Molecular_Data_Type", "WGS")
+#setValue("All of Us", "Markerset", "")
+#setValue("All of Us", "Disease_Focus", "")
+#setValue("All of Us","Patients_Age", "")
+setValue("All of Us", "Ancestry", "51% from racial and ethnic minority groups")
+setValue("All of Us", "Consent", "<a href='https://allofus.nih.gov/about/protocol/all-us-consent-process#all-us-consent-process-videos-1', target='_blank'>Consent Process</a>")
+setValue("All of Us", "Accession", "<a href='https://databrowser.researchallofus.org', target='_blank'>All of Us: Data Browser</a>")
+setValue("All of Us", "Link", "<a href='https://www.researchallofus.org/', target='_blank'>All of Us</a>")
+setValue("All of Us", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=27929525[PMID]', target='_blank'>27929525</a>")
+#setValue("All of Us", "Notes", "")
+
+
+# Simons Simplex Collection (SSC)
+#setValue("Simons Simplex Collection (SSC)", "Country", "")
+#setValue("Simons Simplex Collection (SSC)", "Sample_Size", )
+setValue("Simons Simplex Collection (SSC)", "Subject_Count", 2600)
+setValue("Simons Simplex Collection (SSC)", "Study_Design", "Family cohort (simplex families with an affected sibling)")
+#setValue("Simons Simplex Collection (SSC)", "Phenotypic_Variables", )
+setValue("Simons Simplex Collection (SSC)", "Phenotypic_Data_Type", "Questionnaires; Autism Diagnostic Interview – Revised (ADI-R) ; Autism Diagnostic Observation Schedule (ADOS)")
+setValue("Simons Simplex Collection (SSC)", "Molecular_Data_Type", "WGS; WES")
+setValue("Simons Simplex Collection (SSC)", "Markerset", "hg19/ National Center for Biotechnology Information (NCBI) build 37")
+setValue("Simons Simplex Collection (SSC)", "Disease_Focus", "Autism")
+setValue("Simons Simplex Collection (SSC)","Patients_Age", "4-18 (Autism Children)")
+setValue("Simons Simplex Collection (SSC)", "Ancestry", "White (6773 ); Hispanic (724); African american (357); Asian (361); Native american (15); Native hawaiian (11); More than one race (516); Other (147); Not Provided (64)")
+setValue("Simons Simplex Collection (SSC)", "Consent", "<a href='http://simonsfoundation.s3.amazonaws.com/share/Policies_and_forms/2014/ssc/UMACC_Adult_Consent_03-2011.pdf', target='_blank'>Consent form</a>")
+setValue("Simons Simplex Collection (SSC)", "Accession", "<a href='https://www.sfari.org/resource/sfari-base/', target='_blank'>Researchers can request access to phenotypic, genetic or imaging data</a>")
+setValue("Simons Simplex Collection (SSC)", "Link", "<a href='https://www.sfari.org/resource/simons-simplex-collection/', target='_blank'>Simons Simplex Collection (SSC)</a>")
+setValue("Simons Simplex Collection (SSC)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=20955926[PMID]', target='_blank'>20955926</a>")
+setValue("Simons Simplex Collection (SSC)", "Notes", "Simplex families which has one child affected with an autism spectrum disorder, and unaffected parents and siblings.")
+
 f5b <- f5b[ order( f5b$Subject_Count, decreasing = TRUE), ]
 
 colnames(f5b) <- c("Name","Country","Sample Size","Subject Count with Genomic and Clinical Data","Study Design","# Phenotypic Variables Per Patient",
@@ -314,3 +408,22 @@ f5b <- f5b[ ,  c("Name","Country", "Subject Count with Genomic and Clinical Data
 
 fwrite(f5b, file=paste0(file_path,"freeze5b.csv"), sep = ',', col.names = TRUE)
 fwrite(f5b, file="/Users/alba/Desktop/testingApp/test2.csv", sep = ',', col.names = TRUE)
+
+
+# NEW
+setValue("NEW", "Country", "USA")
+setValue("NEW", "Sample_Size", )
+setValue("NEW", "Subject_Count", )
+setValue("NEW", "Study_Design", "")
+setValue("NEW", "Phenotypic_Variables", )
+setValue("NEW", "Phenotypic_Data_Type", "")
+setValue("NEW", "Molecular_Data_Type", "")
+setValue("NEW", "Markerset", "")
+setValue("NEW", "Disease_Focus", "")
+setValue("NEW","Patients_Age", "")
+setValue("NEW", "Ancestry", "")
+setValue("NEW", "Consent", "")
+setValue("NEW", "Accession", "<a href='http://', target='_blank'>NEW</a>")
+setValue("NEW", "Link", "<a href='http://', target='_blank'>NEW</a>")
+setValue("NEW", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=[PMID]', target='_blank'></a>")
+setValue("NEW", "Notes", "")
