@@ -92,23 +92,33 @@ topmedphs <- unique( c(topmed$Study.Accession, topmed$Parent.Study.Accession))
 topmedphs <- topmedphs[topmedphs != "" ]
 
 ##check that all of them are in the dbgap downloaded information
-if( length(topmedphs[ topmedphs %in% finalSetFilterSort$dbGaP.TOPMed.Study.Accession]) < length(topmedphs) ){
-  print(paste0( "There are ", length(topmedphs[ topmedphs %in% finalSetFilterSort$dbGaP.TOPMed.Study.Accession]), " out the ", 
-                length(topmedphs), " present in dbGap"))
+topmedphs_parent <- topmed$Parent.Study.Accession
+topmedphs_parent <- topmedphs_parent[topmedphs_parent != "" ]
+topmedphs_children <- topmed$Study.Accession
+topmedphs_children <- topmedphs_children[topmedphs_children != "" ]
+
+if( length(topmedphs_parent[! topmedphs_parent %in% finalSetFilterSort$dbGaP.TOPMed.Study.Accession ]) != 0){
+  not_present=topmedphs_parent[! topmedphs_parent %in% finalSetFilterSort$dbGaP.TOPMed.Study.Accession ]
+  print( paste0("Parent phs not present in dbGAP: ", not_present  ))
+  topmed$Parent.Study.Accession = gsub(not_present, "", topmed$Parent.Study.Accession)
 }
-if( length(topmedphs[! topmedphs %in% finalSetFilterSort$dbGaP.TOPMed.Study.Accession ]) != 0){
-  print( paste0("The ones that are not present are: ", topmedphs[! topmedphs %in% finalSetFilterSort$dbGaP.TOPMed.Study.Accession ]))
+if( length(topmedphs_children[! topmedphs_children %in% finalSetFilterSort$dbGaP.TOPMed.Study.Accession ]) != 0){
+  not_present=topmedphs_children[! topmedphs_children %in% finalSetFilterSort$dbGaP.TOPMed.Study.Accession ]
+  print( paste0("Parent phs not present in dbGAP: ", not_present  ))
+  topmed$Study.Accession = gsub(not_present, "", topmed$Study.Accession)
 }
 
 finalData <- as.data.frame( matrix( ncol = ncol(finalSetFilterSort)))
 colnames(finalData) <- colnames(finalSetFilterSort)
 
 for( i in 1:nrow(topmed)){
+  if( topmed$Study.Accession[i] == "" )
+    next()
   if( topmed$Parent.Study.Accession[i] == "" ){
     selection <- finalSetFilterSort[ finalSetFilterSort$dbGaP.TOPMed.Study.Accession == topmed$Study.Accession[i], ]
     selection$name <- topmed[ i, "Study.Cohort.Abbreviation"]
-    selection$Notes <- "TOPMed Freeze 5b"
-    finalData <- rbind( finalData, selection)
+    selection$Notes <- paste0( "<a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>TOPMed Freeze 5b</a>")
+    finalData <-  rbindlist(list( finalData, selection), use.names=F )
   }else{
     clinical <- finalSetFilterSort[ finalSetFilterSort$dbGaP.TOPMed.Study.Accession == topmed$Parent.Study.Accession[i], ]
     genomic <- finalSetFilterSort[ finalSetFilterSort$dbGaP.TOPMed.Study.Accession == topmed$Study.Accession[i], ]
@@ -125,17 +135,18 @@ for( i in 1:nrow(topmed)){
     age <- NA
     ancestry <- ifelse(as.numeric(genomic$samples) < as.numeric(clinical$samples), as.character(clinical$Ancestry..computed.), as.character(genomic$Ancestry..computed.))
     consent <- ifelse( as.character(genomic$Study.Consent) != as.character(clinical$Study.Consent), paste0("Genomic study consent: ", as.character(genomic$Study.Consent), "; Clinical study consent: ", as.character(clinical$Study.Consent)), as.character(genomic$Study.Consent))
-    # accession <- paste0( "Genomic study: ", as.character( genomic$accession ), "; Clinical study:", as.character(clinical$accession))
-    links <- paste0( as.character( genomic$link ), "; ", as.character( clinical$link ) )
+    accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi', target='_blank'>Request access through dbGAP</a>")
+    links <- paste0( paste0("<a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>"), "; ", paste0("<a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>") )
     pubmed <- NA
     Notes <- "TOPMed Freeze 5b"
     hps <- paste0( as.character( genomic$accession ), "; ", as.character( clinical$accession ) )
     newrow <- c(name, Country, samples, subjects, studyDesing, phenoVariables, phenoData, molecularData,markerset , disease, age, ancestry,consent, accession, links, pubmed, Notes, hps)
-    finalData <- rbind( finalData, newrow)
-    }
+    finalData <- rbindlist( list(finalData, data.table(t(newrow))),  use.names=F )
+  }
 }
 
 finalSetFilterSort <- finalData[, c(1:17)]
+
 # Names with underscores
 colnames(finalSetFilterSort) <- c("Name","Country","Sample_Size","Subject_Count","Study_Design","Phenotypic_Variables",
                                   "Phenotypic_Data_Type","Molecular_Data_Type","Markerset","Disease_Focus",
@@ -179,126 +190,126 @@ setValue("MESA", "PubMedLink",  paste0(pubMed,"12397006[PMID]', target='_blank'>
 # ARIC - phs001211 (geno) ; phs000280 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=1211&version=2&exp1=1&exp2=1&exp3=1
 setValue("ARIC","Patients_Age", "45-64")
-setValue("ARIC", "PubMedLink",  paste0(pubMed,"2646917[PMID]', target='_blank'> </a>"))
+setValue("ARIC", "PubMedLink",  paste0(pubMed,"2646917[PMID]', target='_blank'>2646917</a>"))
 # setValue("ARIC", "Phenotypic_Data_Type", "TBD")
 
 # CHS - phs001368 (geno) ; phs000287 (pheno)
 # Ancestry: Not available for the initial cohort of 5,201 participants
 setValue("CHS","Patients_Age", ">65")
-setValue("CHS", "PubMedLink",  paste0(pubMed,"1669507[PMID]', target='_blank'> </a>"))
+setValue("CHS", "PubMedLink",  paste0(pubMed,"1669507[PMID]', target='_blank'>1669507</a>"))
 # setValue("CHS", "Phenotypic_Data_Type", "TBD") # See Table 2 : https://reader.elsevier.com/reader/sd/pii/104727979190005W?token=52A6D06132598482C9EFD4EA215DBCAB80A92424DC3CD16B7DAB25823823D1BBE9C9F30FCA0FFB1BD78566ADE54DCF18
 
 # WHI - phs001237 (geno) ; phs000200 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=1237&version=1&exp1=1&exp2=1&exp3=1
 setValue("WHI","Patients_Age", "50-79") # https://www.whi.org/SitePages/WHI%20Home.aspx
-setValue("WHI", "PubMedLink", "https://doi.org/10.1089/jwh.1995.4.519" ) # No PubMed Link; https://www.whi.org/researchers/bibliography/SitePages/Advanced%20Search.aspx
+setValue("WHI", "PubMedLink",  paste0("<a href='https://doi.org/10.1089/jwh.1995.4.519', target='_blank'>doi:10.1089</a>") ) # No PubMed Link; https://www.whi.org/researchers/bibliography/SitePages/Advanced%20Search.aspx
 # setValue("WHI", "Phenotypic_Data_Type", "TBD")
 
 # JHS - phs000964 (geno) ; phs000286 (pheno)
 setValue("JHS","Ancestry", "African American")
 setValue("JHS","Patients_Age", "35-84")
-setValue("JHS", "PubMedLink",  paste0(pubMed,"10100686[PMID]', target='_blank'> </a>"))
+setValue("JHS", "PubMedLink",  paste0(pubMed,"10100686[PMID]', target='_blank'>10100686</a>"))
 # setValue("JHS", "Phenotypic_Data_Type", "TBD")
 
 # CFS - phs000954 (geno) ; phs000284 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=284&version=2&exp1=1&exp2=1&exp3=1
 setValue("CFS","Patients_Age", " 2-18")
-setValue("CFS", "PubMedLink",  paste0(pubMed,"10228121[PMID]', target='_blank'> </a>"))
+setValue("CFS", "PubMedLink",  paste0(pubMed,"10228121[PMID]', target='_blank'>10228121</a>"))
 # setValue("CFS", "Phenotypic_Data_Type", "TBD")
 
 # GENOA - phs001345 (geno) ; phs001238 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=954&version=2&exp1=1&exp2=1&exp3=1
 setValue("GENOA","Patients_Age", "<60")
-setValue("GENOA", "PubMedLink",  paste0(pubMed,"15121494[PMID]', target='_blank'> </a>"))
+setValue("GENOA", "PubMedLink",  paste0(pubMed,"15121494[PMID]', target='_blank'>15121494</a>"))
 # setValue("GENOA", "Phenotypic_Data_Type", "TBD")
 
 # COPDGene - phs000951 (geno) ; phs000179 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=179&version=6&exp1=1&exp2=1&exp3=1
 setValue("COPDGene","Patients_Age", "45-80")
-setValue("COPDGene", "PubMedLink",  paste0(pubMed,"20214461[PMID]', target='_blank'> </a>"))
+setValue("COPDGene", "PubMedLink",  paste0(pubMed,"20214461[PMID]', target='_blank'>20214461</a>"))
 # setValue("COPDGene", "Phenotypic_Data_Type", "TBD")
 
 # SAS - phs000972 (geno) ; phs000914 (pheno)
 setValue("SAS","Country", "Samoa")
 setValue("SAS","Ancestry", "Samoan")
 setValue("SAS","Patients_Age", "23-70")
-setValue("SAS", "PubMedLink",  paste0(pubMed,"24799123[PMID]', target='_blank'> </a>"))
+setValue("SAS", "PubMedLink",  paste0(pubMed,"24799123[PMID]', target='_blank'>24799123</a>"))
 # setValue("SAS", "Phenotypic_Data_Type", "TBD")
 
 # HyperGEN - phs001293 (geno) 
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=954&version=2&exp1=1&exp2=1&exp3=1
 setValue("HyperGEN","Patients_Age", "<60")
-setValue("HyperGEN", "PubMedLink",  paste0(pubMed,"11115379[PMID]', target='_blank'> </a>"))
+setValue("HyperGEN", "PubMedLink",  paste0(pubMed,"11115379[PMID]', target='_blank'>11115379</a>"))
 # setValue("HyperGEN", "Phenotypic_Data_Type", "TBD")
 
 # GeneSTAR - phs001218 (geno) ; phs001074 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=1218&version=1&exp1=1&exp2=1&exp3=1
 setValue("GeneSTAR","Patients_Age", "<60")
-setValue("GeneSTAR", "PubMedLink",  paste0(pubMed,"16551714[PMID]', target='_blank'> </a>"))
+setValue("GeneSTAR", "PubMedLink",  paste0(pubMed,"16551714[PMID]', target='_blank'>16551714</a>"))
 # setValue("GeneSTAR", "Phenotypic_Data_Type", "TBD")
 
 # GOLDN - phs001218 (geno) ; phs001074 (pheno)
 setValue("GOLDN","Ancestry", "Caucasian")
 setValue("GOLDN","Patients_Age", ">18")
-setValue("GOLDN", "PubMedLink",  paste0(pubMed,"22228203[PMID]', target='_blank'> </a>"))
+setValue("GOLDN", "PubMedLink",  paste0(pubMed,"22228203[PMID]', target='_blank'>22228203</a>"))
 # setValue("GOLDN", "Phenotypic_Data_Type", "TBD")
 
 
-colnames(f5b) <- c("Name","Country","Sample Size","Subject Count","Study Design","Phenotypic Variables",
+
+##function to add new rows
+newRows <- function( newEntries, data){
+  data =  rbindlist(list(data, data.table( Name=c(newEntries) )) , use.names=T, fill=T  )
+  return( data )
+}
+
+f5b <- newRows( newEntries = c("UK_Biobank", "Undiagnosed_Disease_Network_(UDN)"), data = f5b)
+
+
+# UK_Biobank
+setValue("UK_Biobank", "Country", "UK")
+setValue("UK_Biobank", "Sample_Size", 538050)
+setValue("UK_Biobank", "Subject_Count", 500000)
+setValue("UK_Biobank", "Study_Design", "Prospective study")
+setValue("UK_Biobank", "Phenotypic_Variables", 0)
+setValue("UK_Biobank", "Phenotypic_Data_Type", "Health Record Data; Questionnaires; Physical Measures; Lifestyle")
+setValue("UK_Biobank", "Molecular_Data_Type", "WGS; WES")
+setValue("UK_Biobank", "Markerset", "Exome: IDT xGen Exome Research Panel v1.0")
+setValue("UK_Biobank", "Disease_Focus", "General")
+setValue("UK_Biobank","Patients_Age", "40-69")
+setValue("UK_Biobank", "Ancestry", "White (95%); Other (5%)")
+setValue("UK_Biobank", "Consent", "<a href='https://www.ukbiobank.ac.uk/gdpr/', target='_blank'>Consent for health-related research, for their health to be followed over many years through medical and other health-related records, as well as by being re-contacted by UK Biobank</a>")
+setValue("UK_Biobank", "Accession", "<a href='http://www.ukbiobank.ac.uk/wp-content/uploads/2012/09/Access-Procedures-2011.pdf', target='_blank'>UK Biobank Access Procedures</a>") 
+setValue("UK_Biobank", "Link", "<a href='https://www.ukbiobank.ac.uk', target='_blank'>UK Biobank</a>")
+setValue("UK_Biobank", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=25826379[PMID]', target='_blank'>25826379</a>")
+setValue("UK_Biobank", "Notes", "<a href='http://biobank.ctsu.ox.ac.uk/crystal/browse.cgi', target='_blank'>UK Biobank Data Showcase</a>")
+
+# Undiagnosed_Disease_Network_(UDN)
+setValue("Undiagnosed_Disease_Network_(UDN)", "Country", "USA")
+setValue("Undiagnosed_Disease_Network_(UDN)", "Sample_Size", 462)
+setValue("Undiagnosed_Disease_Network_(UDN)", "Subject_Count", 1042)
+setValue("Undiagnosed_Disease_Network_(UDN)", "Study_Design", "Prospective Longitudinal Cohort")
+setValue("Undiagnosed_Disease_Network_(UDN)", "Phenotypic_Variables", 3965)
+setValue("Undiagnosed_Disease_Network_(UDN)", "Phenotypic_Data_Type", "EMR; Primary symptom reported by patient or caregiver or by clinical experts and HPO terms")
+setValue("Undiagnosed_Disease_Network_(UDN)", "Molecular_Data_Type", "NGS; WGS; WES")
+setValue("Undiagnosed_Disease_Network_(UDN)", "Markerset", "GRCh37(hg19)")
+setValue("Undiagnosed_Disease_Network_(UDN)", "Disease_Focus", "Undiagnosed Diseases/Rare Diseases")
+setValue("Undiagnosed_Disease_Network_(UDN)","Patients_Age", "Pediatric population: 0-17 and adult population > 18")
+setValue("Undiagnosed_Disease_Network_(UDN)", "Ancestry", "White (81%); Asian (6%); American Indian or Alaska Native (<1%)'; Black or African American (5%); Native Hawaiian Pacific Islander (<1%); Other (8%)")
+setValue("Undiagnosed_Disease_Network_(UDN)", "Consent", "NHGRI GRU --- General research use")
+setValue("Undiagnosed_Disease_Network_(UDN)", "Accession", "<a href='https://undiagnosed.hms.harvard.edu/research/', target='_blank'>Undiagnosed Disease Network (UDN)</a>")
+setValue("Undiagnosed_Disease_Network_(UDN)", "Link", "<a href='https://undiagnosed.hms.harvard.edu/research/', target='_blank'>Undiagnosed Disease Network (UDN)</a>")
+setValue("Undiagnosed_Disease_Network_(UDN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26220576[PMID]', target='_blank'>26220576</a>")
+setValue("Undiagnosed_Disease_Network_(UDN)", "Notes", "<a href='http://undiagnosed.hms.harvard.edu/wp-content/uploads/UDN-Manual-of-Operations_February-2016.pdf', target='_blank'>UDN Manual of Operations</a>")
+
+f5b <- f5b[ order( f5b$Subject_Count, decreasing = TRUE), ]
+
+colnames(f5b) <- c("Name","Country","Sample Size","Subject Count with Genomic and Clinical Data","Study Design","# Phenotypic Variables",
                         "Phenotypic Data Type","Molecular Data Type","Markerset","Disease/Focus",
                         "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes") 
+
+f5b <- f5b[ ,  c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","# Phenotypic Variables",
+                 "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
+                 "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes") ]
+
 fwrite(f5b, file=paste0(file_path,"freeze5b.csv"), sep = ',', col.names = TRUE)
-
-
-
-
-
-### add biobank information from Paul excel sheet
-biobanks <- read.delim(paste0(file_path,"Biobank Paper - Master Spreadsheet.csv"), sep = ",")
-biobanks <- biobanks[, c(1,2,5,7,10:12,14, 16)]
-
-
-
-
-biobanks$Subject.Count <- NA
-biobanks$Phenotypic.Variables <- NA
-biobanks$Markerset <- NA
-biobanks$Disease.Focus <- NA
-biobanks$Patients.Age <- NA
-biobanks$Consent <- NA
-biobanks$Notes <- NA
-biobanks$PubMedLink <- NA
-
-
-biobanks <- biobanks[, c(1, 2, 4, 10, 3, 11,6, 7,12,13,14,5,15,8,9,17,16)]
-# Names with spaces
-colnames(biobanks) <- c("Name","Country","Sample Size","Subject Count","Study Design","Phenotypic Variables",
-                        "Phenotypic Data Type","Molecular Data Type","Markerset","Disease/Focus","Patients Age (yr)",
-                        "Ancestry","Consent","Accession","Link","PubMedLink","Notes")
-
-biobanks$`Sample Size` <- gsub( "," , ";", biobanks$`Sample Size`)
-biobanks$Ancestry <- gsub( "," , ";", biobanks$Ancestry)
-biobanks$`Phenotypic Data Type` <- gsub( "," , ";", biobanks$`Phenotypic Data Type`)
-biobanks$`Molecular Data Type` <- gsub( "," , ";", biobanks$`Molecular Data Type`)
-biobanks$`Study Design` <- gsub( "," , ";", biobanks$`Study Design`)
-biobanks$`Molecular Data Type` <- gsub( "\n" , "", biobanks$`Molecular Data Type`)
-biobanks$Accession <- gsub( "\n" , "", biobanks$Accession)
-biobanks$Name <- gsub( "\n" , "", biobanks$Name)
-biobanks <- biobanks[ biobanks$Name != "TOPMed", ]
-
-
-write.table( biobanks, file="/Users/alba/Desktop/biobankPaper/Biobanks/biobanksInfoUpdated.csv", 
-             sep = ',', 
-             col.names = TRUE, 
-             row.names = FALSE, 
-             quote = FALSE)
-
-
-dbgapAndBiobanks <- rbind( finalSetFilterSort, biobanks)
-
-
-write.table( dbgapAndBiobanks, file="/Users/alba/Desktop/biobankPaper/Biobanks/test2.csv", 
-             sep = ',', 
-             col.names = TRUE, 
-             row.names = FALSE, 
-             quote = FALSE)
+fwrite(f5b, file="/Users/alba/Desktop/testingApp/test2.csv", sep = ',', col.names = TRUE)
