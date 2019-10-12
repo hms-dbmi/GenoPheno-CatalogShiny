@@ -6,6 +6,7 @@ library(shinycssloaders)
 library(rdrop2)
 library(shinyalert)
 library(shinyBS)
+library(DT)
 
 
 
@@ -19,6 +20,7 @@ library(shinyBS)
 ######################################################################################
 
 ui <- fluidPage(
+  tags$style(HTML('table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {background-color: lightyellow !important;}')),
   
   navbarPage(
     title = "", id="main_panel",
@@ -90,8 +92,7 @@ ui <- fluidPage(
                    tags$p(HTML( "To submit new entries or correct the existing ones, update the CSV file \"xxxx\" available at the GitHub repo: <a href=\"\">https://github.com/hms-dbmi/biobankCatalogShiny</a>.")),
                    width = 12
                  ),
-                 #mainPanel(img(src = 'testing.png', align = "center", width="1000px", height="500px"))
-                 mainPanel(img(src = 'logo.png', align = "center", height="30px"))
+                mainPanel(img(src = 'logo.png', align = "center", height="30px")), 
                  
                  # )
                ))
@@ -214,9 +215,20 @@ server <- function(input, output, session) {
       data <- data[ as.numeric(as.character(data$Sample.Size)) >= input$sampleValue[1] &
                       as.numeric(as.character(data$Sample.Size)) <= input$sampleValue[2] , ]
     }
+    colnames(data) <- c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","Number Of Phenotypic Variables Per Patient",
+                         "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
+                         "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes")
     data
     
-  }, escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE), colnames(biobanks)[1] <- as.character(popify(actionLink(inputId=paste("t_",1,sep=""), label=colnames(data)[1]),content = "kakakak", title="showing message?", placement = "top", trigger = "focus", options = NULL)),
+  }, escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE), callback = JS("
+var tips = ['Data Set Name', 'Country', 'Subject Count with Genomic and Clinical Data','Study Design','Disease/Focus','Number Of Phenotypic Variables Per Patient',
+                         'Phenotypic Data Type','Sample Size','Molecular Data Type','Markerset',
+                         'Patients Age (yrs)','Ancestry','Consent groups present in the data set','Accession','Link','PubMed Link to papers describing the dataset','Notes'],
+    header = table.columns().header();
+for (var i = 0; i < tips.length; i++) {
+  $(header[i]).attr('title', tips[i]);
+}
+")
 )
   )
   
