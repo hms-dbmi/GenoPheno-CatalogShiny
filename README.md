@@ -1,14 +1,21 @@
-# biobankCatalogShiny
+# geno-pheno-CatalogShiny
 
-`biobankCatalog-shiny` is an R Shiny app develop to provide a dynamic online biobank catalog. 
+`geno-pheno-Catalog-shiny` is an R Shiny app develop to provide a dynamic online catalog with datasets contaning both, genomic sequencing data and clinical data for the same patients. 
 
 ## What is this repository for?
 
-The `biobankCatalog-shiny` R Shiny app provides a biobank catalog, containing the country where the data was collected, the number of patients present in the biobank, the number of samples collected, the type of phenotypic data (electronic health records -EHR-, questionnaires, clinical notes), the type of genomic data (SNP array, whole genome sequencing data -WGS -, whole exome sequencing data -WES- ) and the disease focus (general or disease specific). Filtering based on all those parameters are available. Moreover, we provide a platform to submit new entries and complete and/or correct the existing ones. 
+The `geno-pheno-Catalog-shiny` R Shiny app provides a catalog, containing the country where the data was collected, the number of patients present in the biobank, the number of samples collected, the type of phenotypic data (electronic health records -EHR-, questionnaires, clinical notes), the type of genomic data (NGS, whole genome sequencing data -WGS -, whole exome sequencing data -WES- ) and the disease focus (general or disease specific). Filtering based on all those parameters are available. Moreover, using this platform, users can submit new entries and complete and/or correct the existing ones. 
+
+## Inclusion criteria
+This catalog only includes those data repositories that:
+- Contain  both genotype and phenotype data of cohorts of patients
+- Include at least one hundred (100) recorded clinical variables
+- Include Whole Genome Sequencing (WGS) or Whole Exome Sequencing (WES) data as part of their genomic data content
+- Represent a cohort with at least 1,000 patients (unless the dataset is focused on rare diseases)
 
 ## On line
-The on line version of the biobankCatalog shiny app is available at: 
-XXXXXX
+The on line version of the geno-pheno-Catalog-shiny shiny app is available at: 
+https://avillachlab.shinyapps.io/geno-pheno-catalogshinyonline/
 
 ## License
 Licensed under the Apache License, Version 2.0 (the "License");
