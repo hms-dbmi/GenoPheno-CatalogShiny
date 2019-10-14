@@ -8,10 +8,11 @@ The `geno-pheno-Catalog-shiny` R Shiny app provides a catalog, containing the co
 
 ## Inclusion criteria
 This catalog only includes those data repositories that:
-- Contain  both genotype and phenotype data of cohorts of patients
-- Include at least one hundred (100) recorded clinical variables
+- Contain both Next-Generation sequencing genotype and phenotype data of the same patients. 
+- Include at least 100 recorded clinical variables per patient
 - Include Whole Genome Sequencing (WGS) or Whole Exome Sequencing (WES) data as part of their genomic data content
-- Represent a cohort with at least 1,000 patients (unless the dataset is focused on rare diseases)
+- Over 1,000 patients (unless the dataset is focused on the pediatric population or rare diseases)
+- The dataset has to be accessible through a website or via a way of collaboration with investigators.
 
 ## On line
 The on line version of the geno-pheno-Catalog-shiny shiny app is available at: 
