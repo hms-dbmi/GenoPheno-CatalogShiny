@@ -4,14 +4,14 @@
 
 ## What is this repository for?
 
-The `geno-pheno-Catalog-shiny` R Shiny app provides a catalog, containing the country where the data was collected, the number of patients present in the biobank, the number of samples collected, the type of phenotypic data (electronic health records -EHR-, questionnaires, clinical notes), the type of genomic data (NGS, whole genome sequencing data -WGS -, whole exome sequencing data -WES- ) and the disease focus (general or disease specific). Filtering based on all those parameters are available. Moreover, using this platform, users can submit new entries and complete and/or correct the existing ones. 
+The `geno-pheno-Catalog-shiny` R Shiny app provides a catalog, containing the country where the data was collected, the number of patients present in the dataset, the number of samples collected, the type of phenotypic data (electronic health records -EHR-, questionnaires, clinical notes), the type of genomic data (NGS, whole genome sequencing data -WGS -, whole exome sequencing data -WES- ) and the disease focus (general or disease specific). Filtering based on all those parameters are available. Moreover, using this platform, users can submit new entries and complete and/or correct the existing ones. 
 
 ## Inclusion criteria
 This catalog only includes those data repositories that:
+- Over 500 patients (unless the dataset is focused on the pediatric population or rare diseases)
 - Contain both Next-Generation sequencing genotype and phenotype data of the same patients. 
 - Include at least 100 recorded clinical variables per patient
 - Include Whole Genome Sequencing (WGS) or Whole Exome Sequencing (WES) data as part of their genomic data content
-- Over 1,000 patients (unless the dataset is focused on the pediatric population or rare diseases)
 - The dataset has to be accessible through a website or via a way of collaboration with investigators.
 
 ## On line
