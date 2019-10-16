@@ -8,26 +8,51 @@ library(shinyalert)
 library(shinyBS)
 library(DT)
 
-
-
 ######################################################################################
 # Define global #
 ######################################################################################
+fieldsMandatory <- c("email", "dataset_submit", "country_submit", "subjects_submit", 
+                        "disease_submit", "phenoVars_submit", "phenoType_submit", 
+                        "sample_submit", "molecularType_submit", "consent_submit", "accession_submit")
 
+labelMandatory <- function(label) {
+  tagList(
+    label,
+    span("*", class = "mandatory_star")
+  )
+}
+
+appCSS <- ".mandatory_star { color: red; }
+   #error { color: red; }"
+
+fieldsAll <-  c("email", "dataset_submit", "country_submit", "subjects_submit", 
+                  "disease_submit", "phenoVars_submit", "phenoType_submit", 
+                  "sample_submit", "molecularType_submit", "consent_submit", "accession_submit")
+
+responsesDir <- file.path("responses")
+epochTime <- function() {
+  as.integer(Sys.time())
+}
+
+##Remotely saved in dropbox
+outputDir <- "responses"
 
 ######################################################################################
 # Define UI #
 ######################################################################################
 
 ui <- fluidPage(
-  tags$style(HTML('table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {background-color: lightyellow !important;}')),
+
+  shinyjs::useShinyjs(), 
+  shinyjs::inlineCSS(appCSS), 
+    tags$style(HTML('table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {background-color: lightyellow !important;}')),
   
   navbarPage(
     title = "", id="main_panel",
     theme = shinythemes::shinytheme("cosmo"),
     ##first the table
     tabPanel( value="catalog",
-              p("Biobank Catalog"),
+              p("GenoPheno Catalog"),
               
               sidebarLayout(
                 # Sidebar panel for inputs ----
@@ -47,6 +72,56 @@ ui <- fluidPage(
                 # Main panel for displaying outputs ----
                 div(DT::dataTableOutput("mytable1", width = 1700), style = "font-size: 75%")
               )
+    ), 
+    tabPanel( value="submit",
+              p("Submit a new dataset"),
+              div(
+                id = "form",
+                column(4, textInput("email", labelMandatory("Contributor e-mail"), "")),
+                column(4, textInput("dataset_submit", labelMandatory("Data Set Name"), "")),
+                column(4, textInput("country_submit", labelMandatory("Country"), "")),
+                
+                column(4, textInput("phenoType_submit", labelMandatory("Phenotypic Data Type"), "")),
+                column(4, textInput("design_submit", "Study Design", "")), 
+                column(4, textInput("disease_submit", labelMandatory("Disease/Focus"), "")), 
+                
+              
+                column(4, textInput("sample_submit", labelMandatory("Sample Size"))), 
+                
+                column(4, textInput("molecularType_submit", labelMandatory("Molecular Data Type"))), 
+                column(4, textInput("markerset_submit", "Markerset", "")), 
+                column(4, textInput("age_submit", "Patients Age (yrs)", "")), 
+                
+                column(4, textInput("ancestry_submit", "Ancestry", "")), 
+                column(4,  textInput("consent_submit", labelMandatory("Consent groups present in the data set"))), 
+                
+                
+                column(4, textInput("phenoVars_submit", labelMandatory("Number Of Phenotypic Variables Per Patient"), "")), 
+                column(4, textInput("subjects_submit", labelMandatory("Subject Count with Genomic and Clinical Data"), "")),
+                column(4, textInput("pubmed_submit", "PubMed Link to papers describing the dataset", "")), 
+                
+                column(4,  textInput("accession_submit", labelMandatory("Accession"))), 
+                column(4, textInput("link_submit", "Link", "")), 
+                column(4, textInput("notes_submit", "Notes", "")), 
+                
+                actionButton("submit", "Submit", class = "btn-primary")
+                
+              ),
+              DT::dataTableOutput("responsesTable"),
+              shinyjs::hidden(
+                div(
+                  id = "thankyou_msg",
+                  h3("Thanks, your response was submitted successfully!"),
+                  actionLink("submit_another", "Submit another response")
+                )
+              ), 
+              shinyjs::hidden(
+                span(id = "submit_msg", "Submitting..."),
+                div(id = "error",
+                    div(br(), tags$b("Error: "), span(id = "error_msg"))
+                )
+              )
+              
     ),
     tabPanel(value="main",
              title = p("About"),
@@ -54,22 +129,22 @@ ui <- fluidPage(
                #column ( 6,
                sidebarLayout(
                  sidebarPanel(
-                   h3( "Welcome to the Biobank Catalog Shiny App!" ),
+                   h3( "Welcome to the GenoPheno Catalog Shiny App!" ),
                    br(),
-                   tags$p(HTML( "The objective of this Shiny App is to provide a dynamic online biobank catalog. We welcome the community to correct and complete it." ) ),
+                   tags$p(HTML( "The objective of this Shiny App is to provide a dynamic online dataset catalog. We welcome the community to correct and complete it." ) ),
                    tags$h5(HTML("<u>Inclusion Criteria</u>")),
                    p(
                      HTML("<ol>
+                                <li>Over 500 patients (unless the dataset is focused on rare diseases)</li>
                                 <li>Contain both genotype and phenotype data of the same patients</li>
                                 <li>Include at least one hundred (100) recorded clinical variables</li>
                                 <li>Include Whole Genome Sequencing (WGS) or Whole Exome Sequencing (WES) data as part of their genomic data content</li>
-                               <li>Over 1,000 patients (unless the dataset is focused on rare diseases)</li>
                                <li>The data has to be accessible to the public, either through an open-access license</li>
                                   </ol>")
                    ),
                    br(),
-                   tags$p(HTML( "The biobank catalog contains:
-                                        <li>Biobank/dataset name</li>
+                   tags$p(HTML( "The GenoPheno catalog contains:
+                                        <li>Dataset name</li>
                                         <li>Country</li>
                                         <li>Sample size</li>
                                         <li>Subject count</li>
@@ -88,11 +163,11 @@ ui <- fluidPage(
                    br(),
                    
                    tags$p(HTML("For further details see the <a href=\"\">manuscript</a>.")),
-                   tags$p(HTML( "Shiny app GitHub repo: <a href=\"\">https://github.com/hms-dbmi/biobankCatalogShiny</a>.")),
-                   tags$p(HTML( "To submit new entries or correct the existing ones, update the CSV file \"xxxx\" available at the GitHub repo: <a href=\"\">https://github.com/hms-dbmi/biobankCatalogShiny</a>.")),
+                   tags$p(HTML( "Shiny app GitHub repo: <a href=\"\">https://github.com/hms-dbmi/geno-pheno-CatalogShiny</a>.")),
+                   tags$p(HTML( "To update existing information in the dataset, please update the CSV file \"tableData.csv\" available at the GitHub repo: <a href=\"\">https://github.com/hms-dbmi/geno-pheno-CatalogShiny</a> and do a pull request.")),
                    width = 12
                  ),
-                mainPanel(img(src = 'logo.png', align = "center", height="30px")), 
+                 mainPanel(img(src = 'logo.png', align = "center", height="30px")), 
                  
                  # )
                ))
@@ -108,25 +183,19 @@ server <- function(input, output, session) {
   
   attr(input, "readonly") <- FALSE
   dataValues <- reactiveValues()
+  biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
   
-  biobanks <- read.delim( "https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/test2.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
-  
-  #biobanks <- fread( "https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/test2.csv", nrows=-1L, verbose=getOption("datatable.verbose"),header=T, stringsAsFactors=FALSE)
-  
+
   observeEvent(input$confirm0, {
     
-    #biobanks <- read.delim( "BiobankList_test.csv", 
-    #                        sep = ",", 
-    #                        header = TRUE)
+    
     if( input$dataset == ""){
-      #biobanks <- fread( "https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/test2.csv", nrows=-1L, verbose=getOption("datatable.verbose"),header=T, stringsAsFactors=FALSE)
-      biobanks <- read.delim( "https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/test2.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
+      biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
       
       updateTabsetPanel(session, "main_panel",
                         selected = "catalog")
     }else{
-      #biobanks <- fread( "https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/test2.csv", nrows=-1L, verbose=getOption("datatable.verbose"),header=T, stringsAsFactors=FALSE)
-      biobanks <- read.delim( "https://raw.githubusercontent.com/aGutierrezSacristan/testingApp/master/test2.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
+      biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
       
       updateTabsetPanel(session, "main_panel",
                         selected = "catalog")
@@ -187,12 +256,6 @@ server <- function(input, output, session) {
     
   })
   
-  
-  
-  # output$mytable1 <- DT::renderDataTable({
-  #   DT::datatable(biobanks, rownames = FALSE)
-  # })
-  
   output$mytable1 <- DT::renderDataTable(
     DT::datatable({
     data <- biobanks
@@ -239,6 +302,72 @@ for (var i = 0; i < tips.length; i++) {
                       selected = "submission")
     
   })
+  
+  observe({
+    # check if all mandatory fields have a value
+    mandatoryFilled <-
+      vapply(fieldsMandatory,
+             function(x) {
+               !is.null(input[[x]]) && input[[x]] != ""
+             },
+             logical(1))
+    mandatoryFilled <- all(mandatoryFilled)
+    
+    # enable/disable the submit button
+    shinyjs::toggleState(id = "submit", condition = mandatoryFilled)
+  })
+  
+  humanTime <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
+  
+  formData <- reactive({
+    dataSubmission <- sapply(fieldsAll, function(x) input[[x]])
+    dataSubmission <- c(dataSubmission, timestamp = epochTime())
+    dataSubmission <- t(dataSubmission)
+    dataSubmission
+  })
+  
+  outputDir <- "responses"
+  
+  saveData <- function(dataSubmission) {
+    dataSubmission <- t(dataSubmission)
+    # Create a unique file name
+    fileName <- sprintf("%s_%s.csv", as.integer(Sys.time()), digest::digest(dataSubmission))
+    # Write the data to a temporary file locally
+    filePath <- file.path(tempdir(), fileName)
+    write.csv(dataSubmission, filePath, row.names = FALSE, quote = TRUE)
+    # Upload the file to Dropbox
+    drop_upload(filePath, path = outputDir)
+  }
+  
+  
+  # action to take when submit button is pressed
+  observeEvent(input$submit, {
+    shinyjs::disable("submit")
+    shinyjs::show("submit_msg")
+    shinyjs::hide("error")
+    
+    tryCatch({
+      saveData(formData())
+      shinyjs::reset("form")
+      shinyjs::hide("form")
+      shinyjs::show("thankyou_msg")
+    },
+    error = function(err) {
+      shinyjs::html("error_msg", err$message)
+      shinyjs::show(id = "error", anim = TRUE, animType = "fade")
+    },
+    finally = {
+      shinyjs::enable("submit")
+      shinyjs::hide("submit_msg")
+    })
+  })
+  
+  observeEvent(input$submit_another, {
+    shinyjs::show("form")
+    shinyjs::hide("thankyou_msg")
+  })   
+  
+  
   
   
 }
