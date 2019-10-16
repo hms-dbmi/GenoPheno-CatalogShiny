@@ -299,7 +299,7 @@ setValue("Undiagnosed Disease Network (UDN)", "Disease_Focus", "Undiagnosed Dise
 setValue("Undiagnosed Disease Network (UDN)","Patients_Age", "Pediatric population: 0-17 and adult population > 18")
 setValue("Undiagnosed Disease Network (UDN)", "Ancestry", "White (81%); Asian (6%); American Indian or Alaska Native (<1%)'; Black or African American (5%); Native Hawaiian Pacific Islander (<1%); Other (8%)")
 setValue("Undiagnosed Disease Network (UDN)", "Consent", "NHGRI GRU --- General research use")
-setValue("Undiagnosed Disease Network (UDN)", "Accession", "<a href='https://undiagnosed.hms.harvard.edu/research/', target='_blank'>Undiagnosed Disease Network (UDN)</a>")
+setValue("Undiagnosed Disease Network (UDN)", "Accession", "<a href='https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi', target='_blank'>Request access through dbGAP</a>")
 setValue("Undiagnosed Disease Network (UDN)", "Link", "<a href='https://undiagnosed.hms.harvard.edu/research/', target='_blank'>Undiagnosed Disease Network (UDN)</a>")
 setValue("Undiagnosed Disease Network (UDN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26220576[PMID]', target='_blank'>26220576</a>")
 setValue("Undiagnosed Disease Network (UDN)", "Notes", "<a href='http://undiagnosed.hms.harvard.edu/wp-content/uploads/UDN-Manual-of-Operations_February-2016.pdf', target='_blank'>UDN Manual of Operations</a>")
@@ -408,6 +408,7 @@ f5b <- f5b[ ,  c("Name","Country", "Subject Count with Genomic and Clinical Data
 
 fwrite(f5b, file=paste0(file_path,"freeze5b.csv"), sep = ',', col.names = TRUE)
 fwrite(f5b, file="/Users/alba/Desktop/test2.csv", sep = ',', col.names = TRUE)
+fwrite(f5b, file="/Users/alba/Desktop/geno-pheno-CatalogShiny/tableData.csv", sep = ',', col.names = TRUE)
 
 
 # NEW

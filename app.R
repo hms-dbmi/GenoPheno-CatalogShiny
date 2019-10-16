@@ -37,6 +37,8 @@ epochTime <- function() {
 ##Remotely saved in dropbox
 outputDir <- "responses"
 
+
+
 ######################################################################################
 # Define UI #
 ######################################################################################
@@ -71,6 +73,7 @@ ui <- fluidPage(
                 ,
                 # Main panel for displaying outputs ----
                 div(DT::dataTableOutput("mytable1", width = 1700), style = "font-size: 75%")
+                
               )
     ), 
     tabPanel( value="submit",
@@ -215,22 +218,18 @@ server <- function(input, output, session) {
   attr(input, "readonly") <- FALSE
   dataValues <- reactiveValues()
   biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
-  #biobanks <- read.delim( "/Users/alba/Desktop/test", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
-  
 
   observeEvent(input$confirm0, {
     
     
     if( input$dataset == ""){
       biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
-      #biobanks <- read.delim( "/Users/alba/Desktop/test", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
-      
+
       updateTabsetPanel(session, "main_panel",
                         selected = "catalog")
     }else{
       biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
-      #biobanks <- read.delim( "/Users/alba/Desktop/test", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
-      
+
       updateTabsetPanel(session, "main_panel",
                         selected = "catalog")
       
@@ -305,10 +304,10 @@ server <- function(input, output, session) {
     }
     if (input$genomictype != "all") {
       if (input$genomictype == "wgs") {
-        data <- data[data$Molecular.Data.Type == "WGS",]
+        data <- data[ grep( "WGS", data$Molecular.Data.Type), ]
       }
       if (input$genomictype == "wes") {
-        data <- data[data$Molecular.Data.Type == "WES",]
+        data <- data[ grep( "WES", data$Molecular.Data.Type), ]
       }
     }
     if (input$studydesign != "All") {
@@ -324,7 +323,7 @@ server <- function(input, output, session) {
                          "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes")
     data
     
-  }, escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE), callback = JS("
+  }, escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE, pageLength = 20), callback = JS("
 var tips = ['Data Set Name', 'Country', 'Subject Count with Genomic and Clinical Data','Study Design','Disease/Focus','Number Of Phenotypic Variables Per Patient',
                          'Phenotypic Data Type','Sample Size','Molecular Data Type','Markerset',
                          'Patients Age (yrs)','Ancestry','Consent groups present in the data set','Accession','Link','PubMed Link to papers describing the dataset','Notes'],
