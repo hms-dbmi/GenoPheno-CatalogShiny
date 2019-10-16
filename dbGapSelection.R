@@ -344,7 +344,7 @@ setValue("Genomics Research and Innovation Network (GRIN)", "PubMedLink",  "<a h
 # H3Africa
 setValue("H3Africa", "Country", "Africa")
 #setValue("H3Africa", "Sample_Size", )
-#setValue("H3Africa", "Subject_Count", )
+setValue("H3Africa", "Subject_Count", 0)
 #setValue("H3Africa", "Study_Design", "")
 #setValue("H3Africa", "Phenotypic_Variables", )
 setValue("H3Africa", "Phenotypic_Data_Type", "Demographic data, clinical measurements")
@@ -362,7 +362,7 @@ setValue("H3Africa", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubme
 # All of Us
 setValue("All of Us", "Country", "USA")
 #setValue("All of Us", "Sample_Size", )
-#setValue("All of Us", "Subject_Count", )
+setValue("All of Us", "Subject_Count", 0)
 setValue("All of Us", "Study_Design", "Population-based cohort")
 #setValue("All of Us", "Phenotypic_Variables", )
 setValue("All of Us", "Phenotypic_Data_Type", "EHR; Surver Questions; Program Physiscal Measurements")
