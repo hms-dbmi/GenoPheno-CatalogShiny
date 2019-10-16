@@ -62,12 +62,12 @@ ui <- fluidPage(
                             uiOutput("countryValue")),
                     column( 3, 
                             uiOutput("radioButtonsDiseaseType")),
-                    column( 3,
-                            uiOutput("patientValue")),
                     column( 3, 
-                            uiOutput("sampleValue")))
+                            uiOutput("radioButtonsGenomicType")),
+                    column( 3,
+                            uiOutput("patientValue"))
                   
-                )
+                ))
                 ,
                 # Main panel for displaying outputs ----
                 div(DT::dataTableOutput("mytable1", width = 1700), style = "font-size: 75%")
@@ -124,6 +124,32 @@ ui <- fluidPage(
               
     ),
     tabPanel(value="main",
+             title = p("Suggest a modification on the current catalog data"),
+             fluidRow( 
+               #column ( 6,
+               sidebarLayout(
+                 sidebarPanel(
+                   tags$p(HTML("The Shiny App of this on-line catalog is automatically generated based on  the CSV file <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny/blob/master/tableData.csv', target='_blank'>\"tableData.csv\"</a> available at the GitHub repo: <a href='>https://github.com/hms-dbmi/geno-pheno-CatalogShiny', target='_blank'>geno-pheno-CatalogShiny</a>" )),
+                   tags$p(HTML( "To propose any correction, please:")),
+                   p(
+                     HTML("<ol>
+                                <li>Fork the GitHub repo <a href='>https://github.com/hms-dbmi/geno-pheno-CatalogShiny', target='_blank'>geno-pheno-CatalogShiny</a></li>
+                                <li>Propose the changes in the CSV file <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny/blob/master/tableData.csv', target='_blank'>\"tableData.csv\"</a></li>
+                                <li>Submit a pull request</li>
+                                </ol>")
+                    ),
+                   br(),
+                   h3( "Thank you for your contribution to update and improve the GenoPheno Catalog!" ),
+                   br(),
+                   tags$p(HTML( "Your proposed changes will be reivewed in the following days")),
+                   br(),
+                   width = 12
+                   ),
+                 mainPanel(img(src = 'logo.png', align = "center", height="30px")), 
+                 
+               ))
+    ), 
+    tabPanel(value="main",
              title = p("About"),
              fluidRow( 
                #column ( 6,
@@ -132,17 +158,24 @@ ui <- fluidPage(
                    h3( "Welcome to the GenoPheno Catalog Shiny App!" ),
                    br(),
                    tags$p(HTML( "The objective of this Shiny App is to provide a dynamic online dataset catalog. We welcome the community to correct and complete it." ) ),
-                   tags$h5(HTML("<u>Inclusion Criteria</u>")),
+                   tags$h5(HTML("<u>Inclusion Criterias</u>")),
                    p(
                      HTML("<ol>
-                                <li>Over 500 patients (unless the dataset is focused on rare diseases)</li>
-                                <li>Contain both genotype and phenotype data of the same patients</li>
-                                <li>Include at least one hundred (100) recorded clinical variables</li>
+                                <li>Over five hundred (500) human subjects</li>
+                                <li>Contain both genotype and phenotype data of the same subjects</li>
                                 <li>Include Whole Genome Sequencing (WGS) or Whole Exome Sequencing (WES) data as part of their genomic data content</li>
-                               <li>The data has to be accessible to the public, either through an open-access license</li>
-                                  </ol>")
+                                <li>Include at least one hundred (100) recorded phenotypic variables per subject</li>
+                                <li>The dataset has to be accessible through a website or via a way of collaboration with investigators.</li>
+                                </ol>")
+                     
+                     
+                     
+                     
+                     
                    ),
                    br(),
+                   tags$h5(HTML("<u>All five criterias must be meet</u>")),
+                   
                    tags$p(HTML( "The GenoPheno catalog contains:
                                         <li>Dataset name</li>
                                         <li>Country</li>
@@ -163,8 +196,6 @@ ui <- fluidPage(
                    br(),
                    
                    tags$p(HTML("For further details see the <a href=\"\">manuscript</a>.")),
-                   tags$p(HTML( "Shiny app GitHub repo: <a href=\"\">https://github.com/hms-dbmi/geno-pheno-CatalogShiny</a>.")),
-                   tags$p(HTML( "To update existing information in the dataset, please update the CSV file \"tableData.csv\" available at the GitHub repo: <a href=\"\">https://github.com/hms-dbmi/geno-pheno-CatalogShiny</a> and do a pull request.")),
                    width = 12
                  ),
                  mainPanel(img(src = 'logo.png', align = "center", height="30px")), 
@@ -184,6 +215,7 @@ server <- function(input, output, session) {
   attr(input, "readonly") <- FALSE
   dataValues <- reactiveValues()
   biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
+  #biobanks <- read.delim( "/Users/alba/Desktop/test", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
   
 
   observeEvent(input$confirm0, {
@@ -191,11 +223,13 @@ server <- function(input, output, session) {
     
     if( input$dataset == ""){
       biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
+      #biobanks <- read.delim( "/Users/alba/Desktop/test", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
       
       updateTabsetPanel(session, "main_panel",
                         selected = "catalog")
     }else{
       biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
+      #biobanks <- read.delim( "/Users/alba/Desktop/test", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
       
       updateTabsetPanel(session, "main_panel",
                         selected = "catalog")
@@ -221,36 +255,38 @@ server <- function(input, output, session) {
   })
   
   output$countryValue <- renderUI({
-    selectInput(inputId = "country", 
-                label = "Country:", 
-                choices =  c("All", unique(biobanks$Country))
+    selectInput(inputId = "studydesign", 
+                label = "Study Design:", 
+                choices =  c("All", unique(tolower(biobanks$Study.Design)))
     )
     
   })
   
   output$patientValue <-
     renderUI({
-      sliderInput("patientValue", "Subject count:",
+      sliderInput("patientValue", "Subject count with genomic and clinical data:",
                   min = min(biobanks$Subject, na.rm = TRUE),
                   max = max(as.numeric(as.character(biobanks$Subject.Count)), na.rm = TRUE),
                   value = c(min(as.numeric(as.character(biobanks$Subject.Count)), na.rm = TRUE), max = max(as.numeric(as.character(biobanks$Subject.Count)), na.rm = TRUE))
       )
     })
   
-  output$sampleValue <-
-    renderUI({
-      sliderInput("sampleValue", "Sample size:",
-                  min = min(as.numeric(as.character(biobanks$Sample.Size)), na.rm = TRUE),
-                  max = max(as.numeric(as.character(biobanks$Sample.Size)), na.rm = TRUE),
-                  value = c(min(as.numeric(as.character(biobanks$Sample.Size)), na.rm = TRUE), max = max(as.numeric(as.character(biobanks$Sample.Size)), na.rm = TRUE))
-      )
-    })
   
   output$radioButtonsDiseaseType <- renderUI({
     radioButtons("diseasetype", "Disease/Focus:",
                  c("All" = "all",
                    "General" = "general", 
                    "Disease specific" = "specific"
+                 )
+    )
+    
+  })
+  
+  output$radioButtonsGenomicType <- renderUI({
+    radioButtons("genomictype", "Molecular Data Type:",
+                 c("All" = "all",
+                   "WGS" = "wgs", 
+                   "WES" = "wes"
                  )
     )
     
@@ -267,17 +303,22 @@ server <- function(input, output, session) {
         data <- data[data$Disease.Focus != "General"  & !is.na(data$Disease.Focus),]
       }
     }
-    if (input$country != "All") {
-      data <- data[data$Country == input$country,]
+    if (input$genomictype != "all") {
+      if (input$genomictype == "wgs") {
+        data <- data[data$Molecular.Data.Type == "WGS",]
+      }
+      if (input$genomictype == "wes") {
+        data <- data[data$Molecular.Data.Type == "WES",]
+      }
+    }
+    if (input$studydesign != "All") {
+      data <- data[tolower(data$Study.Design) == tolower(input$studydesign),]
     }
     if( ! is.null(input$patientValue) ){
       data <- data[ as.numeric(as.character(data$Subject.Count)) >= input$patientValue[1] &
                       as.numeric(as.character(data$Subject.Count)) <= input$patientValue[2] , ]
     }
-    if( ! is.null(input$sampleValue) ){
-      data <- data[ as.numeric(as.character(data$Sample.Size)) >= input$sampleValue[1] &
-                      as.numeric(as.character(data$Sample.Size)) <= input$sampleValue[2] , ]
-    }
+
     colnames(data) <- c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","Number Of Phenotypic Variables Per Patient",
                          "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
                          "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes")

@@ -117,7 +117,7 @@ for( i in 1:nrow(topmed)){
   if( topmed$Parent.Study.Accession[i] == "" ){
     selection <- finalSetFilterSort[ finalSetFilterSort$dbGaP.TOPMed.Study.Accession == topmed$Study.Accession[i], ]
     selection$name <- topmed[ i, "Name"]
-    selection$Notes <- paste0( "<a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>TOPMed Freeze 5b</a>")
+    selection$Notes <- paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>")
     selection$link <- paste0("Genomic and clinical: <a href='", as.character( selection$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>")
     finalData <-  rbindlist(list( finalData, selection), use.names=F )
   }else{
@@ -140,7 +140,7 @@ for( i in 1:nrow(topmed)){
     accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi', target='_blank'>Request access through dbGAP</a>")
     links <- ifelse(as.numeric(genomic$variables) > as.numeric(clinical$variables), paste0("Genomic and clinical: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>"),paste0( paste0("Genomic: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>"), "; Clinical: ", paste0("<a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>") ))
     pubmed <- NA
-    Notes <- ifelse(as.numeric(genomic$variables) > as.numeric(clinical$variables), paste0( "<a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>TOPMed Freeze 5b; </a>", "Additional information in the parent study: <a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>"),paste0( "<a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>TOPMed Freeze 5b</a>"))
+    Notes <- ifelse(as.numeric(genomic$variables) > as.numeric(clinical$variables), paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>", "; Additional information in the parent study: <a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>"),paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>"))
     hps <- paste0( as.character( genomic$accession ), "; ", as.character( clinical$accession ) )
     newrow <- c(name, Country, samples, subjects, studyDesing, phenoVariables, phenoData, molecularData,markerset , disease, age, ancestry,consent, accession, links, pubmed, Notes, hps)
     finalData <- rbindlist( list(finalData, data.table(t(newrow))),  use.names=F )
@@ -270,8 +270,8 @@ f5b <- newRows( newEntries = c("UK Biobank", "Undiagnosed Disease Network (UDN)"
 
 # UK Biobank
 setValue("UK Biobank", "Country", "UK")
-setValue("UK Biobank", "Sample_Size", 538050)
-setValue("UK Biobank", "Subject_Count", 500000)
+setValue("UK Biobank", "Sample_Size", 50050)
+setValue("UK Biobank", "Subject_Count", 50050)
 setValue("UK Biobank", "Study_Design", "Prospective study")
 #setValue("UK Biobank", "Phenotypic_Variables", 0)
 setValue("UK Biobank", "Phenotypic_Data_Type", "Health Record Data; Questionnaires; Physical Measures; Lifestyle")
@@ -284,7 +284,7 @@ setValue("UK Biobank", "Consent", "<a href='https://www.ukbiobank.ac.uk/gdpr/', 
 setValue("UK Biobank", "Accession", "<a href='http://www.ukbiobank.ac.uk/wp-content/uploads/2012/09/Access-Procedures-2011.pdf', target='_blank'>UK Biobank Access Procedures</a>") 
 setValue("UK Biobank", "Link", "<a href='https://www.ukbiobank.ac.uk', target='_blank'>UK Biobank</a>")
 setValue("UK Biobank", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=25826379[PMID]', target='_blank'>25826379</a>")
-setValue("UK Biobank", "Notes", "<a href='http://biobank.ctsu.ox.ac.uk/crystal/browse.cgi', target='_blank'>UK Biobank Data Showcase</a>")
+setValue("UK Biobank", "Notes", "<a href='http://biobank.ctsu.ox.ac.uk/crystal/browse.cgi', target='_blank'>UK Biobank Data Showcase</a>. A fee of 2,250£ is required to access the data.")
 
 # Undiagnosed_Disease_Network_(UDN)
 setValue("Undiagnosed Disease Network (UDN)", "Country", "USA")
@@ -307,14 +307,14 @@ setValue("Undiagnosed Disease Network (UDN)", "Notes", "<a href='http://undiagno
 
 # Boston Children's Biobank
 setValue("Boston Children's Biobank", "Country", "USA")
-setValue("Boston Children's Biobank", "Sample_Size", 6000)
-setValue("Boston Children's Biobank", "Subject_Count", 6000 )
+setValue("Boston Children's Biobank", "Sample_Size", 500)
+setValue("Boston Children's Biobank", "Subject_Count", 500 )
 setValue("Boston Children's Biobank", "Study_Design", "Prospective longitudinal cohort")
 #setValue("Boston Children's Biobank", "Phenotypic_Variables", )
 setValue("Boston Children's Biobank", "Phenotypic_Data_Type", "EHR")
 setValue("Boston Children's Biobank", "Molecular_Data_Type", "WES")
 #setValue("Boston Children's Biobank", "Markerset", "")
-setValue("Boston Children's Biobank", "Disease_Focus", "Pediatric and rare diseases")
+setValue("Boston Children's Biobank", "Disease_Focus", "General")
 setValue("Boston Children's Biobank","Patients_Age", "0-18 (80.5%); >18 (19.5%)")
 setValue("Boston Children's Biobank", "Ancestry", "White (75%); Black (9.6%); Asian (3.4%); Navite American/Alaska Native (0.2%); Native Hawaiian/Pacific Islander (0.1%); Other (4.3%); Prefere not to answer (1.0%); Unknown (6.3%)")
 setValue("Boston Children's Biobank", "Consent", "<a href='http://www.mdpi.com/2075-4426/7/4/21/s1', target='_blank'>Research Consent</a>")
@@ -325,14 +325,14 @@ setValue("Boston Children's Biobank", "Notes", "The parents provide consent unti
 
 # Genomics Research and Innovation Network (GRIN)
 setValue("Genomics Research and Innovation Network (GRIN)", "Country", "USA")
-setValue("Genomics Research and Innovation Network (GRIN)", "Sample_Size", 96000 )
-setValue("Genomics Research and Innovation Network (GRIN)", "Subject_Count", 96000)
+setValue("Genomics Research and Innovation Network (GRIN)", "Sample_Size", 500 )
+setValue("Genomics Research and Innovation Network (GRIN)", "Subject_Count", 500)
 setValue("Genomics Research and Innovation Network (GRIN)", "Study_Design", "Pediatric Network")
 #setValue("Genomics Research and Innovation Network (GRIN)", "Phenotypic_Variables", )
 setValue("Genomics Research and Innovation Network (GRIN)", "Phenotypic_Data_Type", "EHR")
 setValue("Genomics Research and Innovation Network (GRIN)", "Molecular_Data_Type", "WES")
 #setValue("Genomics Research and Innovation Network (GRIN)", "Markerset", "")
-#setValue("Genomics Research and Innovation Network (GRIN)", "Disease_Focus", "")
+setValue("Genomics Research and Innovation Network (GRIN)", "Disease_Focus", "General")
 #setValue("Genomics Research and Innovation Network (GRIN)","Patients_Age", "")
 #setValue("Genomics Research and Innovation Network (GRIN)", "Ancestry", "")
 setValue("Genomics Research and Innovation Network (GRIN)", "Consent", "Research <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=31481752[PMID]', target='_blank'>(More details in: IRB protocol section)</a>")
@@ -368,7 +368,7 @@ setValue("All of Us", "Phenotypic_Variables", 12735)
 setValue("All of Us", "Phenotypic_Data_Type", "EHR; Surver Questions; Program Physiscal Measurements")
 setValue("All of Us", "Molecular_Data_Type", "WGS")
 #setValue("All of Us", "Markerset", "")
-#setValue("All of Us", "Disease_Focus", "")
+setValue("All of Us", "Disease_Focus", "General")
 #setValue("All of Us","Patients_Age", "")
 setValue("All of Us", "Ancestry", "51% from racial and ethnic minority groups")
 setValue("All of Us", "Consent", "<a href='https://allofus.nih.gov/about/protocol/all-us-consent-process#all-us-consent-process-videos-1', target='_blank'>Consent Process</a>")
@@ -407,7 +407,7 @@ f5b <- f5b[ ,  c("Name","Country", "Subject Count with Genomic and Clinical Data
                  "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes") ]
 
 fwrite(f5b, file=paste0(file_path,"freeze5b.csv"), sep = ',', col.names = TRUE)
-fwrite(f5b, file="/Users/alba/Desktop/testingApp/test2.csv", sep = ',', col.names = TRUE)
+fwrite(f5b, file="/Users/alba/Desktop/test2.csv", sep = ',', col.names = TRUE)
 
 
 # NEW
