@@ -323,7 +323,7 @@ server <- function(input, output, session) {
                          "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes")
     data
     
-  }, escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE, pageLength = 20), callback = JS("
+  }, escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE, pageLength = 30), callback = JS("
 var tips = ['Data Set Name', 'Country', 'Subject Count with Genomic and Clinical Data','Study Design','Disease/Focus','Number Of Phenotypic Variables Per Patient',
                          'Phenotypic Data Type','Sample Size','Molecular Data Type','Markerset',
                          'Patients Age (yrs)','Ancestry','Consent groups present in the data set','Accession','Link','PubMed Link to papers describing the dataset','Notes'],
