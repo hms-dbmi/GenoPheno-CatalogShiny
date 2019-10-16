@@ -168,13 +168,12 @@ finalSetDbgap <- data.table(finalSetDbgap)
 # Add columns 
 add_cols <- c("Country","Patients.Age","Notes","PubMedLink","Phenotypic.Data.Type")
 finalSetDbgap = finalSetDbgap[,c(add_cols):=list(NA)]
-
+finalSetDbgap$link <- paste0("Genomic and clinical: <a href='", as.character( finalSetDbgap$link ), "', target='_blank'>", finalSetDbgap$phs ,"</a>")
 finalSetDbgap <- finalSetDbgap[, c("name", "Country", "samples", "subjects", "Study.Design",
                                    "variables", "Phenotypic.Data.Type","Study.Molecular.Data.Type", "Study.Markerset", 
                                    "Study.Disease.Focus", "Patients.Age", "Ancestry..computed.", 
                                    "Study.Consent", "accession", "link", "PubMedLink", "Notes")]
 finalSetDbgap$accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi', target='_blank'>Request access through dbGAP</a>")
-finalSetDbgap$link <- paste0("Genomic and clinical: <a href='", as.character( finalSetDbgap$link ), "', target='_blank'>", finalSetDbgap$phs ,"</a>")
 
 ###merge both
 finalSetFilterSort <- rbind( finalSetFilterSort, finalSetDbgap)
@@ -446,7 +445,7 @@ fwrite(f5b, file="/Users/alba/Desktop/geno-pheno-CatalogShiny/tableData.csv", se
 
 
 # NEW
-setValue("NEW", "Country", "USA")
+setValue("NEW", "Country", "")
 setValue("NEW", "Sample_Size", )
 setValue("NEW", "Subject_Count", )
 setValue("NEW", "Study_Design", "")
