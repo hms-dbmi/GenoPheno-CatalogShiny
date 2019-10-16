@@ -149,6 +149,40 @@ for( i in 1:nrow(topmed)){
 
 finalSetFilterSort <- finalData[, c(1:17)]
 
+##### add dbgap studies that are not in TOPMed but that meet the inclusion criteria
+# select those dbgap studies that meet our inclusion criteria:
+finalSetDbgap <- finalSet[ as.numeric(finalSet$subjects) >= 500 & as.numeric(finalSet$variables) >= 100, ]
+finalSetDbgap <- na.omit(finalSetDbgap)
+finalSetDbgap$phs <- sapply(strsplit( as.character(finalSetDbgap$accession), "[.]"), '[', 1)
+finalSetDbgap <- finalSetDbgap[! finalSetDbgap$phs %in% c(topmed$Study.Accession, topmed$Parent.Study.Accession), ]
+
+ngs <- grep( "NGS", finalSetDbgap$Study.Molecular.Data.Type)
+wxs <- grep( "WXS", finalSetDbgap$Study.Molecular.Data.Type)
+wes <- grep( "WES", finalSetDbgap$Study.Molecular.Data.Type)
+wgs <- grep( "WGS", finalSetDbgap$Study.Molecular.Data.Type)
+totalSelection <- unique(c(ngs, wes, wgs, wxs))
+finalSetDbgap <- finalSetDbgap[ totalSelection, ]
+
+##add the columns that we need and sort the table
+finalSetDbgap <- data.table(finalSetDbgap)
+# Add columns 
+add_cols <- c("Country","Patients.Age","Notes","PubMedLink","Phenotypic.Data.Type")
+finalSetDbgap = finalSetDbgap[,c(add_cols):=list(NA)]
+
+finalSetDbgap <- finalSetDbgap[, c("name", "Country", "samples", "subjects", "Study.Design",
+                                   "variables", "Phenotypic.Data.Type","Study.Molecular.Data.Type", "Study.Markerset", 
+                                   "Study.Disease.Focus", "Patients.Age", "Ancestry..computed.", 
+                                   "Study.Consent", "accession", "link", "PubMedLink", "Notes")]
+finalSetDbgap$accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi', target='_blank'>Request access through dbGAP</a>")
+finalSetDbgap$link <- paste0("Genomic and clinical: <a href='", as.character( finalSetDbgap$link ), "', target='_blank'>", finalSetDbgap$phs ,"</a>")
+
+###merge both
+finalSetFilterSort <- rbind( finalSetFilterSort, finalSetDbgap)
+
+
+
+
+
 # Names with underscores
 colnames(finalSetFilterSort) <- c("Name","Country","Sample_Size","Subject_Count","Study_Design","Phenotypic_Variables",
                                   "Phenotypic_Data_Type","Molecular_Data_Type","Markerset","Disease_Focus",
