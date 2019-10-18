@@ -19,7 +19,6 @@ paket(listOfPackages)
 # Go to  https://www.ncbi.nlm.nih.gov/projects/gapsolr/facets.html, click on Save Results and save as: dbGAP_All.csv
 #read the csv file 
 file_path = "/full_path/geno-pheno-CatalogShiny/csv/"
-file_path = "/Users/carlos/Desktop/Harvard_18_19/dbGAP/"
 dbgap <- read.delim(paste0(file_path,"dbGAP_All.csv"), sep = ",")
 colnames(dbgap)
 colnames(dbgap)[2] <- "Name"
