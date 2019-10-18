@@ -102,7 +102,7 @@ ui <- fluidPage(
                 
                 column(4, textInput("phenoVars_submit", labelMandatory("Number Of Phenotypic Variables Per Patient"), "")), 
                 column(4, textInput("subjects_submit", labelMandatory("Subject Count with Genomic and Clinical Data"), "")),
-                column(4, textInput("pubmed_submit", "PubMed Link to papers describing the dataset", "")), 
+                column(4, textInput("pubmed_submit", "PubMed ID of the papers describing the dataset", "")), 
                 
                 column(4,  textInput("accession_submit", labelMandatory("Accession"))), 
                 column(4, textInput("link_submit", "Link", "")), 
