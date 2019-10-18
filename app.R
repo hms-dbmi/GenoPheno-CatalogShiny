@@ -27,7 +27,7 @@ appCSS <- ".mandatory_star { color: red; }
 
 fieldsAll <-  c("email", "dataset_submit", "country_submit", "phenoType_submit", "design_submit",  "disease_submit", 
                 "subjects_submit", "sample_submit", "molecularType_submit","markerset_submit","age_submit",
-                "ancestry_submit", "consent_submit", "phenoVars_submit", "subjects_submit", "pubmed_submit", 
+                "ancestry_submit", "consent_submit", "phenoVars_submit", "pubmed_submit", 
                    "accession_submit", "link_submit", "notes_submit")
 
 responsesDir <- file.path("responses")
