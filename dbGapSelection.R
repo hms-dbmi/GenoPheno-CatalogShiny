@@ -16,24 +16,21 @@ paket(listOfPackages)
 ###################
 ## dbGap studies ##
 ###################
-
-#https://www.ncbi.nlm.nih.gov/projects/gapsolr/facets.html
-#Click on Save results as CSV
-
-file_path = "/Users/alba/Desktop/biobankPaper/Biobanks/"
-
-#read the csv file
+# Go to  https://www.ncbi.nlm.nih.gov/projects/gapsolr/facets.html, click on Save Results and save as: dbGAP_All.csv
+#read the csv file 
+file_path = "/full_path/geno-pheno-CatalogShiny/csv/"
+file_path = "/Users/carlos/Desktop/Harvard_18_19/dbGAP/"
 dbgap <- read.delim(paste0(file_path,"dbGAP_All.csv"), sep = ",")
 colnames(dbgap)
+colnames(dbgap)[2] <- "Name"
 
 #select the columns needed
-dbgapSelection <- dbgap[, c("name", "Study.Design", "Study.Disease.Focus","Study.Molecular.Data.Type", 
+dbgapSelection <- dbgap[, c("Name", "Study.Design", "Study.Disease.Focus","Study.Molecular.Data.Type", 
                    "Study.Markerset", "Study.Consent", "Ancestry..computed.", "accession")]
 
 #select those studies with molecular data type provided
 #dbgapSelection <- dbgapSelection[ dbgapSelection$Study.Molecular.Data.Type != "Not Provided", ]
 dbgapSelection$link <- paste0( "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=", dbgapSelection$accession)
-
 
 ## extract the number of samples and subjects for each study
 dbgapStudyContent <- data.table(dbgap[, c("accession", "Study.Content")])
@@ -42,7 +39,6 @@ dbgapStudyContent <- dbgapStudyContent[,Study.Content:=as.character(Study.Conten
 # Add columns 
 add_cols <- c("phenotype.dataset","variables","documents","analyses","molecular.datasets","subjects","samples")
 dbgapStudyContent = dbgapStudyContent[,c(add_cols):=list(NA)]
-
 
 for(i in 1:nrow( dbgapStudyContent ) ){
   print(i)
@@ -79,14 +75,15 @@ finalSetFilter <- data.table(finalSet)
 add_cols <- c("Country","Patients.Age","Notes","PubMedLink","Phenotypic.Data.Type")
 finalSetFilter = finalSetFilter[,c(add_cols):=list(NA)]
 
-finalSetFilterSort <- finalSetFilter[, c("name", "Country", "samples", "subjects", "Study.Design",
+finalSetFilterSort <- finalSetFilter[, c("Name", "Country", "samples", "subjects", "Study.Design",
                                      "variables", "Phenotypic.Data.Type","Study.Molecular.Data.Type", "Study.Markerset", 
                                      "Study.Disease.Focus", "Patients.Age", "Ancestry..computed.", 
                                      "Study.Consent", "accession", "link", "PubMedLink", "Notes")]
 
 finalSetFilterSort$dbGaP.TOPMed.Study.Accession <-  sapply(strsplit( as.character(finalSetFilterSort$accession), "[.]"), '[', 1)
 
-##select the ones that are in TopMED freeze 5b
+# From https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2
+# Copy and save Table 1 into: topmedFreeze5b.csv
 topmed <- read.delim(paste0(file_path,"topmedFreeze5b.csv"), sep=',', colClasses = "character")
 topmedphs <- unique( c(topmed$Study.Accession, topmed$Parent.Study.Accession))
 topmedphs <- topmedphs[topmedphs != "" ]
@@ -116,14 +113,14 @@ for( i in 1:nrow(topmed)){
     next()
   if( topmed$Parent.Study.Accession[i] == "" ){
     selection <- finalSetFilterSort[ finalSetFilterSort$dbGaP.TOPMed.Study.Accession == topmed$Study.Accession[i], ]
-    selection$name <- topmed[ i, "Name"]
+    selection$Name <- topmed[ i, "Name"]
     selection$Notes <- paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>")
     selection$link <- paste0("Genomic and clinical: <a href='", as.character( selection$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>")
     finalData <-  rbindlist(list( finalData, selection), use.names=F )
   }else{
     clinical <- finalSetFilterSort[ finalSetFilterSort$dbGaP.TOPMed.Study.Accession == topmed$Parent.Study.Accession[i], ]
     genomic <- finalSetFilterSort[ finalSetFilterSort$dbGaP.TOPMed.Study.Accession == topmed$Study.Accession[i], ]
-    name <- topmed[ i, "Name"]
+    Name <- topmed[ i, "Name"]
     Country <- NA
     #samples  <- ifelse(as.numeric(genomic$samples) < as.numeric(clinical$samples), as.numeric(clinical$samples), as.numeric(genomic$samples))
     samples  <- as.numeric(genomic$samples)
@@ -142,7 +139,7 @@ for( i in 1:nrow(topmed)){
     pubmed <- NA
     Notes <- ifelse(as.numeric(genomic$variables) > as.numeric(clinical$variables), paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>", "; Additional information in the parent study: <a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>"),paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>"))
     hps <- paste0( as.character( genomic$accession ), "; ", as.character( clinical$accession ) )
-    newrow <- c(name, Country, samples, subjects, studyDesing, phenoVariables, phenoData, molecularData,markerset , disease, age, ancestry,consent, accession, links, pubmed, Notes, hps)
+    newrow <- c(Name, Country, samples, subjects, studyDesing, phenoVariables, phenoData, molecularData,markerset , disease, age, ancestry,consent, accession, links, pubmed, Notes, hps)
     finalData <- rbindlist( list(finalData, data.table(t(newrow))),  use.names=F )
   }
 }
@@ -150,37 +147,29 @@ for( i in 1:nrow(topmed)){
 finalSetFilterSort <- finalData[, c(1:17)]
 
 ##### add dbgap studies that are not in TOPMed but that meet the inclusion criteria
-# select those dbgap studies that meet our inclusion criteria:
+# select those studies in dbGAP that meet the inclusion criteria:
 finalSetDbgap <- finalSet[ as.numeric(finalSet$subjects) >= 500 & as.numeric(finalSet$variables) >= 100, ]
 finalSetDbgap <- na.omit(finalSetDbgap)
 finalSetDbgap$phs <- sapply(strsplit( as.character(finalSetDbgap$accession), "[.]"), '[', 1)
 finalSetDbgap <- finalSetDbgap[! finalSetDbgap$phs %in% c(topmed$Study.Accession, topmed$Parent.Study.Accession), ]
-
-ngs <- grep( "NGS", finalSetDbgap$Study.Molecular.Data.Type)
-wxs <- grep( "WXS", finalSetDbgap$Study.Molecular.Data.Type)
-wes <- grep( "WES", finalSetDbgap$Study.Molecular.Data.Type)
-wgs <- grep( "WGS", finalSetDbgap$Study.Molecular.Data.Type)
-totalSelection <- unique(c(ngs, wes, wgs, wxs))
+# Select genomic data 
+totalSelection <- unique(grep( "NGS|WXS|WES|WGS", finalSetDbgap$Study.Molecular.Data.Type))
 finalSetDbgap <- finalSetDbgap[ totalSelection, ]
 
-##add the columns that we need and sort the table
+##add the columns needed to sort the table
 finalSetDbgap <- data.table(finalSetDbgap)
 # Add columns 
 add_cols <- c("Country","Patients.Age","Notes","PubMedLink","Phenotypic.Data.Type")
 finalSetDbgap = finalSetDbgap[,c(add_cols):=list(NA)]
 finalSetDbgap$link <- paste0("Genomic and clinical: <a href='", as.character( finalSetDbgap$link ), "', target='_blank'>", finalSetDbgap$phs ,"</a>")
-finalSetDbgap <- finalSetDbgap[, c("name", "Country", "samples", "subjects", "Study.Design",
+finalSetDbgap <- finalSetDbgap[, c("Name", "Country", "samples", "subjects", "Study.Design",
                                    "variables", "Phenotypic.Data.Type","Study.Molecular.Data.Type", "Study.Markerset", 
                                    "Study.Disease.Focus", "Patients.Age", "Ancestry..computed.", 
                                    "Study.Consent", "accession", "link", "PubMedLink", "Notes")]
 finalSetDbgap$accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi', target='_blank'>Request access through dbGAP</a>")
 
-###merge both
-finalSetFilterSort <- rbind( finalSetFilterSort, finalSetDbgap)
-
-
-
-
+# Merge both
+finalSetFilterSort <- rbindlist( list(finalSetFilterSort, finalSetDbgap), use.names = T)
 
 # Names with underscores
 colnames(finalSetFilterSort) <- c("Name","Country","Sample_Size","Subject_Count","Study_Design","Phenotypic_Variables",
@@ -288,8 +277,6 @@ setValue("Genetics of Lipid Lowering Drugs and Diet Network (GOLDN)","Patients_A
 setValue("Genetics of Lipid Lowering Drugs and Diet Network (GOLDN)", "PubMedLink",  paste0(pubMed,"22228203[PMID]', target='_blank'>22228203</a>"))
 # setValue("GOLDN", "Phenotypic_Data_Type", "TBD")
 
-
-
 ##function to add new rows
 newRows <- function( newEntries, data){
   data =  rbindlist(list(data, data.table( Name=c(newEntries) )) , use.names=T, fill=T  )
@@ -336,7 +323,6 @@ setValue("Undiagnosed Disease Network (UDN)", "Accession", "<a href='https://dbg
 setValue("Undiagnosed Disease Network (UDN)", "Link", "<a href='https://undiagnosed.hms.harvard.edu/research/', target='_blank'>Undiagnosed Disease Network (UDN)</a>")
 setValue("Undiagnosed Disease Network (UDN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26220576[PMID]', target='_blank'>26220576</a>")
 setValue("Undiagnosed Disease Network (UDN)", "Notes", "<a href='http://undiagnosed.hms.harvard.edu/wp-content/uploads/UDN-Manual-of-Operations_February-2016.pdf', target='_blank'>UDN Manual of Operations</a>")
-
 
 # Boston Children's Biobank
 setValue("Boston Children's Biobank", "Country", "USA")
@@ -410,31 +396,30 @@ setValue("All of Us", "Link", "<a href='https://www.researchallofus.org/', targe
 setValue("All of Us", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=27929525[PMID]', target='_blank'>27929525</a>")
 #setValue("All of Us", "Notes", "")
 
-
 # Simons Simplex Collection (SSC)
-#setValue("Simons Simplex Collection (SSC)", "Country", "")
-#setValue("Simons Simplex Collection (SSC)", "Sample_Size", )
-setValue("Simons Simplex Collection (SSC)", "Subject_Count", 2600)
+setValue("Simons Simplex Collection (SSC)", "Country", "USA")
+setValue("Simons Simplex Collection (SSC)", "Sample_Size", 4784 )
+setValue("Simons Simplex Collection (SSC)", "Subject_Count", 2392)
 setValue("Simons Simplex Collection (SSC)", "Study_Design", "Family cohort (simplex families with an affected sibling)")
-#setValue("Simons Simplex Collection (SSC)", "Phenotypic_Variables", )
+setValue("Simons Simplex Collection (SSC)", "Phenotypic_Variables", 5459)
 setValue("Simons Simplex Collection (SSC)", "Phenotypic_Data_Type", "Questionnaires; Autism Diagnostic Interview – Revised (ADI-R) ; Autism Diagnostic Observation Schedule (ADOS)")
 setValue("Simons Simplex Collection (SSC)", "Molecular_Data_Type", "WGS; WES")
-setValue("Simons Simplex Collection (SSC)", "Markerset", "hg19/ National Center for Biotechnology Information (NCBI) build 37")
+setValue("Simons Simplex Collection (SSC)", "Markerset", "Genome Reference Consortium Human Build 37 (GRCh37 - hg19)")
 setValue("Simons Simplex Collection (SSC)", "Disease_Focus", "Autism")
-setValue("Simons Simplex Collection (SSC)","Patients_Age", "4-18 (Autism Children)")
+setValue("Simons Simplex Collection (SSC)","Patients_Age", "4-18 (ASD Children)")
 setValue("Simons Simplex Collection (SSC)", "Ancestry", "White (6773 ); Hispanic (724); African american (357); Asian (361); Native american (15); Native hawaiian (11); More than one race (516); Other (147); Not Provided (64)")
 setValue("Simons Simplex Collection (SSC)", "Consent", "<a href='http://simonsfoundation.s3.amazonaws.com/share/Policies_and_forms/2014/ssc/UMACC_Adult_Consent_03-2011.pdf', target='_blank'>Consent form</a>")
-setValue("Simons Simplex Collection (SSC)", "Accession", "<a href='https://www.sfari.org/resource/sfari-base/', target='_blank'>Researchers can request access to phenotypic, genetic or imaging data</a>")
+setValue("Simons Simplex Collection (SSC)", "Accession", "<a href='https://www.sfari.org/resource/sfari-base/', target='_blank'>Only principal investigators can request access to phenotypic, genetic or imaging data</a>")
 setValue("Simons Simplex Collection (SSC)", "Link", "<a href='https://www.sfari.org/resource/simons-simplex-collection/', target='_blank'>Simons Simplex Collection (SSC)</a>")
-setValue("Simons Simplex Collection (SSC)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=20955926[PMID]', target='_blank'>20955926</a>")
-setValue("Simons Simplex Collection (SSC)", "Notes", "Simplex families which has one child affected with an autism spectrum disorder, and unaffected parents and siblings.")
+setValue("Simons Simplex Collection (SSC)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed/?term=20955926%5BPMID%5D', target='_blank'>20955926</a>")
+setValue("Simons Simplex Collection (SSC)", "Notes", "Simplex families which have one child affected with an autism spectrum disorder, unaffected parents and in some cases unnafected siblings. Genomic data is available for all family members.")
 
-f5b <- f5b[ order( f5b$Subject_Count, decreasing = TRUE), ]
+f5b <- f5b[ order(-Subject_Count) ]
 
 colnames(f5b) <- c("Name","Country","Sample Size","Subject Count with Genomic and Clinical Data","Study Design","# Phenotypic Variables Per Patient",
                         "Phenotypic Data Type","Molecular Data Type","Markerset","Disease/Focus",
                         "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes") 
-
+# Re-Order columns
 f5b <- f5b[ ,  c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","# Phenotypic Variables Per Patient",
                  "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
                  "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes") ]

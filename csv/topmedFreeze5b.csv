@@ -1,0 +1,33 @@
+Project1,Study Accession,Study Name2,Study/Cohort Abbreviation,Study PI,Sample Size3,Sequencing Center4,Phase,Parent Study Accession,Name,
+AA_CAC,phs001412,NHLBI TOPMed: African American Coronary Artery Calcification (AA CAC),DHS,Allred,339,BROAD,2,,African American Coronary Artery Calcification (AA CAC),DHS
+"AA_CAC, GeneSTAR",phs001218,NHLBI TOPMed: GeneSTAR (Genetic Study of Atherosclerosis Risk),GeneSTAR,Mathias,1639,"MACROGEN, BROAD5",2,phs001074,Genetic Study of Atherosclerosis Risk (GeneSTAR),GeneSTAR
+"AA_CAC, HyperGEN_GENOA",phs001345,NHLBI TOPMed: Genetic Epidemiology Network of Arteriopathy (GENOA),GENOA,Peyser & Kardia,1143,"BROAD, UW",2,phs001238,Genetic Epidemiology Network of Arteriopathy (GENOA),GENOA
+"AA_CAC, MESA",phs001416,NHLBI TOPMed: MESA and MESA Family AA-CAC,MESA,Rich & Rotter,4819,BROAD,2,phs000209,Multi-Ethnic Study of Atherosclerosis (MESA),MESA
+AFGen,phs000997,NHLBI TOPMed: The Vanderbilt AF Ablation Registry,VAFAR,Shoemaker,154,BROAD,1,,The Vanderbilt AF Ablation Registry (VAFAR),VAFAR
+AFGen,phs001024,NHLBI TOPMed: Partners HealthCare Biobank,Partners,Lubitz,111,BROAD,1,,Partners HealthCare Biobank (Partners),Partners
+AFGen,phs001032,NHLBI TOPMed: The Vanderbilt Atrial Fibrillation Registry,VU_AF,Darbar,1018,BROAD,1,,The Vanderbilt Atrial Fibrillation Registry (VU_AF),VU_AF
+AFGen,phs001040,NHLBI TOPMed: Novel Risk Factors for the Development of Atrial Fibrillation in Women,WGHS,Albert & Chasman,98,BROAD,1,,Novel Risk Factors for the Development of Atrial Fibrillation in Women (WGHS),WGHS
+AFGen,phs001062,NHLBI TOPMed: MGH Atrial Fibrillation Study,MGH_AF,Lubitz,918,BROAD,1,phs001001,MGH Atrial Fibrillation Study (MGH_AF),MGH_AF
+AFGen,phs001189,NHLBI TOPMed: Cleveland Clinic Atrial Fibrillation Study,CCAF,Chung & Barnard,329,BROAD,1,phs000820,Cleveland Clinic Atrial Fibrillation Study (CCAF),CCAF
+"AFGen, FHS",phs000974,NHLBI TOPMed: Whole Genome Sequencing and Related Phenotypes in the Framingham Heart Study,FHS,Ramachandran,3749,BROAD,1,phs000007,Framingham Heart Study (FHS),FHS
+Amish,phs000956,NHLBI TOPMed: Genetics of Cardiometabolic Health in the Amish,Amish,Mitchell,1028,BROAD,1,,Genetics of Cardiometabolic Health in the Amish (Amish),Amish
+BAGS,phs001143,NHLBI TOPMed: The Genetics and Epidemiology of Asthma in Barbados,BAGS,Barnes,962,ILLUMINA,1,,The Genetics and Epidemiology of Asthma in Barbados (BAGS),BAGS
+CFS,phs000954,NHLBI TOPMed: The Cleveland Family Study (WGS),CFS,Redline,920,UW,1,phs000284,The Cleveland Family Study (CFS),CFS
+COPD,phs000946,NHLBI TOPMed: Boston Early-Onset COPD Study in the TOPMed Program,EOCOPD,Silverman,66,UW,1,,Boston Early-Onset COPD Study in the TOPMed Program (EOCOPD),EOCOPD
+COPD,phs000951,NHLBI TOPMed: Genetic Epidemiology of COPD (COPDGene) in the TOPMed Program,COPDGene,Silverman,8742,"BROAD, UW",43467,phs000179,Genetic Epidemiology of Chronic Obstructive Pulmonary Disease (COPDGene) ,COPDGene
+CRA_CAMP,phs000988,NHLBI TOPMed: The Genetic Epidemiology of Asthma in Costa Rica,CRA,Weiss,1041,UW,1,,The Genetic Epidemiology of Asthma in Costa Rica (CRA),CRA
+GenSalt,phs001217,NHLBI TOPMed: Genetic Epidemiology Network of Salt Sensitivity (GenSalt),GenSalt,He,1695,BAYLOR,2,phs000784,Genetic Epidemiology Network of Salt Sensitivity (GenSalt),GenSalt
+GOLDN,phs001359,NHLBI TOPMed: Genetics of Lipid Lowering Drugs and Diet Network (GOLDN),GOLDN,Arnett,904,UW,2,phs000741,Genetics of Lipid Lowering Drugs and Diet Network (GOLDN),GOLDN
+HyperGEN_GENOA,phs001293,NHLBI TOPMed: HyperGEN - Genetics of Left Ventricular (LV) Hypertrophy,HyperGEN,Arnett,1776,UW,2,,Genetics of Left Ventricular (LV) Hypertrophy (HyperGEN),HyperGEN
+JHS,phs000964,NHLBI TOPMed: The Jackson Heart Study,JHS,Correa,3128,UW,1,phs000286,The Jackson Heart Study (JHS),JHS
+PGX_Asthma,phs000920,NHLBI TOPMed: Genes-environments and Admixture in Latino Asthmatics (GALA II) Study,GALAII,Burchard,913,NYGC5,1,phs001180,Genes-environments and Admixture in Latino Asthmatics Study (GALA II) ,GALAII
+PGX_Asthma,phs000921,"NHLBI TOPMed: Study of African Americans, Asthma, Genes and Environment (SAGE) Study",SAGE,Burchard,451,NYGC5,1,,"Study of African Americans, Asthma, Genes and Environment (SAGE)",SAGE
+SAFS,phs001215,NHLBI TOPMed: San Antonio Family Heart Study (WGS),SAFS,Blangero,1502,ILLUMINA,1,,San Antonio Family Heart Study (SAFS),SAFS
+Sarcoidosis,phs001207,NHLBI TOPMed: African American Sarcoidosis Genetics Resource,Sarcoidosis,Montgomery,608,BAYLOR,2,,African American Sarcoidosis Genetics Resource (Sarcoidosis),Sarcoidosis
+SAS,phs000972,NHLBI TOPMed: Genome-wide Association Study of Adiposity in Samoans,SAS,McGarvey,1208,"UW, NYGC",43467,phs000914,Study of Adiposity in Samoans (SAS),SAS
+THRV,phs001387,Rare Variants for Hypertension in Taiwan Chinese (THRV),THRV,Rao & Chen,1525,BAYLOR,2,,Rare Variants for Hypertension in Taiwan Chinese (THRV),THRV
+VTE,phs001368,NHLBI TOPMed: Cardiovascular Health Study,CHS,Heckbert,69,BAYLOR,2,phs000287,Cardiovascular Health Study (CHS),CHS
+VTE,phs001402,NHLBI TOPMed: Whole Genome Sequencing of Venous Thromboembolism (WGS of VTE),Mayo_VTE,de Andrade,1251,BAYLOR,2,phs000289,Venous Thromboembolism (Mayo_VTE),Mayo_VTE
+"VTE, AFGen",phs000993,NHLBI TOPMed: Heart and Vascular Health Study (HVH),HVH,Heckbert & Smith,614,"BROAD, BAYLOR",43467,phs001013,Heart and Vascular Health Study (HVH),HVH
+"VTE, AFGen",phs001211,NHLBI TOPMed: Trans-Omics for Precision Medicine Whole Genome Sequencing Project: ARIC,ARIC,Boerwinkle,3612,"BAYLOR, BROAD",43467,phs000280,Atherosclerosis Risk in Communities (ARIC),ARIC
+WHI,phs001237,NHLBI TOPMed: Women's Health Initiative (WHI),WHI,Kooperberg,10047,BROAD,2,phs000200,Women's Health Initiative (WHI),WHI
