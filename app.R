@@ -31,14 +31,14 @@ fieldsAll <-  c("email", "dataset_submit", "country_submit", "phenoType_submit",
                    "accession_submit", "link_submit", "notes_submit")
 
 responsesDir <- file.path("responses")
+responesesBackup <- file.path("responsesBackup")
 epochTime <- function() {
   as.integer(Sys.time())
 }
 
 ##Remotely saved in dropbox
 outputDir <- "responses"
-
-
+outputDirBckup <- "responsesBackup"
 
 ######################################################################################
 # Define UI #
@@ -81,32 +81,38 @@ ui <- fluidPage(
               p("Submit a new dataset"),
               div(
                 id = "form",
-                column(4, textInput("email", labelMandatory("Contributor e-mail"), "")),
-                column(4, textInput("dataset_submit", labelMandatory("Data Set Name"), "")),
-                column(4, textInput("country_submit", labelMandatory("Country"), "")),
+                column(3, textInput("email", labelMandatory("Contributor e-mail"), "")),
+                column(3, textInput("dataset_submit", labelMandatory("Data Set Name (e.g., UK Biobank)"), "")),
+                column(3, textInput("country_submit", labelMandatory("Country"), "")),
+                column(3, textInput("disease_submit", labelMandatory("Disease/Focus (e.g, general, cancer)"), "")), 
                 
-                column(4, textInput("phenoType_submit", labelMandatory("Phenotypic Data Type"), "")),
-                column(4, textInput("design_submit", "Study Design", "")), 
-                column(4, textInput("disease_submit", labelMandatory("Disease/Focus"), "")), 
+                br(),
                 
-              
-                column(4, textInput("sample_submit", labelMandatory("Sample Size"))), 
+                column(3, textInput("subjects_submit", labelMandatory("Subject Count with Genomic and Clinical Data (numeric value no commas, e.g., 1000)"), "")),
+                column(3, textInput("phenoVars_submit", labelMandatory("Number Of Phenotypic Variables Per Patient (numeric value without commas, e.g., 1000)"), "")), 
+                column(3, textInput("phenoType_submit", labelMandatory("Phenotypic Data Type (e.g., EHR, questionnaires)"), "")),
+                column(3, textInput("sample_submit", labelMandatory("Sample Size (numeric value without commas, e.g., 1000)"))), 
                 
-                column(4, textInput("molecularType_submit", labelMandatory("Molecular Data Type"))), 
-                column(4, textInput("markerset_submit", "Markerset", "")), 
-                column(4, textInput("age_submit", "Patients Age (yrs)", "")), 
+                br(),
                 
-                column(4, textInput("ancestry_submit", "Ancestry", "")), 
-                column(4,  textInput("consent_submit", labelMandatory("Consent groups present in the data set"))), 
+                column(3, textInput("molecularType_submit", labelMandatory("Molecular Data Type (e.g., WGS, whole genome sequencing)"))), 
+                column(3,  textInput("consent_submit", labelMandatory("Consent groups present in the data set (e.g., biomedical research)"))), 
+                column(3,  textInput("accession_submit", labelMandatory("Accession (Link to the dataset/webpage e.g., https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi)"))), 
+                column(3, textInput("design_submit", "Study Design (e.g., Case Control Study, Prospective Study)", "")), 
                 
+                br(),
                 
-                column(4, textInput("phenoVars_submit", labelMandatory("Number Of Phenotypic Variables Per Patient"), "")), 
-                column(4, textInput("subjects_submit", labelMandatory("Subject Count with Genomic and Clinical Data"), "")),
-                column(4, textInput("pubmed_submit", "PubMed ID of the papers describing the dataset", "")), 
+                column(3, textInput("age_submit", "Patients Age (yrs) (numeric range, e.g., 40-59, >18)", "")), 
+                column(3, textInput("ancestry_submit", "Ancestry (e.g., european(XX) or european(XX%)...)", "")), 
+                column(3, textInput("pubmed_submit", "PubMed ID of the papers describing the dataset (e.g., 25826379)", "")), 
+                column(3, textInput("link_submit", "Link (Link to the webpage of the dataset e.g., https://www.ukbiobank.ac.uk/)", "")), 
                 
-                column(4,  textInput("accession_submit", labelMandatory("Accession"))), 
-                column(4, textInput("link_submit", "Link", "")), 
-                column(4, textInput("notes_submit", "Notes", "")), 
+                br(),
+                
+                column(3, textInput("markerset_submit", "Markerset (e.g, grc37, grc38)", "")), 
+                column(3, textInput("notes_submit", "Notes (additional information)", "")), 
+                
+                br(), 
                 
                 actionButton("submit", "Submit", class = "btn-primary")
                 
@@ -363,12 +369,14 @@ for (var i = 0; i < tips.length; i++) {
   formData <- reactive({
     dataSubmission <- sapply(fieldsAll, function(x) input[[x]])
     dataSubmission <- c(dataSubmission, timestamp = epochTime())
+    dataSubmission$status <- "Validation Pending"
     dataSubmission <- t(dataSubmission)
     dataSubmission
   })
   
   outputDir <- "responses"
-  
+  outputDirBckup <- "responsesBackup"
+
   saveData <- function(dataSubmission) {
     dataSubmission <- t(dataSubmission)
     # Create a unique file name
@@ -378,6 +386,8 @@ for (var i = 0; i < tips.length; i++) {
     write.csv(dataSubmission, filePath, row.names = FALSE, quote = TRUE)
     # Upload the file to Dropbox
     drop_upload(filePath, path = outputDir)
+    drop_upload(filePath, path = outputDirBckup)
+    
   }
   
   
