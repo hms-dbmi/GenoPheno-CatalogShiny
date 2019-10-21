@@ -8,7 +8,23 @@ library(shinyalert)
 library(shinyBS)
 library(DT)
 
-######################################################################################
+##Remotely saved in dropbox
+#token <- drop_auth(new_user = TRUE)
+#Upload droptoken to your server
+# ******** WARNING ********
+# Losing this file will give anyone 
+# complete control of your Dropbox account
+# You can then revoke the rdrop2 app from your
+# dropbox account and start over.
+# ******** WARNING ********
+# read it back with readRDS
+#saveRDS(token, "droptoken.rds")
+token <- readRDS("droptoken.rds")
+drop_acc(dtoken = token)
+
+outputDir <- "responses"
+
+######################drop################################################################
 # Define global #
 ######################################################################################
 fieldsMandatory <- c("email", "dataset_submit", "country_submit", "subjects_submit", 
@@ -36,9 +52,11 @@ epochTime <- function() {
   as.integer(Sys.time())
 }
 
+
 ##Remotely saved in dropbox
 outputDir <- "responses"
 outputDirBckup <- "responsesBackup"
+
 
 ######################################################################################
 # Define UI #
@@ -387,7 +405,7 @@ for (var i = 0; i < tips.length; i++) {
     # Upload the file to Dropbox
     drop_upload(filePath, path = outputDir)
     drop_upload(filePath, path = outputDirBckup)
-    
+
   }
   
   
