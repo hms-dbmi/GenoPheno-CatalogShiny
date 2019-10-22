@@ -133,7 +133,7 @@ for( i in 1:nrow(topmed)){
     age <- NA
     ancestry <- ifelse(as.numeric(genomic$samples) < as.numeric(clinical$samples), as.character(clinical$Ancestry..computed.), as.character(genomic$Ancestry..computed.))
     consent <- ifelse( as.character(genomic$Study.Consent) != as.character(clinical$Study.Consent), paste0("Genomic study consent: ", as.character(genomic$Study.Consent), "; Clinical study consent: ", as.character(clinical$Study.Consent)), as.character(genomic$Study.Consent))
-    accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi', target='_blank'>Request access through dbGAP</a>")
+    accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov', target='_blank'>Request access through dbGAP</a>")
     links <- ifelse(as.numeric(genomic$variables) > as.numeric(clinical$variables), paste0("Genomic and clinical: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>"),paste0( paste0("Genomic: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>"), "; Clinical: ", paste0("<a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>") ))
     pubmed <- NA
     Notes <- ifelse(as.numeric(genomic$variables) > as.numeric(clinical$variables), paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>", "; Additional information in the parent study: <a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>"),paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>"))
@@ -165,7 +165,7 @@ finalSetDbgap <- finalSetDbgap[, c("Name", "Country", "samples", "subjects", "St
                                    "variables", "Phenotypic.Data.Type","Study.Molecular.Data.Type", "Study.Markerset", 
                                    "Study.Disease.Focus", "Patients.Age", "Ancestry..computed.", 
                                    "Study.Consent", "accession", "link", "PubMedLink", "Notes")]
-finalSetDbgap$accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi', target='_blank'>Request access through dbGAP</a>")
+finalSetDbgap$accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov', target='_blank'>Request access through dbGAP</a>")
 
 # Merge both
 finalSetFilterSort <- rbindlist( list(finalSetFilterSort, finalSetDbgap), use.names = T)
@@ -194,7 +194,7 @@ f5b = f5b[,Sample_Size:=as.integer(Sample_Size)][,Subject_Count:=as.integer(Subj
 # Filter to PhenoVars>=100 & Remove String values from PhenoVars 
 f5b = f5b[str_length(Phenotypic_Variables)<6,][Phenotypic_Variables>99,][order(-Phenotypic_Variables)]
 f5b = f5b[,Country:="USA"][, Phenotypic_Data_Type:="Patient/Disease registries"] 
-f5b = f5b[, Accession:="<a href='https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi', target='_blank'>Request access through dbGAP</a>"]
+f5b = f5b[, Accession:="<a href='https://dbgap.ncbi.nlm.nih.gov', target='_blank'>Request access through dbGAP</a>"]
 pubMed="<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term="
 
 # FHS - phs000974 (geno) ; phs000007 (pheno)
@@ -318,7 +318,7 @@ setValue("Undiagnosed Disease Network (UDN)", "Disease_Focus", "Undiagnosed Dise
 setValue("Undiagnosed Disease Network (UDN)","Patients_Age", "Pediatric population: 0-17 and adult population > 18")
 setValue("Undiagnosed Disease Network (UDN)", "Ancestry", "White (81%); Asian (6%); American Indian or Alaska Native (<1%)'; Black or African American (5%); Native Hawaiian Pacific Islander (<1%); Other (8%)")
 setValue("Undiagnosed Disease Network (UDN)", "Consent", "NHGRI GRU --- General research use")
-setValue("Undiagnosed Disease Network (UDN)", "Accession", "<a href='https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi', target='_blank'>Request access through dbGAP</a>")
+setValue("Undiagnosed Disease Network (UDN)", "Accession", "<a href='https://dbgap.ncbi.nlm.nih.gov', target='_blank'>Request access through dbGAP</a>")
 setValue("Undiagnosed Disease Network (UDN)", "Link", "<a href='https://undiagnosed.hms.harvard.edu/research/', target='_blank'>Undiagnosed Disease Network (UDN)</a>")
 setValue("Undiagnosed Disease Network (UDN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26220576[PMID]', target='_blank'>26220576</a>")
 setValue("Undiagnosed Disease Network (UDN)", "Notes", "<a href='http://undiagnosed.hms.harvard.edu/wp-content/uploads/UDN-Manual-of-Operations_February-2016.pdf', target='_blank'>UDN Manual of Operations</a>")
