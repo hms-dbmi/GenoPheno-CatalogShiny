@@ -182,7 +182,7 @@ ui <- fluidPage(
                    h3( "Welcome to the GenoPheno Catalog Shiny App!" ),
                    br(),
                    tags$p(HTML( "The objective of this Shiny App is to provide a dynamic online dataset catalog. We welcome the community to correct and complete it." ) ),
-                   tags$h5(HTML("<u>Inclusion Criterias</u>")),
+                   tags$h5(HTML("<u>Inclusion Criteria</u>")),
                    p(
                      HTML("<ol>
                                 <li>Over five hundred (500) human subjects</li>
@@ -198,7 +198,7 @@ ui <- fluidPage(
                      
                    ),
                    br(),
-                   tags$h5(HTML("<u>All five criterias must be meet</u>")),
+                   tags$h5(HTML("<u>All five criteria must be meet</u>")),
                    
                    tags$p(HTML( "The GenoPheno catalog contains:
                                         <li>Dataset name</li>
