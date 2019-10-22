@@ -8,20 +8,9 @@ library(shinyalert)
 library(shinyBS)
 library(DT)
 
-##Remotely saved in dropbox
-#token <- drop_auth(new_user = TRUE)
-#Upload droptoken to your server
-# ******** WARNING ********
-# Losing this file will give anyone 
-# complete control of your Dropbox account
-# You can then revoke the rdrop2 app from your
-# dropbox account and start over.
-# ******** WARNING ********
-# read it back with readRDS
-#saveRDS(token, "droptoken.rds")
+
 token <- readRDS("droptoken.rds")
 drop_acc(dtoken = token)
-
 outputDir <- "responses"
 
 ######################drop################################################################
@@ -38,8 +27,13 @@ labelMandatory <- function(label) {
   )
 }
 
+
 appCSS <- ".mandatory_star { color: red; }
    #error { color: red; }"
+
+formCSS <- ".notbold{
+    font-weight:normal  
+}"
 
 fieldsAll <-  c("email", "dataset_submit", "country_submit", "phenoType_submit", "design_submit",  "disease_submit", 
                 "subjects_submit", "sample_submit", "molecularType_submit","markerset_submit","age_submit",
@@ -66,6 +60,8 @@ ui <- fluidPage(
 
   shinyjs::useShinyjs(), 
   shinyjs::inlineCSS(appCSS), 
+  shinyjs::inlineCSS(formCSS), 
+  
     tags$style(HTML('table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {background-color: lightyellow !important;}')),
   
   navbarPage(
@@ -99,36 +95,36 @@ ui <- fluidPage(
               p("Submit a new dataset"),
               div(
                 id = "form",
-                column(3, textInput("email", labelMandatory("Contributor e-mail"), "")),
-                column(3, textInput("dataset_submit", labelMandatory("Data Set Name (e.g., UK Biobank)"), "")),
-                column(3, textInput("country_submit", labelMandatory("Country"), "")),
-                column(3, textInput("disease_submit", labelMandatory("Disease/Focus (e.g, general, cancer)"), "")), 
+                column(3, textInput("email", labelMandatory(HTML("<b>Contributor e-mail</b>  <br/>  <span class='notbold'>(e.g., myemail@...)</span>")), "")),
+                column(3, textInput("dataset_submit", labelMandatory(HTML("Data Set Name  <br/>  <span class='notbold'>(e.g., UK Biobank)</span>")), "")),
+                column(3, textInput("country_submit", labelMandatory(HTML("Country  <br/>  <span class='notbold'>(e.g., UK)</span>")), "")),
+                column(3, textInput("disease_submit", labelMandatory(HTML("Disease/Focus <br/>  <span class='notbold'>(e.g, general, cancer)</span>")), "")), 
                 
                 br(),
                 
-                column(3, textInput("subjects_submit", labelMandatory("Subject Count with Genomic and Clinical Data (numeric value no commas, e.g., 1000)"), "")),
-                column(3, textInput("phenoVars_submit", labelMandatory("Number Of Phenotypic Variables Per Patient (numeric value without commas, e.g., 1000)"), "")), 
-                column(3, textInput("phenoType_submit", labelMandatory("Phenotypic Data Type (e.g., EHR, questionnaires)"), "")),
-                column(3, textInput("sample_submit", labelMandatory("Sample Size (numeric value without commas, e.g., 1000)"))), 
+                column(3, textInput("subjects_submit", labelMandatory(HTML("Subjects with Genomic and Clinical Data <br/>  <span class='notbold'>(numeric value no commas, e.g., 1000)</span>")), "")),
+                column(3, textInput("phenoVars_submit", labelMandatory(HTML("Number Of Phenotypic Variables Per Patient <br/>  <span class='notbold'>(numeric value without commas, e.g., 1000)</span>")), "")), 
+                column(3, textInput("phenoType_submit", labelMandatory(HTML("Phenotypic Data Type <br/>  <span class='notbold'>(e.g., EHR, questionnaires)</span>")), "")),
+                column(3, textInput("sample_submit", labelMandatory(HTML("Sample Size <br/>  <span class='notbold'>(numeric value without commas,e.g., 1000)</span>")))), 
                 
                 br(),
                 
-                column(3, textInput("molecularType_submit", labelMandatory("Molecular Data Type (e.g., WGS, whole genome sequencing)"))), 
-                column(3,  textInput("consent_submit", labelMandatory("Consent groups present in the data set (e.g., biomedical research)"))), 
-                column(3,  textInput("accession_submit", labelMandatory("Accession (Link to the dataset/webpage e.g., https://dbgap.ncbi.nlm.nih.gov/aa/wga.cgi)"))), 
-                column(3, textInput("design_submit", "Study Design (e.g., Case Control Study, Prospective Study)", "")), 
+                column(3, textInput("molecularType_submit", labelMandatory(HTML("Molecular Data Type <br/>  <span class='notbold'> (e.g., WGS, whole genome sequencing)</span>")))), 
+                column(3,  textInput("consent_submit", labelMandatory(HTML("Consent groups present in the data set <br/>  <span class='notbold'> (e.g., biomedical research)</span>")))), 
+                column(3,  textInput("accession_submit", labelMandatory(HTML("Accession Link to the dataset/webpage <br/>  <span class='notbold'>(e.g., https://dbgap.ncbi.nlm.nih.gov)</span>")))), 
+                column(3, textInput("design_submit", HTML("Study Design <br/>  <span class='notbold'> (e.g., Case Control Study, Prospective Study)</span>"), "")), 
                 
                 br(),
                 
-                column(3, textInput("age_submit", "Patients Age (yrs) (numeric range, e.g., 40-59, >18)", "")), 
-                column(3, textInput("ancestry_submit", "Ancestry (e.g., european(XX) or european(XX%)...)", "")), 
-                column(3, textInput("pubmed_submit", "PubMed ID of the papers describing the dataset (e.g., 25826379)", "")), 
-                column(3, textInput("link_submit", "Link (Link to the webpage of the dataset e.g., https://www.ukbiobank.ac.uk/)", "")), 
+                column(3, textInput("age_submit", HTML("Patients Age (yrs) <br/> <span class='notbold'> (numeric range, e.g., 40-59, >18)</span>"), "")), 
+                column(3, textInput("ancestry_submit", HTML("Ancestry <br/>  <span class='notbold'>(e.g., european(XX) or european(XX%)...)</span>"), "")), 
+                column(3, textInput("pubmed_submit", HTML("PubMed ID describing the dataset <br/>  <span class='notbold'>(e.g., 25826379)</span>"), "")), 
+                column(3, textInput("link_submit", HTML("Link to the webpage of the dataset <br/>  <span class='notbold'>(e.g., https://www.ukbiobank.ac.uk/)</span>"), "")), 
                 
                 br(),
                 
-                column(3, textInput("markerset_submit", "Markerset (e.g, grc37, grc38)", "")), 
-                column(3, textInput("notes_submit", "Notes (additional information)", "")), 
+                column(3, textInput("markerset_submit", HTML("Markerset <br/>  <span class='notbold'>(e.g, grc37, grc38)</span>", ""))), 
+                column(3, textInput("notes_submit", HTML("Notes <br/> <span class='notbold'> (additional information)</span>", ""))), 
                 
                 br(), 
                 
