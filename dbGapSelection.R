@@ -18,7 +18,7 @@ paket(listOfPackages)
 ###################
 # Go to  https://www.ncbi.nlm.nih.gov/projects/gapsolr/facets.html, click on Save Results and save as: dbGAP_All.csv
 #read the csv file 
-file_path = "/full_path/geno-pheno-CatalogShiny/csv/"
+file_path = "/Users/carlos/Desktop/github/geno-pheno-CatalogShiny/csv/"
 dbgap <- read.delim(paste0(file_path,"dbGAP_All.csv"), sep = ",")
 colnames(dbgap)
 colnames(dbgap)[2] <- "Name"
@@ -292,7 +292,8 @@ setValue("UK Biobank", "Country", "UK")
 setValue("UK Biobank", "Sample_Size", 50050)
 setValue("UK Biobank", "Subject_Count", 50050)
 setValue("UK Biobank", "Study_Design", "Prospective study")
-#setValue("UK Biobank", "Phenotypic_Variables", 0)
+# https://biobank.ndph.ox.ac.uk/showcase/browse.cgi?tk=OZMjnzmOfzLus1OfQ3AKFrr5cSCtYbZS66549
+setValue("UK Biobank", "Phenotypic_Variables", 7291)
 setValue("UK Biobank", "Phenotypic_Data_Type", "Health Record Data; Questionnaires; Physical Measures; Lifestyle")
 setValue("UK Biobank", "Molecular_Data_Type", "WGS; WES")
 setValue("UK Biobank", "Markerset", "Exome: IDT xGen Exome Research Panel v1.0")
@@ -328,7 +329,7 @@ setValue("Boston Children's Biobank", "Country", "USA")
 setValue("Boston Children's Biobank", "Sample_Size", 500)
 setValue("Boston Children's Biobank", "Subject_Count", 500 )
 setValue("Boston Children's Biobank", "Study_Design", "Prospective longitudinal cohort")
-#setValue("Boston Children's Biobank", "Phenotypic_Variables", )
+setValue("Boston Children's Biobank", "Phenotypic_Variables", 144965)
 setValue("Boston Children's Biobank", "Phenotypic_Data_Type", "EHR")
 setValue("Boston Children's Biobank", "Molecular_Data_Type", "WES")
 #setValue("Boston Children's Biobank", "Markerset", "")
@@ -346,7 +347,7 @@ setValue("Genomics Research and Innovation Network (GRIN)", "Country", "USA")
 setValue("Genomics Research and Innovation Network (GRIN)", "Sample_Size", 500 )
 setValue("Genomics Research and Innovation Network (GRIN)", "Subject_Count", 500)
 setValue("Genomics Research and Innovation Network (GRIN)", "Study_Design", "Pediatric Network")
-#setValue("Genomics Research and Innovation Network (GRIN)", "Phenotypic_Variables", )
+setValue("Genomics Research and Innovation Network (GRIN)", "Phenotypic_Variables", 19649)
 setValue("Genomics Research and Innovation Network (GRIN)", "Phenotypic_Data_Type", "EHR")
 setValue("Genomics Research and Innovation Network (GRIN)", "Molecular_Data_Type", "WES")
 #setValue("Genomics Research and Innovation Network (GRIN)", "Markerset", "")
@@ -423,10 +424,7 @@ f5b <- f5b[ ,  c("Name","Country", "Subject Count with Genomic and Clinical Data
                  "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
                  "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes") ]
 
-fwrite(f5b, file=paste0(file_path,"freeze5b.csv"), sep = ',', col.names = TRUE)
-fwrite(f5b, file="/Users/alba/Desktop/test2.csv", sep = ',', col.names = TRUE)
-fwrite(f5b, file="/Users/alba/Desktop/geno-pheno-CatalogShiny/tableData.csv", sep = ',', col.names = TRUE)
-
+fwrite(f5b, file=paste0(file_path,"tableData.csv"), sep = ',', col.names = TRUE)
 
 # NEW
 setValue("NEW", "Country", "")
