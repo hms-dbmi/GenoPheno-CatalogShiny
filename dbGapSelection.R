@@ -18,7 +18,7 @@ paket(listOfPackages)
 ###################
 # Go to  https://www.ncbi.nlm.nih.gov/projects/gapsolr/facets.html, click on Save Results and save as: dbGAP_All.csv
 #read the csv file 
-file_path = "/Users/carlos/Desktop/github/geno-pheno-CatalogShiny/csv/"
+file_path = "/full-path/geno-pheno-CatalogShiny/csv/"
 dbgap <- read.delim(paste0(file_path,"dbGAP_All.csv"), sep = ",")
 colnames(dbgap)
 colnames(dbgap)[2] <- "Name"
@@ -360,38 +360,40 @@ setValue("Genomics Research and Innovation Network (GRIN)", "Link", "<a href='ht
 setValue("Genomics Research and Innovation Network (GRIN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=31481752[PMID]', target='_blank'>31481752</a>")
 #setValue("Genomics Research and Innovation Network (GRIN)", "Notes", "")
 
-# H3Africa
+# H3Africa # https://h3africa.org/h3africa.old/images/ConsortiumMeetingDoc/8thConsortiumMeeting/PIpresentations/Mulder_session4_final.pdf
 setValue("H3Africa", "Country", "Africa")
 #setValue("H3Africa", "Sample_Size", )
-setValue("H3Africa", "Subject_Count", 0)
-#setValue("H3Africa", "Study_Design", "")
-#setValue("H3Africa", "Phenotypic_Variables", )
+setValue("H3Africa", "Subject_Count", 6000)
+setValue("H3Africa", "Study_Design", "Population-based cohort")
+setValue("H3Africa", "Phenotypic_Variables", 776) # Using PhenX Protocols 
 setValue("H3Africa", "Phenotypic_Data_Type", "Demographic data, clinical measurements")
 setValue("H3Africa", "Molecular_Data_Type", "WGS, WES")
 #setValue("H3Africa", "Markerset", "")
 setValue("H3Africa", "Disease_Focus", "Diseases affecting people in Africa")
-#setValue("H3Africa","Patients_Age", "")
+setValue("H3Africa","Patients_Age", ">18")
 setValue("H3Africa", "Ancestry", "African")
 setValue("H3Africa", "Consent", "<a href='https://h3africa.org/wp-content/uploads/2018/05/H3A%202017%20Revised%20IC%20guideline%20for%20SC%2020_10_2017.pdf', target='_blank'>H3Africa Guideline for Informed Consent</a>")
-setValue("H3Africa", "Accession", "<a href='https://h3africa.org/', target='_blank'>H3Africa</a>")
+setValue("H3Africa", "Accession", "<a href='https://h3africa.org/index.php/contacts/', target='_blank'>H3Africa_contact</a> ; <a href='https://www.h3abionet.org/resources/h3africa-archive', target='_blank'>H3Africa_archive</a>")
 setValue("H3Africa", "Link", "<a href='https://h3africa.org/', target='_blank'>H3Africa</a>")
 setValue("H3Africa", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29692621[PMID]', target='_blank'>29692621</a>; <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=28470782[PMID]', target='_blank'>28470782</a>")
 #setValue("H3Africa", "Notes", "")
 
 # All of Us
+# https://www.researchallofus.org/data/data-snapshots/
 setValue("All of Us", "Country", "USA")
-#setValue("All of Us", "Sample_Size", )
-setValue("All of Us", "Subject_Count", 0)
+setValue("All of Us", "Sample_Size", 219000)
+setValue("All of Us", "Subject_Count", 80000) # https://databrowser.researchallofus.org/
 setValue("All of Us", "Study_Design", "Population-based cohort")
-#setValue("All of Us", "Phenotypic_Variables", )
+# https://www.nejm.org/doi/full/10.1056/NEJMsr1809937 - EHR Data
+setValue("All of Us", "Phenotypic_Variables", 48682)
 setValue("All of Us", "Phenotypic_Data_Type", "EHR; Surver Questions; Program Physiscal Measurements")
 setValue("All of Us", "Molecular_Data_Type", "WGS")
 #setValue("All of Us", "Markerset", "")
 setValue("All of Us", "Disease_Focus", "General")
-#setValue("All of Us","Patients_Age", "")
-setValue("All of Us", "Ancestry", "51% from racial and ethnic minority groups")
+setValue("All of Us","Patients_Age", ">18")
+setValue("All of Us", "Ancestry", "White(46.2%); Asian(2.9); Black,African American(21.9%); ispanic,Latino(17.7%); More than one(6.7%); Other(3.0%); Prefer not to say(0.7%)")
 setValue("All of Us", "Consent", "<a href='https://allofus.nih.gov/about/protocol/all-us-consent-process#all-us-consent-process-videos-1', target='_blank'>Consent Process</a>")
-setValue("All of Us", "Accession", "<a href='https://databrowser.researchallofus.org', target='_blank'>All of Us: Data Browser</a>")
+setValue("All of Us", "Accession", "<a href='https://www.researchallofus.org/data/workbench/', target='_blank'>All of Us: Data Browser</a>")
 setValue("All of Us", "Link", "<a href='https://www.researchallofus.org/', target='_blank'>All of Us</a>")
 setValue("All of Us", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=27929525[PMID]', target='_blank'>27929525</a>")
 #setValue("All of Us", "Notes", "")
