@@ -343,7 +343,7 @@ server <- function(input, output, session) {
 
     colnames(data) <- c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","Number Of Phenotypic Variables Per Patient",
                          "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
-                         "Patients Age (yrs)","Ancestry","Consent","Accession","LinkClinicalAndGenomic", "LinkGenomic","PubMed Link","Notes")
+                         "Patients Age (yrs)","Ancestry","Consent","Accession","Link to Clinical And Genomic Study", "Link to Genomic Study (if different than the clinical)","PubMed ID","Notes")
     data
     
   }, escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE, pageLength = 30), callback = JS("
