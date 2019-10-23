@@ -153,11 +153,11 @@ ui <- fluidPage(
                #column ( 6,
                sidebarLayout(
                  sidebarPanel(
-                   tags$p(HTML("The Shiny App of this on-line catalog is automatically generated based on  the CSV file <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny/blob/master/csv/tableData.csv', target='_blank'>\"tableData.csv\"</a> available at the GitHub repo: <a href='>https://github.com/hms-dbmi/geno-pheno-CatalogShiny', target='_blank'>geno-pheno-CatalogShiny</a>" )),
+                   tags$p(HTML("The Shiny App of this on-line catalog is automatically generated based on  the CSV file <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny/blob/master/csv/tableData.csv', target='_blank'>\"tableData.csv\"</a> available at the GitHub repo: <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny', target='_blank'>geno-pheno-CatalogShiny</a>" )),
                    tags$p(HTML( "To propose any correction, please:")),
                    p(
                      HTML("<ol>
-                                <li>Fork the GitHub repo <a href='>https://github.com/hms-dbmi/geno-pheno-CatalogShiny', target='_blank'>geno-pheno-CatalogShiny</a></li>
+                                <li>Fork the GitHub repo <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny', target='_blank'>geno-pheno-CatalogShiny</a></li>
                                 <li>Propose the changes in the CSV file <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny/blob/master/csv/tableData.csv', target='_blank'>\"tableData.csv\"</a></li>
                                 <li>Submit a pull request</li>
                                 </ol>")
@@ -182,7 +182,7 @@ ui <- fluidPage(
                    h3( "Welcome to the GenoPheno Catalog Shiny App!" ),
                    br(),
                    tags$p(HTML( "The objective of this Shiny App is to provide a dynamic online dataset catalog. We welcome the community to correct and complete it." ) ),
-                   tags$h5(HTML("<u>Inclusion Criterias</u>")),
+                   tags$h5(HTML("<u>Inclusion Criteria</u>")),
                    p(
                      HTML("<ol>
                                 <li>Over five hundred (500) human subjects</li>
@@ -198,7 +198,7 @@ ui <- fluidPage(
                      
                    ),
                    br(),
-                   tags$h5(HTML("<u>All five criterias must be meet</u>")),
+                   tags$h5(HTML("<u>All five criteria must be meet</u>")),
                    
                    tags$p(HTML( "The GenoPheno catalog contains:
                                         <li>Dataset name</li>
