@@ -8,7 +8,6 @@ library(shinyalert)
 library(shinyBS)
 library(DT)
 
-
 token <- readRDS("droptoken.rds")
 drop_acc(dtoken = token)
 outputDir <- "responses"
@@ -202,23 +201,23 @@ ui <- fluidPage(
                    tags$h5(HTML("<u>All five criteria must be meet</u>")),
                    
                    tags$p(HTML( "The GenoPheno catalog contains:
-                                        <li>Dataset name</li>
-                                        <li>Country</li>
-                                        <li>Sample size</li>
-                                        <li>Subject count</li>
-                                        <li>Study design</li>
-                                        <li>Number of phenotypic variables</li>
+                                        <li>Dataset name (long name and acronym if any)</li>
+                                        <li>Country (where does the research take place)</li>
+                                        <li>Subject count with both genomic and clinical data</li>
+                                        <li>Study design (e.g., cohort, prospective, longitudinal)</li>
+                                        <li>Number of phenotypic variables per patient</li>
                                         <li>Phenotypic data type (e.g., electronic health records -EHR-, questionnaires, clinical notes)</li>
+                                        <li>Sample size (total number of genomic samples [e.g., # of WGS samples + # of WES samples])</li>
                                         <li>Molecular data type (e.g., SNP array, whole genome sequencing data -WGS -, whole exome sequencing data -WES- )</li>
-                                        <li>Markerset</li>
+                                        <li>Study Markerset</li>
                                         <li>Disease/Focus (e.g., general or disease specific)</li>
-                                        <li>Patients age</li>
+                                        <li>Patients age in years</li>
                                         <li>Ancestry</li>
-                                        <li>Consent</li>
-                                        <li>Accession</li>
+                                        <li>Consent groups present in the dataset (e.g., biomedical, disease-specific)</li>
+                                        <li>Accession link to the dataset (link to the website or contact information to obtain data access)</li>
                                         <li>Link to clinical/genomic study</li>
-                                        <li>Link to genomic study if different then clinical one</li>
-                                        <li>Pubmed ID to key study infrastructure publication</li>" ) ),
+                                        <li>Link to genomic study if different than the clinical one</li>
+                                        <li>Pubmed identifier number to key study infrastructure publication</li>" ) ),
                    br(),
                    
                    tags$p(HTML("For further details see the <a href=\"\">manuscript</a>.")),
@@ -343,13 +342,16 @@ server <- function(input, output, session) {
 
     colnames(data) <- c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","Number Of Phenotypic Variables Per Patient",
                          "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
-                         "Patients Age (yrs)","Ancestry","Consent","Accession","Link to Clinical And Genomic Study", "Link to Genomic Study (if different than the clinical)","PubMed ID","Notes")
+                         "Patients Age (yrs)","Ancestry","Consent","Accession Link to the Dataset","Link to Clinical And Genomic Study", "Link to Genomic Study (if different than the clinical)","PubMed ID","Notes")
     data
     
   }, escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE, pageLength = 30), callback = JS("
-var tips = ['Data Set Name (long name and acronym if one)', 'Country where the research takes place', 'Subject Count with Genomic and Clinical Data','Study Design','Disease/Focus','Number Of Phenotypic Variables Per Patient',
-                         'Phenotypic Data Type','Sample Size','Molecular Data Type','Markerset',
-                         'Patients Age (yrs)','Ancestry','Consent groups present in the data set','Accession', 'Link to clinical/genomic study','Link to genomic study if different then clinical one','Pubmed ID to key study infrastructure publication','Notes'],
+var tips = ['Dataset name (long name and acronym if any)', 'Country (where does the research take place)', 'Subject count with both genomic and clinical data',
+'Study design (e.g., cohort, prospective, longitudinal)','Disease/Focus (e.g., general or disease specific)','Number Of Phenotypic Variables Per Patient',
+'Phenotypic data type (e.g., electronic health records -EHR-, questionnaires, clinical notes)',
+'Sample size (total number of genomic samples [e.g., # of WGS samples + # of WES samples])','Molecular data type (e.g., SNP array, whole genome sequencing data -WGS -, whole exome sequencing data -WES- )','Markerset',
+'Patients Age in years','Ancestry','Consent groups present in the dataset (e.g., biomedical, disease-specific)','Accession link to the dataset (link to the website or contact information to obtain data access)', 
+'Link to clinical/genomic study','Link to genomic study if different than the clinical one','Pubmed identifier number to the key study infrastructure publication/s','Notes'],
     header = table.columns().header();
 for (var i = 0; i < tips.length; i++) {
   $(header[i]).attr('title', tips[i]);
@@ -357,6 +359,9 @@ for (var i = 0; i < tips.length; i++) {
 ")
 )
   )
+
+  
+  
   
   observeEvent(input$confirm1, {
     
