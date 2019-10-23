@@ -318,7 +318,7 @@ newRows <- function( newEntries, data){
 }
 
 f5b <- newRows( newEntries = c("UK Biobank", "Undiagnosed Disease Network (UDN)", "Boston Children's Biobank", 
-                               "Genomics Research and Innovation Network (GRIN)",  "H3Africa", 
+                               "Genomics Research and Innovation Network (GRIN)", 
                                "All of Us", "Simons Simplex Collection (SSC)"), data = f5b)
 
 
