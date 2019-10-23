@@ -218,19 +218,21 @@ pubMed="<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term="
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=974&version=3&exp1=1&exp2=1&exp3=1
 setValue("Framingham Heart Study (FHS)","Patients_Age", "28-62")
 setValue("Framingham Heart Study (FHS)", "PubMedLink", paste0(pubMed,"5921755[PMID]', target='_blank'>5921755</a>; ", pubMed,"17372189[PMID]', target='_blank'>17372189</a>; ", pubMed,"24084292[PMID]', target='_blank'>24084292</a>"))
-
-# setValue("FHS", "Phenotypic_Data_Type", "TBD")
+setValue("Framingham Heart Study (FHS)", "Sample_Size", 8326)
 
 # MESA - phs001416 (geno) ; phs000209 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=1416&version=1&exp1=1&exp2=1&exp3=1
 setValue("Multi-Ethnic Study of Atherosclerosis (MESA)","Patients_Age", "45-84")
 setValue("Multi-Ethnic Study of Atherosclerosis (MESA)", "PubMedLink",  paste0(pubMed,"12397006[PMID]', target='_blank'>12397006</a>"))
-# setValue("MESA", "Phenotypic_Data_Type", "TBD")
+setValue("Multi-Ethnic Study of Atherosclerosis (MESA)", "Subject_Count", 4875)
+setValue("Multi-Ethnic Study of Atherosclerosis (MESA)", "Sample_Size", 4875 )
 
 # ARIC - phs001211 (geno) ; phs000280 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=1211&version=2&exp1=1&exp2=1&exp3=1
 setValue("Atherosclerosis Risk in Communities (ARIC)","Patients_Age", "45-64")
 setValue("Atherosclerosis Risk in Communities (ARIC)", "PubMedLink",  paste0(pubMed,"2646917[PMID]', target='_blank'>2646917</a>"))
+setValue("Atherosclerosis Risk in Communities (ARIC)", "Sample_Size",  6667)
+setValue("Atherosclerosis Risk in Communities (ARIC)", "Subject_Count", 3612)
 # setValue("ARIC", "Phenotypic_Data_Type", "TBD")
 
 # CHS - phs001368 (geno) ; phs000287 (pheno)
@@ -243,11 +245,15 @@ setValue("Cardiovascular Health Study (CHS)", "PubMedLink",  paste0(pubMed,"1669
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=1237&version=1&exp1=1&exp2=1&exp3=1
 setValue("Women's Health Initiative (WHI)","Patients_Age", "50-79") # https://www.whi.org/SitePages/WHI%20Home.aspx
 setValue("Women's Health Initiative (WHI)", "PubMedLink",  paste0("<a href='https://doi.org/10.1089/jwh.1995.4.519', target='_blank'>doi:10.1089</a>") ) # No PubMed Link; https://www.whi.org/researchers/bibliography/SitePages/Advanced%20Search.aspx
+setValue("Women's Health Initiative (WHI)", "Subject_Count", 10000)
+setValue("Women's Health Initiative (WHI)", "Sample_Size",  20010)
 # setValue("WHI", "Phenotypic_Data_Type", "TBD")
 
 # JHS - phs000964 (geno) ; phs000286 (pheno)
 setValue("The Jackson Heart Study (JHS)","Ancestry", "African American")
 setValue("The Jackson Heart Study (JHS)","Patients_Age", "35-84")
+setValue("The Jackson Heart Study (JHS)", "Subject_Count", 3406)
+setValue("The Jackson Heart Study (JHS)", "Sample_Size", 6812)
 setValue("The Jackson Heart Study (JHS)", "PubMedLink",  paste0(pubMed,"10100686[PMID]', target='_blank'>10100686</a>; ", pubMed,"16317983[PMID]', target='_blank'>16317983</a>; ",pubMed,"16320381[PMID]', target='_blank'>16320381</a>"))
 # setValue("JHS", "Phenotypic_Data_Type", "TBD")
 
@@ -260,6 +266,8 @@ setValue("The Cleveland Family Study (CFS)", "PubMedLink",  paste0(pubMed,"10228
 # GENOA - phs001345 (geno) ; phs001238 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=954&version=2&exp1=1&exp2=1&exp3=1
 setValue("Genetic Epidemiology Network of Arteriopathy (GENOA)","Patients_Age", "<60")
+setValue("Genetic Epidemiology Network of Arteriopathy (GENOA)", "Subject_Count", 1143)
+setValue("Genetic Epidemiology Network of Arteriopathy (GENOA)", "Sample_Size", 1143)
 setValue("Genetic Epidemiology Network of Arteriopathy (GENOA)", "PubMedLink",  paste0(pubMed,"15121494[PMID]', target='_blank'>15121494</a>"))
 # setValue("GENOA", "Phenotypic_Data_Type", "TBD")
 
@@ -267,10 +275,13 @@ setValue("Genetic Epidemiology Network of Arteriopathy (GENOA)", "PubMedLink",  
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=179&version=6&exp1=1&exp2=1&exp3=1
 setValue("Genetic Epidemiology of Chronic Obstructive Pulmonary Disease (COPDGene) ","Patients_Age", "45-80")
 setValue("Genetic Epidemiology of Chronic Obstructive Pulmonary Disease (COPDGene) ", "PubMedLink",  paste0(pubMed,"20214461[PMID]', target='_blank'>20214461</a>"))
-# setValue("COPDGene", "Phenotypic_Data_Type", "TBD")
+setValue("Genetic Epidemiology of Chronic Obstructive Pulmonary Disease (COPDGene)", "Subject_Count", 8843)
+setValue("Genetic Epidemiology of Chronic Obstructive Pulmonary Disease (COPDGene)", "Sample_Size",  19460)
 
 # SAS - phs000972 (geno) ; phs000914 (pheno)
 setValue("Study of Adiposity in Samoans (SAS)","Country", "Samoa")
+setValue("Study of Adiposity in Samoans (SAS)", "Subject_Count", 1222)
+setValue("Study of Adiposity in Samoans (SAS)", "Sample_Size", 1232)
 setValue("Study of Adiposity in Samoans (SAS)","Ancestry", "Samoan")
 setValue("Study of Adiposity in Samoans (SAS)","Patients_Age", "23-70")
 setValue("Study of Adiposity in Samoans (SAS)", "PubMedLink",  paste0(pubMed,"24799123[PMID]', target='_blank'>24799123</a>"))
@@ -279,12 +290,16 @@ setValue("Study of Adiposity in Samoans (SAS)", "PubMedLink",  paste0(pubMed,"24
 # HyperGEN - phs001293 (geno) 
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=954&version=2&exp1=1&exp2=1&exp3=1
 setValue("Genetics of Left Ventricular (LV) Hypertrophy (HyperGEN)","Patients_Age", "<60")
+setValue("Genetics of Left Ventricular (LV) Hypertrophy (HyperGEN)", "Subject_Count", 1773)
+setValue("Genetics of Left Ventricular (LV) Hypertrophy (HyperGEN)", "Sample_Size", 1776)
 setValue("Genetics of Left Ventricular (LV) Hypertrophy (HyperGEN)", "PubMedLink",  paste0(pubMed,"11115379[PMID]', target='_blank'>11115379</a>"))
 # setValue("HyperGEN", "Phenotypic_Data_Type", "TBD")
 
 # GeneSTAR - phs001218 (geno) ; phs001074 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=1218&version=1&exp1=1&exp2=1&exp3=1
 setValue("Genetic Study of Atherosclerosis Risk (GeneSTAR)","Patients_Age", "<60")
+setValue("Genetic Study of Atherosclerosis Risk (GeneSTAR)", "Subject_Count", 1636)
+setValue("Genetic Study of Atherosclerosis Risk (GeneSTAR)", "Sample_Size", 3420)
 setValue("Genetic Study of Atherosclerosis Risk (GeneSTAR)", "PubMedLink",  paste0(pubMed,"16551714[PMID]', target='_blank'>16551714</a>"))
 # setValue("GeneSTAR", "Phenotypic_Data_Type", "TBD")
 
@@ -436,9 +451,64 @@ setValue("Simons Simplex Collection (SSC)", "LinkClinicalAndGenomic", "<a href='
 setValue("Simons Simplex Collection (SSC)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed/?term=20955926%5BPMID%5D', target='_blank'>20955926</a>")
 setValue("Simons Simplex Collection (SSC)", "Notes", "Simplex families which have one child affected with an autism spectrum disorder, unaffected parents and in some cases unnafected siblings. Genomic data is available for all family members.")
 
-# Genome-Wide Association Study of Amyotrophic Lateral Sclerosis
-setValue("Genome-Wide Association Study of Amyotrophic Lateral Sclerosis", "Patients_Age", ">18")
-setValue("Genome-Wide Association Study of Amyotrophic Lateral Sclerosis", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=25023141[PMID]', target='_blank'>25023141</a>")
+# # Genome-Wide Association Study of Amyotrophic Lateral Sclerosis 
+# setValue("Genome-Wide Association Study of Amyotrophic Lateral Sclerosis", "Patients_Age", ">18")
+# setValue("Genome-Wide Association Study of Amyotrophic Lateral Sclerosis", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=25023141[PMID]', target='_blank'>25023141</a>")
+# Does not fullfil inclusion criteria #1
+f5b=f5b[Name!="Genome-Wide Association Study of Amyotrophic Lateral Sclerosis",]
+
+# OPPERA prospective cohort study of first-onset TMJD
+setValue("OPPERA prospective cohort study of first-onset TMJD", "Subject_Count", 2866)
+setValue("OPPERA prospective cohort study of first-onset TMJD",  "PubMedLink", paste0(pubMed,"24275221[PMID]', target='_blank'>24275221</a> ;", pubMed,"24275219[PMID]', target='_blank'>24275219</a>"))
+setValue("OPPERA prospective cohort study of first-onset TMJD", "Ancestry", "White(1448); Black/African American(766); Asian(256); Hispanic(178); Other or unstated(89)")
+setValue("OPPERA prospective cohort study of first-onset TMJD", "Patients_Age", "18-44")
+
+# Sequencing of Targeted Genomic Regions Associated with Smoking
+setValue("Sequencing of Targeted Genomic Regions Associated with Smoking", "Sample_Size", 6196)
+setValue("Sequencing of Targeted Genomic Regions Associated with Smoking", "PubMedLink",  paste0(pubMed,"18629733[PMID]', target='_blank'>18629733</a>"))
+setValue("Sequencing of Targeted Genomic Regions Associated with Smoking", "Patients_Age", "25-44")
+setValue("Sequencing of Targeted Genomic Regions Associated with Smoking", "Ancestry", "White(2925); Black(582)")
+
+# OPPERA baseline case-control study of chronic TMJD
+setValue("OPPERA baseline case-control study of chronic TMJD", "Subject_Count", 1608)
+setValue("OPPERA baseline case-control study of chronic TMJD", "Sample_Size", 1608)
+setValue("OPPERA baseline case-control study of chronic TMJD",  "PubMedLink", paste0(pubMed,"22074749[PMID]', target='_blank'>22074749</a>"))
+setValue("OPPERA baseline case-control study of chronic TMJD", "Ancestry", "White-NH(984); Black/African American(533); Hispanic(108); Other or unstated(193)")
+setValue("OPPERA baseline case-control study of chronic TMJD", "Patients_Age", "18-44")
+
+# Whole Exome Sequencing in Tourette Disorder in Simplex Trios-TIC Genetics
+setValue("Whole Exome Sequencing in Tourette Disorder in Simplex Trios-TIC Genetics", "Subject_Count", 1104)
+setValue("Whole Exome Sequencing in Tourette Disorder in Simplex Trios-TIC Genetics", "Sample_Size", 1104)
+setValue("Whole Exome Sequencing in Tourette Disorder in Simplex Trios-TIC Genetics",  "PubMedLink", paste0(pubMed,"24771252[PMID]', target='_blank'>24771252</a>"))
+setValue("Whole Exome Sequencing in Tourette Disorder in Simplex Trios-TIC Genetics", "Patients_Age", "4-83")
+setValue("Whole Exome Sequencing in Tourette Disorder in Simplex Trios-TIC Genetics", "Ancestry", "White(91.5%); Black(1.5%); Asian(7.6%); Mixed or unknown race (3.3%)") 
+
+#T2D-GENES Project 2: San Antonio Mexican American Family Studies(SAMAFS); Substudy 2: Whole genome sequencing in pedigrees
+setValue("T2D-GENES Project 2: San Antonio Mexican American Family Studies(SAMAFS); Substudy 2: Whole genome sequencing in pedigrees","Patients_Age", "40-60 (probands age)")
+setValue("T2D-GENES Project 2: San Antonio Mexican American Family Studies(SAMAFS); Substudy 2: Whole genome sequencing in pedigrees", "PubMedLink",  paste0(pubMed,"8901667[PMID]', target='_blank'>8901667</a>; ", pubMed,"23487405[PMID]', target='_blank'>23487405</a>"))
+setValue("T2D-GENES Project 2: San Antonio Mexican American Family Studies(SAMAFS); Substudy 2: Whole genome sequencing in pedigrees", "Notes", "Substudy of <a href='https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000280.v5.p1', target='_blank'>phs000847.v2.p1</a>")
+setValue("T2D-GENES Project 2: San Antonio Mexican American Family Studies(SAMAFS); Substudy 2: Whole genome sequencing in pedigrees", "Ancestry", "Mexican-American") 
+
+#NHGRI ClinSeq
+setValue("HGRI ClinSeq","Patients_Age", "45-65")
+setValue("HGRI ClinSeq", "PubMedLink",  paste0(pubMed,"19602640[PMID]', target='_blank'>19602640</a> ;", pubMed,"26186621[PMID]', target='_blank'>26186621</a>")) 
+setValue("HGRI ClinSeq", "Ancestry", "European (747); African (27); East Asian (4); African American (467); Hispanic1 (150); Hispanic2 (9); Other Asian or Pacific Islander (37); South Asian (18); Other (23)")
+
+#Genotype-Tissue Expression (GTEx)
+setValue("Genotype-Tissue Expression (GTEx)","Patients_Age", "21-70")
+setValue("Genotype-Tissue Expression (GTEx)", "PubMedLink",  paste0(pubMed,"23715323[PMID]', target='_blank'>23715323</a>; ", pubMed,"25954001[PMID]', target='_blank'>25954001</a>")) 
+setValue("Genotype-Tissue Expression (GTEx)", "Ancestry", "European (153); East Asian (2); African American (25); Hispanic1 (3); Hispanic2 (2)") 
+
+#NHLBI GO-ESP: Heart Cohorts Exome Sequencing Project (ARIC)
+setValue("NHLBI GO-ESP: Heart Cohorts Exome Sequencing Project (ARIC)", "Patients_Age", "45-64")
+# For pubmed link https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000398.v5.p1
+setValue("NHLBI GO-ESP: Heart Cohorts Exome Sequencing Project (ARIC)", "Notes", "Substudy of <a href='https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000280.v5.p1', target='_blank'>ARIC (phs000280.v5.p1)</a>")
+
+# UIC ACE Exome Sequencing Analysis
+setValue("UIC ACE Exome Sequencing Analysis", "Subject_Count", 523)
+setValue("UIC ACE Exome Sequencing Analysis","Patients_Age", "3-50")
+setValue("UIC ACE Exome Sequencing Analysis", "PubMedLink",  paste0(pubMed,"23956104[PMID]', target='_blank'>23956104</a>"))
+setValue("UIC ACE Exome Sequencing Analysis", "Ancestry", "European(59.5%); Hispanic(17.4%); African American(15.4%); Asian(4.1%); More than one(3.6%)") 
 
 f5b <- f5b[ order(-Subject_Count) ]
 
