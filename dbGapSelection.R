@@ -18,7 +18,8 @@ paket(listOfPackages)
 ###################
 # Go to  https://www.ncbi.nlm.nih.gov/projects/gapsolr/facets.html, click on Save Results and save as: dbGAP_All.csv
 #read the csv file 
-file_path = "/full-path/geno-pheno-CatalogShiny/csv/"
+# /Users/carlos/Desktop/github
+file_path = "/Users/carlos/Desktop/github/geno-pheno-CatalogShiny/csv/"
 dbgap <- read.delim(paste0(file_path,"dbGAP_All.csv"), sep = ",")
 colnames(dbgap)
 colnames(dbgap)[2] <- "Name"
@@ -216,7 +217,8 @@ pubMed="<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term="
 # FHS - phs000974 (geno) ; phs000007 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=974&version=3&exp1=1&exp2=1&exp3=1
 setValue("Framingham Heart Study (FHS)","Patients_Age", "28-62")
-setValue("Framingham Heart Study (FHS)", "PubMedLink", paste0(pubMed,"5921755[PMID]', target='_blank'>5921755</a>"))
+setValue("Framingham Heart Study (FHS)", "PubMedLink", paste0(pubMed,"5921755[PMID]', target='_blank'>5921755</a>; ", pubMed,"17372189[PMID]', target='_blank'>17372189</a>; ", pubMed,"24084292[PMID]', target='_blank'>24084292</a>"))
+
 # setValue("FHS", "Phenotypic_Data_Type", "TBD")
 
 # MESA - phs001416 (geno) ; phs000209 (pheno)
@@ -246,7 +248,7 @@ setValue("Women's Health Initiative (WHI)", "PubMedLink",  paste0("<a href='http
 # JHS - phs000964 (geno) ; phs000286 (pheno)
 setValue("The Jackson Heart Study (JHS)","Ancestry", "African American")
 setValue("The Jackson Heart Study (JHS)","Patients_Age", "35-84")
-setValue("The Jackson Heart Study (JHS)", "PubMedLink",  paste0(pubMed,"10100686[PMID]', target='_blank'>10100686</a>"))
+setValue("The Jackson Heart Study (JHS)", "PubMedLink",  paste0(pubMed,"10100686[PMID]', target='_blank'>10100686</a>; ", pubMed,"16317983[PMID]', target='_blank'>16317983</a>; ",pubMed,"16320381[PMID]', target='_blank'>16320381</a>"))
 # setValue("JHS", "Phenotypic_Data_Type", "TBD")
 
 # CFS - phs000954 (geno) ; phs000284 (pheno)
@@ -319,8 +321,10 @@ setValue("UK Biobank", "Ancestry", "White (95%); Other (5%)")
 setValue("UK Biobank", "Consent", "<a href='https://www.ukbiobank.ac.uk/gdpr/', target='_blank'>Consent for health-related research, for their health to be followed over many years through medical and other health-related records, as well as by being re-contacted by UK Biobank</a>")
 setValue("UK Biobank", "Accession", "<a href='http://www.ukbiobank.ac.uk/wp-content/uploads/2012/09/Access-Procedures-2011.pdf', target='_blank'>UK Biobank Access Procedures</a>") 
 setValue("UK Biobank", "LinkClinicalAndGenomic", "<a href='https://www.ukbiobank.ac.uk', target='_blank'>UK Biobank</a>")
-setValue("UK Biobank", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=25826379[PMID]', target='_blank'>25826379</a>")
+setValue("UK Biobank", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=25826379[PMID]', target='_blank'>25826379</a> ; <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=30305743[PMID]', target='_blank'>30305743</a>" )
 setValue("UK Biobank", "Notes", "<a href='http://biobank.ctsu.ox.ac.uk/crystal/browse.cgi', target='_blank'>UK Biobank Data Showcase</a>. A fee of 2,250£ is required to access the data.")
+
+
 
 # Undiagnosed_Disease_Network_(UDN)
 setValue("Undiagnosed Disease Network (UDN)", "Country", "USA")
@@ -376,23 +380,23 @@ setValue("Genomics Research and Innovation Network (GRIN)", "LinkClinicalAndGeno
 setValue("Genomics Research and Innovation Network (GRIN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=31481752[PMID]', target='_blank'>31481752</a>")
 #setValue("Genomics Research and Innovation Network (GRIN)", "Notes", "")
 
-# H3Africa # https://h3africa.org/h3africa.old/images/ConsortiumMeetingDoc/8thConsortiumMeeting/PIpresentations/Mulder_session4_final.pdf
-setValue("H3Africa", "Country", "Africa")
-#setValue("H3Africa", "Sample_Size", )
-setValue("H3Africa", "Subject_Count", 6000)
-setValue("H3Africa", "Study_Design", "Population-based cohort")
-setValue("H3Africa", "Phenotypic_Variables", 776) # Using PhenX Protocols 
-setValue("H3Africa", "Phenotypic_Data_Type", "Demographic data, clinical measurements")
-setValue("H3Africa", "Molecular_Data_Type", "WGS, WES")
-#setValue("H3Africa", "Markerset", "")
-setValue("H3Africa", "Disease_Focus", "Diseases affecting people in Africa")
-setValue("H3Africa","Patients_Age", ">18")
-setValue("H3Africa", "Ancestry", "African")
-setValue("H3Africa", "Consent", "<a href='https://h3africa.org/wp-content/uploads/2018/05/H3A%202017%20Revised%20IC%20guideline%20for%20SC%2020_10_2017.pdf', target='_blank'>H3Africa Guideline for Informed Consent</a>")
-setValue("H3Africa", "Accession", "<a href='https://h3africa.org/index.php/contacts/', target='_blank'>H3Africa_contact</a> ; <a href='https://www.h3abionet.org/resources/h3africa-archive', target='_blank'>H3Africa_archive</a>")
-setValue("H3Africa", "LinkClinicalAndGenomic", "<a href='https://h3africa.org/', target='_blank'>H3Africa</a>")
-setValue("H3Africa", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29692621[PMID]', target='_blank'>29692621</a>; <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=28470782[PMID]', target='_blank'>28470782</a>")
-#setValue("H3Africa", "Notes", "")
+# H3Africa 
+# setValue("H3Africa", "Country", "Africa") # https://h3africa.org/h3africa.old/images/ConsortiumMeetingDoc/8thConsortiumMeeting/PIpresentations/Mulder_session4_final.pdf
+# #setValue("H3Africa", "Sample_Size", ) 
+# setValue("H3Africa", "Subject_Count", 324) #https://www.ebi.ac.uk/ega/dacs/EGAC00001000648 - Does not fulfill inclusion criteria #1 
+# setValue("H3Africa", "Study_Design", "Population-based cohort")
+# setValue("H3Africa", "Phenotypic_Variables", 776) # Using PhenX Protocols 
+# setValue("H3Africa", "Phenotypic_Data_Type", "Demographic data, clinical measurements")
+# setValue("H3Africa", "Molecular_Data_Type", "WGS")
+# #setValue("H3Africa", "Markerset", "")
+# setValue("H3Africa", "Disease_Focus", "Diseases affecting people in Africa")
+# setValue("H3Africa","Patients_Age", ">18")
+# setValue("H3Africa", "Ancestry", "African")
+# setValue("H3Africa", "Consent", "<a href='https://h3africa.org/wp-content/uploads/2018/05/H3A%202017%20Revised%20IC%20guideline%20for%20SC%2020_10_2017.pdf', target='_blank'>H3Africa Guideline for Informed Consent</a>")
+# setValue("H3Africa", "Accession", "<a href='https://h3africa.org/index.php/contacts/', target='_blank'>H3Africa_contact</a> ; <a href='https://www.h3abionet.org/resources/h3africa-archive', target='_blank'>H3Africa_archive</a>")
+# setValue("H3Africa", "LinkClinicalAndGenomic", "<a href='https://h3africa.org/', target='_blank'>H3Africa</a>")
+# setValue("H3Africa", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29692621[PMID]', target='_blank'>29692621</a>; <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=28470782[PMID]', target='_blank'>28470782</a>")
+# #setValue("H3Africa", "Notes", "")
 
 # All of Us
 # https://www.researchallofus.org/data/data-snapshots/
@@ -411,7 +415,7 @@ setValue("All of Us", "Ancestry", "White(46.2%); Asian(2.9); Black,African Ameri
 setValue("All of Us", "Consent", "<a href='https://allofus.nih.gov/about/protocol/all-us-consent-process#all-us-consent-process-videos-1', target='_blank'>Consent Process</a>")
 setValue("All of Us", "Accession", "<a href='https://www.researchallofus.org/data/workbench/', target='_blank'>All of Us: Data Browser</a>")
 setValue("All of Us", "LinkClinicalAndGenomic", "<a href='https://www.researchallofus.org/', target='_blank'>All of Us</a>")
-setValue("All of Us", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=27929525[PMID]', target='_blank'>27929525</a>")
+setValue("All of Us", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=31412182[PMID]', target='_blank'>31412182</a>")
 #setValue("All of Us", "Notes", "")
 
 # Simons Simplex Collection (SSC)
@@ -431,6 +435,10 @@ setValue("Simons Simplex Collection (SSC)", "Accession", "<a href='https://www.s
 setValue("Simons Simplex Collection (SSC)", "LinkClinicalAndGenomic", "<a href='https://www.sfari.org/resource/simons-simplex-collection/', target='_blank'>Simons Simplex Collection (SSC)</a>")
 setValue("Simons Simplex Collection (SSC)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed/?term=20955926%5BPMID%5D', target='_blank'>20955926</a>")
 setValue("Simons Simplex Collection (SSC)", "Notes", "Simplex families which have one child affected with an autism spectrum disorder, unaffected parents and in some cases unnafected siblings. Genomic data is available for all family members.")
+
+# Genome-Wide Association Study of Amyotrophic Lateral Sclerosis
+setValue("Genome-Wide Association Study of Amyotrophic Lateral Sclerosis", "Patients_Age", ">18")
+setValue("Genome-Wide Association Study of Amyotrophic Lateral Sclerosis", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=25023141[PMID]', target='_blank'>25023141</a>")
 
 f5b <- f5b[ order(-Subject_Count) ]
 
