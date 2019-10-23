@@ -18,7 +18,8 @@ paket(listOfPackages)
 ###################
 # Go to  https://www.ncbi.nlm.nih.gov/projects/gapsolr/facets.html, click on Save Results and save as: dbGAP_All.csv
 #read the csv file 
-file_path = "/full-path/geno-pheno-CatalogShiny/csv/"
+#file_path = "/full-path/geno-pheno-CatalogShiny/csv/"
+file_path = "/Users/alba/Desktop/geno-pheno-CatalogShiny/csv/"
 dbgap <- read.delim(paste0(file_path,"dbGAP_All.csv"), sep = ",")
 colnames(dbgap)
 colnames(dbgap)[2] <- "Name"
@@ -106,6 +107,7 @@ if( length(topmedphs_children[! topmedphs_children %in% finalSetFilterSort$dbGaP
 
 finalData <- as.data.frame( matrix( ncol = ncol(finalSetFilterSort)))
 colnames(finalData) <- colnames(finalSetFilterSort)
+finalData$extraLink <- NA
 
 for( i in 1:nrow(topmed)){
   if( topmed$Study.Accession[i] == "" )
@@ -115,6 +117,7 @@ for( i in 1:nrow(topmed)){
     selection$Name <- topmed[ i, "Name"]
     selection$Notes <- paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>")
     selection$link <- paste0("Genomic and clinical: <a href='", as.character( selection$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>")
+    selection$extralink <- NA
     finalData <-  rbindlist(list( finalData, selection), use.names=F )
   }else{
     clinical <- finalSetFilterSort[ finalSetFilterSort$dbGaP.TOPMed.Study.Accession == topmed$Parent.Study.Accession[i], ]
@@ -134,16 +137,25 @@ for( i in 1:nrow(topmed)){
     ancestry <- ifelse(as.numeric(genomic$samples) < as.numeric(clinical$samples), as.character(clinical$Ancestry..computed.), as.character(genomic$Ancestry..computed.))
     consent <- ifelse( as.character(genomic$Study.Consent) != as.character(clinical$Study.Consent), paste0("Genomic study consent: ", as.character(genomic$Study.Consent), "; Clinical study consent: ", as.character(clinical$Study.Consent)), as.character(genomic$Study.Consent))
     accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov', target='_blank'>Request access through dbGAP</a>")
-    links <- ifelse(as.numeric(genomic$variables) > as.numeric(clinical$variables), paste0("Genomic and clinical: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>"),paste0( paste0("Genomic: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>"), "; Clinical: ", paste0("<a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>") ))
+    #link <- ifelse(as.numeric(genomic$variables) > as.numeric(clinical$variables), paste0("Genomic and clinical: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>"),paste0( paste0("Genomic: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>"), "; Clinical: ", paste0("<a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>") ))
+    if(as.numeric(genomic$variables) > as.numeric(clinical$variables)){
+      link <- paste0("Clinical: <a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>")
+      extralink <- paste0("Genomic: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>")
+      }else{
+      link <- paste0("Genomic and clinical: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>")
+      extralink <- NA
+    
+      }
+       
     pubmed <- NA
     Notes <- ifelse(as.numeric(genomic$variables) > as.numeric(clinical$variables), paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>", "; Additional information in the parent study: <a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>"),paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>"))
     hps <- paste0( as.character( genomic$accession ), "; ", as.character( clinical$accession ) )
-    newrow <- c(Name, Country, samples, subjects, studyDesing, phenoVariables, phenoData, molecularData,markerset , disease, age, ancestry,consent, accession, links, pubmed, Notes, hps)
+    newrow <- c(Name, Country, samples, subjects, studyDesing, phenoVariables, phenoData, molecularData,markerset , disease, age, ancestry,consent, accession, link, pubmed, Notes, hps, extralink)
     finalData <- rbindlist( list(finalData, data.table(t(newrow))),  use.names=F )
   }
 }
 
-finalSetFilterSort <- finalData[, c(1:17)]
+finalSetFilterSort <- finalData[, c(1:17,19)]
 
 ##### add dbgap studies that are not in TOPMed but that meet the inclusion criteria
 # select those studies in dbGAP that meet the inclusion criteria:
@@ -166,6 +178,7 @@ finalSetDbgap <- finalSetDbgap[, c("Name", "Country", "samples", "subjects", "St
                                    "Study.Disease.Focus", "Patients.Age", "Ancestry..computed.", 
                                    "Study.Consent", "accession", "link", "PubMedLink", "Notes")]
 finalSetDbgap$accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov', target='_blank'>Request access through dbGAP</a>")
+finalSetDbgap$extraLink <- NA
 
 # Merge both
 finalSetFilterSort <- rbindlist( list(finalSetFilterSort, finalSetDbgap), use.names = T)
@@ -173,7 +186,7 @@ finalSetFilterSort <- rbindlist( list(finalSetFilterSort, finalSetDbgap), use.na
 # Names with underscores
 colnames(finalSetFilterSort) <- c("Name","Country","Sample_Size","Subject_Count","Study_Design","Phenotypic_Variables",
                                   "Phenotypic_Data_Type","Molecular_Data_Type","Markerset","Disease_Focus",
-                                  "Patients_Age","Ancestry","Consent","Accession","Link","PubMedLink","Notes")
+                                  "Patients_Age","Ancestry","Consent","Accession","LinkClinicalAndGenomic","PubMedLink","Notes", "LinkGenomic")
 
 finalSetFilterSort$Name <- gsub( ",", ";", finalSetFilterSort$Name)
 finalSetFilterSort$Molecular_Data_Type <- gsub( ",", ";", finalSetFilterSort$Molecular_Data_Type)
@@ -181,6 +194,10 @@ finalSetFilterSort$Disease_Focus <- gsub( ",", ";", finalSetFilterSort$Disease_F
 finalSetFilterSort$Markerset <- gsub( ",", ";", finalSetFilterSort$Markerset)
 finalSetFilterSort$Ancestry <- gsub( ",", ";", finalSetFilterSort$Ancestry)
 finalSetFilterSort$Consent <- gsub(  ",", ";", finalSetFilterSort$Consent)
+
+finalSetFilterSort <- finalSetFilterSort[, c ("Name","Country","Sample_Size","Subject_Count","Study_Design","Phenotypic_Variables",
+                                          "Phenotypic_Data_Type","Molecular_Data_Type","Markerset","Disease_Focus",
+                                          "Patients_Age","Ancestry","Consent","Accession","LinkClinicalAndGenomic",  "LinkGenomic", "PubMedLink","Notes") ]
 
 # Function to hard-code set values 
 setValue <- function(BB_name, select_col, value){ 
@@ -302,7 +319,7 @@ setValue("UK Biobank","Patients_Age", "40-69")
 setValue("UK Biobank", "Ancestry", "White (95%); Other (5%)")
 setValue("UK Biobank", "Consent", "<a href='https://www.ukbiobank.ac.uk/gdpr/', target='_blank'>Consent for health-related research, for their health to be followed over many years through medical and other health-related records, as well as by being re-contacted by UK Biobank</a>")
 setValue("UK Biobank", "Accession", "<a href='http://www.ukbiobank.ac.uk/wp-content/uploads/2012/09/Access-Procedures-2011.pdf', target='_blank'>UK Biobank Access Procedures</a>") 
-setValue("UK Biobank", "Link", "<a href='https://www.ukbiobank.ac.uk', target='_blank'>UK Biobank</a>")
+setValue("UK Biobank", "LinkClinicalAndGenomic", "<a href='https://www.ukbiobank.ac.uk', target='_blank'>UK Biobank</a>")
 setValue("UK Biobank", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=25826379[PMID]', target='_blank'>25826379</a>")
 setValue("UK Biobank", "Notes", "<a href='http://biobank.ctsu.ox.ac.uk/crystal/browse.cgi', target='_blank'>UK Biobank Data Showcase</a>. A fee of 2,250£ is required to access the data.")
 
@@ -320,7 +337,7 @@ setValue("Undiagnosed Disease Network (UDN)","Patients_Age", "Pediatric populati
 setValue("Undiagnosed Disease Network (UDN)", "Ancestry", "White (81%); Asian (6%); American Indian or Alaska Native (<1%)'; Black or African American (5%); Native Hawaiian Pacific Islander (<1%); Other (8%)")
 setValue("Undiagnosed Disease Network (UDN)", "Consent", "NHGRI GRU --- General research use")
 setValue("Undiagnosed Disease Network (UDN)", "Accession", "<a href='https://dbgap.ncbi.nlm.nih.gov', target='_blank'>Request access through dbGAP</a>")
-setValue("Undiagnosed Disease Network (UDN)", "Link", "<a href='https://undiagnosed.hms.harvard.edu/research/', target='_blank'>Undiagnosed Disease Network (UDN)</a>")
+setValue("Undiagnosed Disease Network (UDN)", "LinkClinicalAndGenomic", "<a href='https://undiagnosed.hms.harvard.edu/research/', target='_blank'>Undiagnosed Disease Network (UDN)</a>")
 setValue("Undiagnosed Disease Network (UDN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26220576[PMID]', target='_blank'>26220576</a>")
 setValue("Undiagnosed Disease Network (UDN)", "Notes", "<a href='http://undiagnosed.hms.harvard.edu/wp-content/uploads/UDN-Manual-of-Operations_February-2016.pdf', target='_blank'>UDN Manual of Operations</a>")
 
@@ -338,7 +355,7 @@ setValue("Boston Children's Biobank","Patients_Age", "0-18 (80.5%); >18 (19.5%)"
 setValue("Boston Children's Biobank", "Ancestry", "White (75%); Black (9.6%); Asian (3.4%); Navite American/Alaska Native (0.2%); Native Hawaiian/Pacific Islander (0.1%); Other (4.3%); Prefere not to answer (1.0%); Unknown (6.3%)")
 setValue("Boston Children's Biobank", "Consent", "<a href='http://www.mdpi.com/2075-4426/7/4/21/s1', target='_blank'>Research Consent</a>")
 setValue("Boston Children's Biobank", "Accession", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children's Biobank</a>")
-setValue("Boston Children's Biobank", "Link", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children's Biobank</a>")
+setValue("Boston Children's Biobank", "LinkClinicalAndGenomic", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children's Biobank</a>")
 setValue("Boston Children's Biobank", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29244735[PMID]', target='_blank'>29244735</a>")
 setValue("Boston Children's Biobank", "Notes", "The parents provide consent until participants are 18")
 
@@ -356,7 +373,7 @@ setValue("Genomics Research and Innovation Network (GRIN)", "Disease_Focus", "Ge
 #setValue("Genomics Research and Innovation Network (GRIN)", "Ancestry", "")
 setValue("Genomics Research and Innovation Network (GRIN)", "Consent", "Research <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=31481752[PMID]', target='_blank'>(More details in: IRB protocol section)</a>")
 setValue("Genomics Research and Innovation Network (GRIN)", "Accession", "<a href='https://www.grinnetwork.org/', target='_blank'>PIC-SURE application programming interface (API) is used to access genotype and phenotype data from databases at each site of care</a>")
-setValue("Genomics Research and Innovation Network (GRIN)", "Link", "<a href='https://www.grinnetwork.org/', target='_blank'>Genomics Research and Innovation Network (GRIN)</a>")
+setValue("Genomics Research and Innovation Network (GRIN)", "LinkClinicalAndGenomic", "<a href='https://www.grinnetwork.org/', target='_blank'>Genomics Research and Innovation Network (GRIN)</a>")
 setValue("Genomics Research and Innovation Network (GRIN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=31481752[PMID]', target='_blank'>31481752</a>")
 #setValue("Genomics Research and Innovation Network (GRIN)", "Notes", "")
 
@@ -374,7 +391,7 @@ setValue("H3Africa","Patients_Age", ">18")
 setValue("H3Africa", "Ancestry", "African")
 setValue("H3Africa", "Consent", "<a href='https://h3africa.org/wp-content/uploads/2018/05/H3A%202017%20Revised%20IC%20guideline%20for%20SC%2020_10_2017.pdf', target='_blank'>H3Africa Guideline for Informed Consent</a>")
 setValue("H3Africa", "Accession", "<a href='https://h3africa.org/index.php/contacts/', target='_blank'>H3Africa_contact</a> ; <a href='https://www.h3abionet.org/resources/h3africa-archive', target='_blank'>H3Africa_archive</a>")
-setValue("H3Africa", "Link", "<a href='https://h3africa.org/', target='_blank'>H3Africa</a>")
+setValue("H3Africa", "LinkClinicalAndGenomic", "<a href='https://h3africa.org/', target='_blank'>H3Africa</a>")
 setValue("H3Africa", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29692621[PMID]', target='_blank'>29692621</a>; <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=28470782[PMID]', target='_blank'>28470782</a>")
 #setValue("H3Africa", "Notes", "")
 
@@ -394,7 +411,7 @@ setValue("All of Us","Patients_Age", ">18")
 setValue("All of Us", "Ancestry", "White(46.2%); Asian(2.9); Black,African American(21.9%); ispanic,Latino(17.7%); More than one(6.7%); Other(3.0%); Prefer not to say(0.7%)")
 setValue("All of Us", "Consent", "<a href='https://allofus.nih.gov/about/protocol/all-us-consent-process#all-us-consent-process-videos-1', target='_blank'>Consent Process</a>")
 setValue("All of Us", "Accession", "<a href='https://www.researchallofus.org/data/workbench/', target='_blank'>All of Us: Data Browser</a>")
-setValue("All of Us", "Link", "<a href='https://www.researchallofus.org/', target='_blank'>All of Us</a>")
+setValue("All of Us", "LinkClinicalAndGenomic", "<a href='https://www.researchallofus.org/', target='_blank'>All of Us</a>")
 setValue("All of Us", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=27929525[PMID]', target='_blank'>27929525</a>")
 #setValue("All of Us", "Notes", "")
 
@@ -412,7 +429,7 @@ setValue("Simons Simplex Collection (SSC)","Patients_Age", "4-18 (ASD Children)"
 setValue("Simons Simplex Collection (SSC)", "Ancestry", "White (6773 ); Hispanic (724); African american (357); Asian (361); Native american (15); Native hawaiian (11); More than one race (516); Other (147); Not Provided (64)")
 setValue("Simons Simplex Collection (SSC)", "Consent", "<a href='http://simonsfoundation.s3.amazonaws.com/share/Policies_and_forms/2014/ssc/UMACC_Adult_Consent_03-2011.pdf', target='_blank'>Consent form</a>")
 setValue("Simons Simplex Collection (SSC)", "Accession", "<a href='https://www.sfari.org/resource/sfari-base/', target='_blank'>Only principal investigators can request access to phenotypic, genetic or imaging data</a>")
-setValue("Simons Simplex Collection (SSC)", "Link", "<a href='https://www.sfari.org/resource/simons-simplex-collection/', target='_blank'>Simons Simplex Collection (SSC)</a>")
+setValue("Simons Simplex Collection (SSC)", "LinkClinicalAndGenomic", "<a href='https://www.sfari.org/resource/simons-simplex-collection/', target='_blank'>Simons Simplex Collection (SSC)</a>")
 setValue("Simons Simplex Collection (SSC)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed/?term=20955926%5BPMID%5D', target='_blank'>20955926</a>")
 setValue("Simons Simplex Collection (SSC)", "Notes", "Simplex families which have one child affected with an autism spectrum disorder, unaffected parents and in some cases unnafected siblings. Genomic data is available for all family members.")
 
@@ -420,11 +437,11 @@ f5b <- f5b[ order(-Subject_Count) ]
 
 colnames(f5b) <- c("Name","Country","Sample Size","Subject Count with Genomic and Clinical Data","Study Design","# Phenotypic Variables Per Patient",
                         "Phenotypic Data Type","Molecular Data Type","Markerset","Disease/Focus",
-                        "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes") 
+                        "Patients Age (yrs)","Ancestry","Consent","Accession","LinkClinicalAndGenomic", "LinkGenomic","PubMed Link","Notes") 
 # Re-Order columns
 f5b <- f5b[ ,  c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","# Phenotypic Variables Per Patient",
                  "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
-                 "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes") ]
+                 "Patients Age (yrs)","Ancestry","Consent","Accession","LinkClinicalAndGenomic", "LinkGenomic","PubMed Link","Notes") ]
 
 fwrite(f5b, file=paste0(file_path,"tableData.csv"), sep = ',', col.names = TRUE)
 

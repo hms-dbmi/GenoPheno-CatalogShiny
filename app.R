@@ -38,7 +38,7 @@ formCSS <- ".notbold{
 fieldsAll <-  c("email", "dataset_submit", "country_submit", "phenoType_submit", "design_submit",  "disease_submit", 
                 "subjects_submit", "sample_submit", "molecularType_submit","markerset_submit","age_submit",
                 "ancestry_submit", "consent_submit", "phenoVars_submit", "pubmed_submit", 
-                   "accession_submit", "link_submit", "notes_submit")
+                   "accession_submit", "linkClinicalGenomic_submit", "linkGenomic_submit","notes_submit")
 
 responsesDir <- file.path("responses")
 responesesBackup <- file.path("responsesBackup")
@@ -118,9 +118,10 @@ ui <- fluidPage(
                 
                 column(3, textInput("age_submit", HTML("Patients Age (yrs) <br/> <span class='notbold'> (numeric range, e.g., 40-59, >18)</span>"), "")), 
                 column(3, textInput("ancestry_submit", HTML("Ancestry <br/>  <span class='notbold'>(e.g., european(XX) or european(XX%)...)</span>"), "")), 
-                column(3, textInput("pubmed_submit", HTML("PubMed ID describing the dataset <br/>  <span class='notbold'>(e.g., 25826379)</span>"), "")), 
-                column(3, textInput("link_submit", HTML("Link to the webpage of the dataset <br/>  <span class='notbold'>(e.g., https://www.ukbiobank.ac.uk/)</span>"), "")), 
-                
+                column(3, textInput("pubmed_submit", HTML("PubMedID to study infrastructure publication <br/>  <span class='notbold'>(e.g., 25826379)</span>"), "")), 
+                column(3, textInput("linkClinicalGenomic_submit", HTML("Link to clinical/genomic study <br/>  <span class='notbold'>(e.g., https://www.ukbiobank.ac.uk/)</span>"), "")), 
+                column(3, textInput("linkGenomic_submit", HTML("Link to genomic study if different then clinical one <br/>  <span class='notbold'>(e.g., https://www.ukbiobank.ac.uk/)</span>"), "")), 
+
                 br(),
                 
                 column(3, textInput("markerset_submit", HTML("Markerset <br/>  <span class='notbold'>(e.g, grc37, grc38)</span>", ""))), 
@@ -215,8 +216,9 @@ ui <- fluidPage(
                                         <li>Ancestry</li>
                                         <li>Consent</li>
                                         <li>Accession</li>
-                                        <li>Link</li>
-                                        <li>PubMed Link</li>" ) ),
+                                        <li>Link to clinical/genomic study</li>
+                                        <li>Link to genomic study if different then clinical one</li>
+                                        <li>Pubmed ID to key study infrastructure publication</li>" ) ),
                    br(),
                    
                    tags$p(HTML("For further details see the <a href=\"\">manuscript</a>.")),
@@ -341,13 +343,13 @@ server <- function(input, output, session) {
 
     colnames(data) <- c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","Number Of Phenotypic Variables Per Patient",
                          "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
-                         "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes")
+                         "Patients Age (yrs)","Ancestry","Consent","Accession","LinkClinicalAndGenomic", "LinkGenomic","PubMed Link","Notes")
     data
     
   }, escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE, pageLength = 30), callback = JS("
-var tips = ['Data Set Name', 'Country', 'Subject Count with Genomic and Clinical Data','Study Design','Disease/Focus','Number Of Phenotypic Variables Per Patient',
+var tips = ['Data Set Name (long name and acronym if one)', 'Country where the research takes place', 'Subject Count with Genomic and Clinical Data','Study Design','Disease/Focus','Number Of Phenotypic Variables Per Patient',
                          'Phenotypic Data Type','Sample Size','Molecular Data Type','Markerset',
-                         'Patients Age (yrs)','Ancestry','Consent groups present in the data set','Accession','Link','PubMed Link to papers describing the dataset','Notes'],
+                         'Patients Age (yrs)','Ancestry','Consent groups present in the data set','Accession', 'Link to clinical/genomic study','Link to genomic study if different then clinical one','Pubmed ID to key study infrastructure publication','Notes'],
     header = table.columns().header();
 for (var i = 0; i < tips.length; i++) {
   $(header[i]).attr('title', tips[i]);
