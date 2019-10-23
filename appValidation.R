@@ -33,24 +33,28 @@ loadData <- function() {
                                     "Disease/Focus", "Subject Count with Genomic and Clinical Data",
                                     "Sample Size","Molecular Data Type", "Markerset", "Patients Age (yrs)",
                                     "Ancestry","Consent","Number Of Phenotypic Variables Per Patient",
-                                    "PubMed Link", "Accession","Link","Notes", "ID", "Status")
+                                    "PubMed Link", "Accession","LinkBoth","LinkGenomic","Notes", "ID", "Status")
   
   
   dataNotValidated <- dataNotValidated[, c("email", "Name","Country", "Subject Count with Genomic and Clinical Data",
                                            "Study Design","Disease/Focus","Number Of Phenotypic Variables Per Patient",
                                            "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
-                                           "Patients Age (yrs)","Ancestry","Consent","Accession","Link","PubMed Link","Notes", "ID", "Status")]
+                                           "Patients Age (yrs)","Ancestry","Consent","Accession","LinkBoth","LinkGenomic","PubMed Link","Notes", "ID", "Status")]
   
   dataNotValidated$Accession <- as.character(dataNotValidated$Accession)
-  dataNotValidated$Link <- as.character(dataNotValidated$Link)
+  dataNotValidated$LinkBoth <- as.character(dataNotValidated$LinkBoth)
+  dataNotValidated$LinkGenomic <- as.character(dataNotValidated$LinkGenomic)
   dataNotValidated$`PubMed Link`  <- as.character(dataNotValidated$`PubMed Link`)
   
   for( i in 1:nrow(dataNotValidated)){
     if( any(grep( "<a href=",  dataNotValidated$Accession[i])) == FALSE ){
       dataNotValidated$Accession[i] <- sprintf(paste0("<a href='", dataNotValidated$Accession[i], "', target='_blank'>", dataNotValidated$Accession[i], "</a>" ))
     }
-    if( dataNotValidated$Link[i] != ""  &  any(grep( "<a href=",  dataNotValidated$Link[i])) == FALSE ){
-      dataNotValidated$Link[i] <- sprintf(paste0("<a href='", dataNotValidated$Link[i], "', target='_blank'>", dataNotValidated$Name[i], "</a>" ))
+    if( dataNotValidated$LinkBoth[i] != ""  &  any(grep( "<a href=",  dataNotValidated$LinkBoth[i])) == FALSE ){
+      dataNotValidated$LinkBoth[i] <- sprintf(paste0("<a href='", dataNotValidated$LinkBoth[i], "', target='_blank'>", dataNotValidated$Name[i], "</a>" ))
+    }
+    if( dataNotValidated$LinkGenomic[i] != ""  &  any(grep( "<a href=",  dataNotValidated$LinkGenomic[i])) == FALSE ){
+      dataNotValidated$LinkGenomic[i] <- sprintf(paste0("<a href='", dataNotValidated$LinkGenomic[i], "', target='_blank'>", dataNotValidated$Name[i], "</a>" ))
     }
     if( dataNotValidated$`PubMed Link`[i] != ""  &  any(grep( "<a href=",  dataNotValidated$`PubMed Link`[i])) == FALSE ){
       dataNotValidated$`PubMed Link`[i] <- sprintf(paste0("<a href='https://www.ncbi.nlm.nih.gov/pubmed/", dataNotValidated$`PubMed Link`[i],"', target='_blank'>", dataNotValidated$`PubMed Link`[i], "</a>" ))
@@ -149,7 +153,7 @@ server <- function(input, output) {
                           "Disease/Focus", "Subject Count with Genomic and Clinical Data",
                           "Sample Size","Molecular Data Type", "Markerset", "Patients Age (yrs)",
                           "Ancestry","Consent","Number Of Phenotypic Variables Per Patient",
-                          "PubMed Link", "Accession","Link","Notes", "ID", "Status"),]
+                          "PubMed Link", "Accession","LinkBoth","LinkGenomic", "Notes", "ID", "Status"),]
         write.csv(rowToModify, filePath, row.names = FALSE, quote = TRUE)
         # Upload the file to Dropbox
         drop_upload(filePath, path = outputDir)
