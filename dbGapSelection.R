@@ -18,8 +18,7 @@ paket(listOfPackages)
 ###################
 # Go to  https://www.ncbi.nlm.nih.gov/projects/gapsolr/facets.html, click on Save Results and save as: dbGAP_All.csv
 #read the csv file 
-# /Users/carlos/Desktop/github
-file_path = "/Users/carlos/Desktop/github/geno-pheno-CatalogShiny/csv/"
+file_path = "/full-path/geno-pheno-CatalogShiny/csv/"
 dbgap <- read.delim(paste0(file_path,"dbGAP_All.csv"), sep = ",")
 colnames(dbgap)
 colnames(dbgap)[2] <- "Name"
@@ -260,6 +259,7 @@ setValue("The Jackson Heart Study (JHS)", "PubMedLink",  paste0(pubMed,"10100686
 # CFS - phs000954 (geno) ; phs000284 (pheno)
 # Ancestry: https://www.ncbi.nlm.nih.gov/projects/gap/population/cgi-bin/StudySubjectAncestry.cgi?phs=284&version=2&exp1=1&exp2=1&exp3=1
 setValue("The Cleveland Family Study (CFS)","Patients_Age", " 2-18")
+setValue("The Cleveland Family Study (CFS)","Sample_Size", 1988)
 setValue("The Cleveland Family Study (CFS)", "PubMedLink",  paste0(pubMed,"10228121[PMID]', target='_blank'>10228121</a>"))
 # setValue("CFS", "Phenotypic_Data_Type", "TBD")
 
@@ -306,6 +306,8 @@ setValue("Genetic Study of Atherosclerosis Risk (GeneSTAR)", "PubMedLink",  past
 # GOLDN - phs001218 (geno) ; phs001074 (pheno)
 setValue("Genetics of Lipid Lowering Drugs and Diet Network (GOLDN)","Ancestry", "Caucasian")
 setValue("Genetics of Lipid Lowering Drugs and Diet Network (GOLDN)","Patients_Age", ">18")
+setValue("Genetics of Lipid Lowering Drugs and Diet Network (GOLDN)", "Subject_Count", 898)
+setValue("Genetics of Lipid Lowering Drugs and Diet Network (GOLDN)", "Sample_Size", 1859)
 setValue("Genetics of Lipid Lowering Drugs and Diet Network (GOLDN)", "PubMedLink",  paste0(pubMed,"22228203[PMID]', target='_blank'>22228203</a>"))
 # setValue("GOLDN", "Phenotypic_Data_Type", "TBD")
 
@@ -364,7 +366,7 @@ setValue("Boston Children's Biobank", "Country", "USA")
 setValue("Boston Children's Biobank", "Sample_Size", 500)
 setValue("Boston Children's Biobank", "Subject_Count", 500 )
 setValue("Boston Children's Biobank", "Study_Design", "Prospective longitudinal cohort")
-setValue("Boston Children's Biobank", "Phenotypic_Variables", 144965)
+setValue("Boston Children's Biobank", "Phenotypic_Variables", 73077)
 setValue("Boston Children's Biobank", "Phenotypic_Data_Type", "EHR")
 setValue("Boston Children's Biobank", "Molecular_Data_Type", "WES")
 #setValue("Boston Children's Biobank", "Markerset", "")
@@ -488,27 +490,50 @@ setValue("T2D-GENES Project 2: San Antonio Mexican American Family Studies(SAMAF
 setValue("T2D-GENES Project 2: San Antonio Mexican American Family Studies(SAMAFS); Substudy 2: Whole genome sequencing in pedigrees", "PubMedLink",  paste0(pubMed,"8901667[PMID]', target='_blank'>8901667</a>; ", pubMed,"23487405[PMID]', target='_blank'>23487405</a>"))
 setValue("T2D-GENES Project 2: San Antonio Mexican American Family Studies(SAMAFS); Substudy 2: Whole genome sequencing in pedigrees", "Notes", "Substudy of <a href='https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000280.v5.p1', target='_blank'>phs000847.v2.p1</a>")
 setValue("T2D-GENES Project 2: San Antonio Mexican American Family Studies(SAMAFS); Substudy 2: Whole genome sequencing in pedigrees", "Ancestry", "Mexican-American") 
+setValue("T2D-GENES Project 2: San Antonio Mexican American Family Studies(SAMAFS); Substudy 2: Whole genome sequencing in pedigrees", "Sample_Size", 1197)
+
 
 #NHGRI ClinSeq
 setValue("HGRI ClinSeq","Patients_Age", "45-65")
+setValue("HGRI ClinSeq","Subject_Count", 1000)
+setValue("HGRI ClinSeq","Sample_Size", 1000)
 setValue("HGRI ClinSeq", "PubMedLink",  paste0(pubMed,"19602640[PMID]', target='_blank'>19602640</a> ;", pubMed,"26186621[PMID]', target='_blank'>26186621</a>")) 
 setValue("HGRI ClinSeq", "Ancestry", "European (747); African (27); East Asian (4); African American (467); Hispanic1 (150); Hispanic2 (9); Other Asian or Pacific Islander (37); South Asian (18); Other (23)")
 
 #Genotype-Tissue Expression (GTEx)
 setValue("Genotype-Tissue Expression (GTEx)","Patients_Age", "21-70")
+setValue("Genotype-Tissue Expression (GTEx)","Sample_Size", 3155)
 setValue("Genotype-Tissue Expression (GTEx)", "PubMedLink",  paste0(pubMed,"23715323[PMID]', target='_blank'>23715323</a>; ", pubMed,"25954001[PMID]', target='_blank'>25954001</a>")) 
 setValue("Genotype-Tissue Expression (GTEx)", "Ancestry", "European (153); East Asian (2); African American (25); Hispanic1 (3); Hispanic2 (2)") 
 
 #NHLBI GO-ESP: Heart Cohorts Exome Sequencing Project (ARIC)
 setValue("NHLBI GO-ESP: Heart Cohorts Exome Sequencing Project (ARIC)", "Patients_Age", "45-64")
+setValue("NHLBI GO-ESP: Heart Cohorts Exome Sequencing Project (ARIC)", "Sample_Size", 1686)
 # For pubmed link https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000398.v5.p1
-setValue("NHLBI GO-ESP: Heart Cohorts Exome Sequencing Project (ARIC)", "Notes", "Substudy of <a href='https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000280.v5.p1', target='_blank'>ARIC (phs000280.v5.p1)</a>")
+setValue("NHLBI GO-ESP: Heart Cohorts Exome Sequencing Project (ARIC)", "Notes", "Substudy of <a href='https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000280.v5.p1', target='_blank'>ARIC (phs000280.v5.p1)</a>; GO-ESP is comprised by: 3 cohort consortia - HeartGO, LungGO, and WHISP - and 2 sequencing centers - BroadGO and SeattleGO [<a href='http://evs.gs.washington.edu/EVS/', target='_blank'>NHLBI GO Exome Sequencing Project (ESP)</a>]")
 
 # UIC ACE Exome Sequencing Analysis
 setValue("UIC ACE Exome Sequencing Analysis", "Subject_Count", 523)
+setValue("UIC ACE Exome Sequencing Analysis", "Sample_Size", 1066)
 setValue("UIC ACE Exome Sequencing Analysis","Patients_Age", "3-50")
 setValue("UIC ACE Exome Sequencing Analysis", "PubMedLink",  paste0(pubMed,"23956104[PMID]', target='_blank'>23956104</a>"))
 setValue("UIC ACE Exome Sequencing Analysis", "Ancestry", "European(59.5%); Hispanic(17.4%); African American(15.4%); Asian(4.1%); More than one(3.6%)") 
+
+# Molecular Data-types and study design
+setValue("Genome-Wide Association Study of Amyotrophic Lateral Sclerosis", "Molecular_Data_Type", "SNP Genotypes (NGS); WES")
+setValue("Atherosclerosis Risk in Communities (ARIC)", "Study_Design", "Prospective longitudinal cohort")
+setValue("Sequencing of Targeted Genomic Regions Associated with Smoking", "Molecular_Data_Type", "SNP Genotypes (NGS); WES")
+setValue("Simons Simplex Collection (SSC)", "Study_Design", "Family/Twin/Trios")
+setValue("Genetic Epidemiology Network of Arteriopathy (GENOA)", "Study_Design", "Prospective longitudinal cohort; Family/Twin/Trios")
+setValue("OPPERA baseline case-control study of chronic TMJD", "Molecular_Data_Type", "SNP Genotypes (NGS)")
+setValue("Whole Exome Sequencing in Tourette Disorder in Simplex Trios-TIC Genetics", "Molecular_Data_Type", "WES")
+setValue("T2D-GENES Project 2: San Antonio Mexican American Family Studies (SAMAFS); Substudy 2: Whole genome sequencing in pedigrees", "Molecular_Data_Type", "SNP Genotypes (NGS); WGS")
+setValue("NHGRI ClinSeq", "Molecular_Data_Type", "WES")
+setValue("Genotype-Tissue Expression (GTEx)", "Molecular_Data_Type", "SNP/CNV Genotypes (NGS); WGS; WES")
+setValue("Genotype-Tissue Expression (GTEx)", "Markerset", "markerset_grc37; Markerset_grc38")
+setValue("NHLBI GO-ESP: Heart Cohorts Exome Sequencing Project (ARIC)", "Molecular_Data_Type", "SNP Genotypes (NGS); WES")
+setValue("UIC ACE Exome Sequencing Analysis", "Molecular_Data_Type", "SNP/CNV Genotypes (NGS); WES")
+
 
 f5b <- f5b[ order(-Subject_Count) ]
 
