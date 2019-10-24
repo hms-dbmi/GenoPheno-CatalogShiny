@@ -402,9 +402,10 @@ for (var i = 0; i < tips.length; i++) {
     dataSubmission <- t(dataSubmission)
     # Create a unique file name
     fileName <- sprintf("%s_%s.csv", as.integer(Sys.time()), digest::digest(dataSubmission))
+    dataSubmission <- gsub(",", ";", dataSubmission)
     # Write the data to a temporary file locally
     filePath <- file.path(tempdir(), fileName)
-    write.csv(dataSubmission, filePath, row.names = FALSE, quote = TRUE)
+    write.csv(dataSubmission, filePath, row.names = TRUE, quote = TRUE)
     # Upload the file to Dropbox
     drop_upload(filePath, path = outputDir)
     drop_upload(filePath, path = outputDirBckup)
