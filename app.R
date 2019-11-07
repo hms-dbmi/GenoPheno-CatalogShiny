@@ -153,12 +153,12 @@ ui <- fluidPage(
                #column ( 6,
                sidebarLayout(
                  sidebarPanel(
-                   tags$p(HTML("The Shiny App of this on-line catalog is automatically generated based on  the CSV file <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny/blob/master/csv/tableData.csv', target='_blank'>\"tableData.csv\"</a> available at the GitHub repo: <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny', target='_blank'>geno-pheno-CatalogShiny</a>" )),
+                   tags$p(HTML("The Shiny App of this on-line catalog is automatically generated based on  the CSV file <a href='https://github.com/hms-dbmi/GenoPheno-CatalogShiny/blob/master/csv/tableData.csv', target='_blank'>\"tableData.csv\"</a> available at the GitHub repo: <a href='https://github.com/hms-dbmi/GenoPheno-CatalogShiny', target='_blank'>GenoPheno-CatalogShiny</a>" )),
                    tags$p(HTML( "To propose any correction, please:")),
                    p(
                      HTML("<ol>
-                                <li>Fork the GitHub repo <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny', target='_blank'>geno-pheno-CatalogShiny</a></li>
-                                <li>Propose the changes in the CSV file <a href='https://github.com/hms-dbmi/geno-pheno-CatalogShiny/blob/master/csv/tableData.csv', target='_blank'>\"tableData.csv\"</a></li>
+                                <li>Fork the GitHub repo <a href='https://github.com/hms-dbmi/GenoPheno-CatalogShiny', target='_blank'>GenoPheno-CatalogShiny</a></li>
+                                <li>Propose the changes in the CSV file <a href='https://github.com/hms-dbmi/GenoPheno-CatalogShiny/blob/master/csv/tableData.csv', target='_blank'>\"tableData.csv\"</a></li>
                                 <li>Submit a pull request</li>
                                 </ol>")
                     ),
@@ -239,18 +239,18 @@ server <- function(input, output, session) {
   
   attr(input, "readonly") <- FALSE
   dataValues <- reactiveValues()
-  biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/csv/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
+  biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/GenoPheno-CatalogShiny/master/csv/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
 
   observeEvent(input$confirm0, {
     
     
     if( input$dataset == ""){
-      biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/csv/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
+      biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/GenoPheno-CatalogShiny/master/csv/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
 
       updateTabsetPanel(session, "main_panel",
                         selected = "catalog")
     }else{
-      biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/geno-pheno-CatalogShiny/master/csv/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
+      biobanks <- read.delim( "https://raw.githubusercontent.com/hms-dbmi/GenoPheno-CatalogShiny/master/csv/tableData.csv", nrows=-1L, sep=",", header=T, stringsAsFactors=FALSE)
 
       updateTabsetPanel(session, "main_panel",
                         selected = "catalog")
