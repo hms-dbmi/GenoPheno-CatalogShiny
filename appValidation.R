@@ -45,22 +45,27 @@ loadData <- function() {
   dataNotValidated$LinkBoth <- as.character(dataNotValidated$LinkBoth)
   dataNotValidated$LinkGenomic <- as.character(dataNotValidated$LinkGenomic)
   dataNotValidated$`PubMed Link`  <- as.character(dataNotValidated$`PubMed Link`)
-  
+   
   for( i in 1:nrow(dataNotValidated)){
     if( any(grep( "<a href=",  dataNotValidated$Accession[i])) == FALSE ){
-      dataNotValidated$Accession[i] <- sprintf(paste0("<a href='", dataNotValidated$Accession[i], "', target='_blank'>", dataNotValidated$Accession[i], "</a>" ))
+      #dataNotValidated$Accession[i] <- sprintf(paste0("<a href='", dataNotValidated$Accession[i], "', target='_blank'>", dataNotValidated$Accession[i], "</a>" ))
+      dataNotValidated$Accession[i] <- paste0("<a href='", dataNotValidated$Accession[i], "', target='_blank'>", dataNotValidated$Accession[i], "</a>" )
     }
     if( dataNotValidated$LinkBoth[i] != ""  &  any(grep( "<a href=",  dataNotValidated$LinkBoth[i])) == FALSE ){
-      dataNotValidated$LinkBoth[i] <- sprintf(paste0("<a href='", dataNotValidated$LinkBoth[i], "', target='_blank'>", dataNotValidated$Name[i], "</a>" ))
+      #dataNotValidated$LinkBoth[i] <- sprintf(paste0("<a href='", dataNotValidated$LinkBoth[i], "', target='_blank'>", dataNotValidated$Name[i], "</a>" ))
+      dataNotValidated$LinkBoth[i] <- paste0("<a href='", dataNotValidated$LinkBoth[i], "', target='_blank'>", dataNotValidated$Name[i], "</a>" )
     }
     if( dataNotValidated$LinkGenomic[i] != ""  &  any(grep( "<a href=",  dataNotValidated$LinkGenomic[i])) == FALSE ){
-      dataNotValidated$LinkGenomic[i] <- sprintf(paste0("<a href='", dataNotValidated$LinkGenomic[i], "', target='_blank'>", dataNotValidated$Name[i], "</a>" ))
+      #dataNotValidated$LinkGenomic[i] <- sprintf(paste0("<a href='", dataNotValidated$LinkGenomic[i], "', target='_blank'>", dataNotValidated$Name[i], "</a>" ))
+      dataNotValidated$LinkGenomic[i] <- paste0("<a href='", dataNotValidated$LinkGenomic[i], "', target='_blank'>", dataNotValidated$Name[i], "</a>" )
     }
     if( dataNotValidated$`PubMed Link`[i] != ""  &  any(grep( "<a href=",  dataNotValidated$`PubMed Link`[i])) == FALSE ){
-      dataNotValidated$`PubMed Link`[i] <- sprintf(paste0("<a href='https://www.ncbi.nlm.nih.gov/pubmed/", dataNotValidated$`PubMed Link`[i],"', target='_blank'>", dataNotValidated$`PubMed Link`[i], "</a>" ))
-    }
+      #dataNotValidated$`PubMed Link`[i] <- sprintf(paste0("<a href='https://www.ncbi.nlm.nih.gov/pubmed/", dataNotValidated$`PubMed Link`[i],"', target='_blank'>", dataNotValidated$`PubMed Link`[i], "</a>" ))
+      dataNotValidated$`PubMed Link`[i] <- paste0("<a href='https://www.ncbi.nlm.nih.gov/pubmed/", dataNotValidated$`PubMed Link`[i],"', target='_blank'>", dataNotValidated$`PubMed Link`[i], "</a>" )
+      
+      }
   }
-  
+
   data.table::setDT(dataNotValidated)
   dataNotValidated[, (colnames(dataNotValidated)) := lapply(.SD, as.character), .SDcols = colnames(dataNotValidated)]
   dataNotValidated <- as.data.frame( dataNotValidated)
