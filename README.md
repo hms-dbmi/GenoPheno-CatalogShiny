@@ -13,6 +13,7 @@ This catalog only includes those data repositories that comply with the followin
 3. Include WGS and/or WES data as part of the genomic data content
 4. Include at least 100 recorded phenotypic variables per subject
 5. The dataset has to be accessible through a website or by collaboration with investigators
+6. All the resources (data and website) have to be available in English
 
 All five criteria must be met for a dataset to be considered. 
 
