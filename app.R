@@ -189,7 +189,8 @@ ui <- fluidPage(
                                 <li>Contain both genotype and phenotype data of the same subjects</li>
                                 <li>Include Whole Genome Sequencing (WGS) or Whole Exome Sequencing (WES) data as part of their genomic data content</li>
                                 <li>Include at least one hundred (100) recorded phenotypic variables per subject</li>
-                                <li>The dataset has to be accessible through a website or via a way of collaboration with investigators.</li>
+                                <li>The dataset has to be accessible through a website or via a way of collaboration with investigators</li>
+                                <li>All the resources (data and website) have to be available in English</li>
                                 </ol>")
                      
                      
