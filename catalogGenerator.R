@@ -421,8 +421,8 @@ setValue("All of Us", "Country", "USA")
 setValue("All of Us", "Sample_Size", 219000)
 setValue("All of Us", "Subject_Count", 80000) # https://databrowser.researchallofus.org/
 setValue("All of Us", "Study_Design", "Population-based cohort")
-# https://www.nejm.org/doi/full/10.1056/NEJMsr1809937 - EHR Data
-setValue("All of Us", "Phenotypic_Variables", 48682)
+# https://www.nejm.org/doi/full/10.1056/NEJMsr1809937 - EHR Data / Number of ICD10-CM codes around 69,000
+setValue("All of Us", "Phenotypic_Variables", 69000)
 setValue("All of Us", "Phenotypic_Data_Type", "EHR; Surver Questions; Program Physiscal Measurements")
 setValue("All of Us", "Molecular_Data_Type", "WGS")
 #setValue("All of Us", "Markerset", "")
