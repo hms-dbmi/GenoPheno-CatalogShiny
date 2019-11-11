@@ -20,7 +20,7 @@ All five criteria must be met for a dataset to be considered.
 ## On line
 The on line version of the GenoPheno-CatalogShiny Shiny App is available at: 
 
-<a href="https://avillachlab.shinyapps.io/GenoPheno" target="_blank">https://avillachlab.shinyapps.io/GenoPheno</a>
+<a href="https://avillachlab.shinyapps.io/genophenocatalog" target="_blank">https://avillachlab.shinyapps.io/genophenocatalog</a>
 
 
 ## Submitting a new entry
