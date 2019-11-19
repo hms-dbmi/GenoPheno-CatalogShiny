@@ -18,8 +18,10 @@ paket(listOfPackages)
 ###################
 # Go to  https://www.ncbi.nlm.nih.gov/projects/gapsolr/facets.html, click on Save Results and save as: dbGAP_All.csv
 #read the csv file 
-file_path = "/full-path/GenoPheno-CatalogShiny/csv/"
-dbgap <- read.delim(paste0(file_path,"dbGAP_All.csv"), sep = ",")
+#file_path = "/full-path/GenoPheno-CatalogShiny/csv/"
+#dbgap <- read.delim(paste0(file_path,"dbGAP_All.csv"), sep = ",")
+dbgap <- read.csv(file   = "https://github.com/hms-dbmi/GenoPheno-CatalogShiny/raw/master/csv/dbGAP_All.csv", sep    = ",")
+
 colnames(dbgap)
 colnames(dbgap)[2] <- "Name"
 
@@ -83,7 +85,10 @@ finalSetFilterSort$dbGaP.TOPMed.Study.Accession <-  sapply(strsplit( as.characte
 
 # From https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2
 # Copy and save Table 1 into: topmedFreeze5b.csv
-topmed <- read.delim(paste0(file_path,"topmedFreeze5b.csv"), sep=',', colClasses = "character")
+#topmed <- read.delim(paste0(file_path,"topmedFreeze5b.csv"), sep=',', colClasses = "character")
+topmed <- read.csv(file   = "https://github.com/hms-dbmi/GenoPheno-CatalogShiny/raw/master/csv/topmedFreeze5b.csv", sep    = ",", colClasses = "character")
+
+
 topmedphs <- unique( c(topmed$Study.Accession, topmed$Parent.Study.Accession))
 topmedphs <- topmedphs[topmedphs != "" ]
 
@@ -519,6 +524,47 @@ setValue("UIC ACE Exome Sequencing Analysis","Patients_Age", "3-50")
 setValue("UIC ACE Exome Sequencing Analysis", "PubMedLink",  paste0(pubMed,"23956104[PMID]', target='_blank'>23956104</a>"))
 setValue("UIC ACE Exome Sequencing Analysis", "Ancestry", "European(59.5%); Hispanic(17.4%); African American(15.4%); Asian(4.1%); More than one(3.6%)") 
 
+# NINDS-Exome Sequencing in Parkinson's Disease
+# phenotypic data phs000089.v4.p2
+# genotypic data phs001103.v1.p2
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Country", "")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Sample_Size", 1223)
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Subject_Count", 618)
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Study_Design", "")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Phenotypic_Variables", 113 )
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Phenotypic_Data_Type", "")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Molecular_Data_Type", "SNP/CNV Genotypes (NGS); WES")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Markerset", "N/A")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Disease_Focus", "Parkinson Disease ")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease","Patients_Age", "")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Ancestry", "European (1697); Hispanic1 (9); Hispanic2 (13); Other Asian or Pacific Islander (1); Other (21)")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Consent", "GRU --- General research use")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Accession", "<a href='http://', target='_blank'>NEW</a>")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Link", "<a href='http://', target='_blank'>NEW</a>")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26442452', target='_blank'>26442452</a>; <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=28644039', target='_blank'>28644039</a>")
+setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Notes", "The parent study accession is: phs001172.v1.p2")
+
+# Pediatric Cardiac Genomics Consortium (PCGC) Study
+# genotypic data phs000571.v5.p2
+# phenotypic data phs001194.v2.p2
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Country", "")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Sample_Size", 8411)
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Subject_Count", 9444)
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Study_Design", "")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Phenotypic_Variables", 435)
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Phenotypic_Data_Type", "")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Molecular_Data_Type", "WGS; WES")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Markerset", "N/A")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Disease_Focus", "Heart Defects, Congenital")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study","Patients_Age", "")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Ancestry", "European (1443); African (6); East Asian (22); African American (145); Hispanic1 (121); Hispanic2 (135); Other Asian or Pacific Islander (29); South Asian (70); Other (48)")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Consent", "HMB --- Health/medical/biomedical; DS-CHD --- Disease-specific (congenital heart disease)")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Accession", "<a href='http://', target='_blank'>NEW</a>")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Link", "<a href='http://', target='_blank'>NEW</a>")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=[PMID]', target='_blank'></a>")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Notes", "")
+
+
 # Molecular Data-types and study design
 setValue("Genome-Wide Association Study of Amyotrophic Lateral Sclerosis", "Molecular_Data_Type", "SNP Genotypes (NGS); WES")
 setValue("Atherosclerosis Risk in Communities (ARIC)", "Study_Design", "Prospective longitudinal cohort")
@@ -545,7 +591,7 @@ f5b <- f5b[ ,  c("Name","Country", "Subject Count with Genomic and Clinical Data
                  "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
                  "Patients Age (yrs)","Ancestry","Consent","Accession","LinkClinicalAndGenomic", "LinkGenomic","PubMed Link","Notes") ]
 
-fwrite(f5b, file=paste0(file_path,"tableData.csv"), sep = ',', col.names = TRUE)
+fwrite(f5b, file="tableData.csv", sep = ',', col.names = TRUE)
 
 # NEW
 setValue("NEW", "Country", "")
