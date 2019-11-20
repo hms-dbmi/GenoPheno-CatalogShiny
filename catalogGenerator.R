@@ -27,7 +27,7 @@ colnames(dbgap)[2] <- "Name"
 
 #select the columns needed
 dbgapSelection <- dbgap[, c("Name", "Study.Design", "Study.Disease.Focus","Study.Molecular.Data.Type", 
-                   "Study.Markerset", "Study.Consent", "Ancestry..computed.", "accession")]
+                            "Study.Markerset", "Study.Consent", "Ancestry..computed.", "accession")]
 
 #select those studies with molecular data type provided
 #dbgapSelection <- dbgapSelection[ dbgapSelection$Study.Molecular.Data.Type != "Not Provided", ]
@@ -77,9 +77,9 @@ add_cols <- c("Country","Patients.Age","Notes","PubMedLink","Phenotypic.Data.Typ
 finalSetFilter = finalSetFilter[,c(add_cols):=list(NA)]
 
 finalSetFilterSort <- finalSetFilter[, c("Name", "Country", "samples", "subjects", "Study.Design",
-                                     "variables", "Phenotypic.Data.Type","Study.Molecular.Data.Type", "Study.Markerset", 
-                                     "Study.Disease.Focus", "Patients.Age", "Ancestry..computed.", 
-                                     "Study.Consent", "accession", "link", "PubMedLink", "Notes")]
+                                         "variables", "Phenotypic.Data.Type","Study.Molecular.Data.Type", "Study.Markerset", 
+                                         "Study.Disease.Focus", "Patients.Age", "Ancestry..computed.", 
+                                         "Study.Consent", "accession", "link", "PubMedLink", "Notes")]
 
 finalSetFilterSort$dbGaP.TOPMed.Study.Accession <-  sapply(strsplit( as.character(finalSetFilterSort$accession), "[.]"), '[', 1)
 
@@ -145,12 +145,12 @@ for( i in 1:nrow(topmed)){
     if(as.numeric(genomic$variables) > as.numeric(clinical$variables)){
       link <- paste0("Clinical: <a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>")
       extralink <- paste0("Genomic: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>")
-      }else{
+    }else{
       link <- paste0("Genomic and clinical: <a href='", as.character( genomic$link ), "', target='_blank'>", topmed$Study.Accession[i] ,"</a>")
       extralink <- NA
+      
+    }
     
-      }
-       
     pubmed <- NA
     Notes <- ifelse(as.numeric(genomic$variables) > as.numeric(clinical$variables), paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>", "; Additional information in the parent study: <a href='", as.character( clinical$link ), "', target='_blank'>", topmed$Parent.Study.Accession[i] ,"</a>"),paste0( "TOPMed Freeze 5b: <a href='https://www.biorxiv.org/content/10.1101/563866v1.full', target='_blank'>Joint Variant Calling</a>,  <a href='https://www.nhlbiwgs.org/topmed-whole-genome-sequencing-project-freeze-5b-phases-1-and-2', target='_blank'>Overview</a>"))
     hps <- paste0( as.character( genomic$accession ), "; ", as.character( clinical$accession ) )
@@ -184,6 +184,182 @@ finalSetDbgap <- finalSetDbgap[, c("Name", "Country", "samples", "subjects", "St
 finalSetDbgap$accession <- paste0( "<a href='https://dbgap.ncbi.nlm.nih.gov', target='_blank'>Request access through dbGAP</a>")
 finalSetDbgap$extraLink <- NA
 
+##add dbgap studies that independently do not meet the criteria but 
+##when taking into account link between different studies they meet the criteria
+
+##select the columns needed to know link between studies
+#select the columns needed
+dbgapSelectionLink <- dbgap[, c("Name", "Study.Design", "Study.Disease.Focus","Study.Molecular.Data.Type", 
+                            "Study.Markerset", "Study.Consent", "Ancestry..computed.", "accession", "Parent.study")]
+
+#select those studies with molecular data type provided
+#dbgapSelection <- dbgapSelection[ dbgapSelection$Study.Molecular.Data.Type != "Not Provided", ]
+dbgapSelectionLink$link <- paste0( "https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=", dbgap$accession)
+
+## extract the number of samples and subjects for each study
+dbgapStudyContentLink <- data.table(dbgap[, c("accession", "Study.Content")])
+dbgapStudyContentLink <- dbgapStudyContentLink[ dbgapStudyContentLink$accession %in% dbgapStudyContentLink$accession, ]
+dbgapStudyContentLink <- dbgapStudyContentLink[,Study.Content:=as.character(Study.Content)]
+# Add columns 
+add_cols <- c("phenotype.dataset","variables","documents","analyses","molecular.datasets","subjects","samples")
+dbgapStudyContentLink = dbgapStudyContentLink[,c(add_cols):=list(NA)]
+
+for(i in 1:nrow( dbgapStudyContentLink ) ){
+  print(i)
+  mySudyContentData <- do.call("rbind", strsplit(dbgapStudyContentLink$Study.Content[i], ","))
+  if(any(grep( "phenotype", mySudyContentData)) == TRUE){
+    dbgapStudyContentLink$phenotype.dataset[i] <- gsub( " phenotype datasets", "", mySudyContentData[grep( "phenotype", mySudyContentData)])
+  }
+  if(any(grep( "variables", mySudyContentData)) == TRUE){
+    dbgapStudyContentLink$variables[i] <- gsub( " variables", "", mySudyContentData[grep( "variables", mySudyContentData)])
+  }
+  if(any(grep( "documents", mySudyContentData)) == TRUE){
+    dbgapStudyContentLink$documents[i] <- gsub( " documents", "", mySudyContentData[grep( "documents", mySudyContentData)])
+  }
+  if(any(grep( "analyses", mySudyContentData)) == TRUE){
+    dbgapStudyContentLink$analyses[i] <- gsub( " analyses", "", mySudyContentData[grep( "analyses", mySudyContentData)])
+  }
+  if(any(grep( "molecular", mySudyContentData)) == TRUE){
+    dbgapStudyContentLink$molecular.datasets[i] <- gsub( " molecular datasets", "", mySudyContentData[grep( "molecular", mySudyContentData)])
+  }
+  if(any(grep( "subjects", mySudyContentData)) == TRUE){
+    dbgapStudyContentLink$subjects[i] <- gsub( " subjects", "", mySudyContentData[grep( "subjects", mySudyContentData)])
+  }
+  if(any(grep( "samples", mySudyContentData)) == TRUE){
+    dbgapStudyContentLink$samples[i] <- gsub( " samples", "", mySudyContentData[grep( "samples", mySudyContentData)])
+  }
+}
+
+dbgapStudyContentLink <- dbgapStudyContentLink[, c("accession", "variables", "subjects", "samples")]
+finalSetLink <- merge( dbgapSelectionLink, dbgapStudyContentLink, by="accession")
+
+##add the columns that we need and sort the table
+finalSetFilterLink <- data.table(finalSetLink)
+# Add columns 
+add_cols <- c("Country","Patients.Age","Notes","PubMedLink","Phenotypic.Data.Type")
+finalSetFilterLink = finalSetFilterLink[,c(add_cols):=list(NA)]
+
+finalSetFilterSortLink <- finalSetFilterLink[, c("Name", "Country", "samples", "subjects", "Study.Design",
+                                         "variables", "Phenotypic.Data.Type","Study.Molecular.Data.Type", "Study.Markerset", 
+                                         "Study.Disease.Focus", "Patients.Age", "Ancestry..computed.", 
+                                         "Study.Consent", "accession", "Parent.study","link", "PubMedLink", "Notes")]
+
+
+
+finalSetFilterSortLink$parentId <- sapply(strsplit( as.character(finalSetFilterSortLink$Parent.study), "phs"), '[', 2)
+finalSetFilterSortLink$parentId <- gsub(")", "", finalSetFilterSortLink$parentId)
+finalSetFilterSortLink$parentId <- paste0("phs", finalSetFilterSortLink$parentId)
+
+##### add dbgap studies 
+finalSetFilterSortLink$substudy <- NA
+
+for( i in 1:nrow(finalSetFilterSortLink)){
+  
+  #check if the study is parent of others
+  studyId  <- as.character(finalSetFilterSortLink$accession[i])
+  
+  if( studyId %in% finalSetFilterSortLink$parentId | finalSetFilterSortLink$Parent.study[i] != 'Not Applicable' ){
+    finalSetFilterSortLink$substudy[i] <- "yes"
+    print("This study has substudies")
+  }
+  else{
+    finalSetFilterSortLink$substudy[i] <- "no"
+    print("This study has no substudies")
+  }
+  
+}
+
+##detect those datasets that are "parent" or that have a "parent"
+#family
+subsetYesSub <- finalSetFilterSortLink[ finalSetFilterSortLink$substudy == "yes", ]
+
+morethanonedataset <- unique( subsetYesSub$parentId )
+morethanonedataset <- morethanonedataset[ morethanonedataset != "phsNA"]
+
+tobeIncluded <- vector()
+
+for(i in 1:length( morethanonedataset ) ){
+  
+  selection <- subsetYesSub[ subsetYesSub$accession == morethanonedataset[i] | 
+                               subsetYesSub$parentId ==  morethanonedataset[i], ]
+  
+    genoSelection <- selection[ unique(grep( "NGS|WXS|WES|WGS", selection$Study.Molecular.Data.Type)), ]
+    genoSelection <- genoSelection[ as.numeric(genoSelection$subjects) >= 500, ]
+    
+    phenoSelection <- selection[ as.numeric( selection$variables ) >= 100 & as.numeric(selection$subjects) >= 500, ]
+    
+    if(nrow(genoSelection) >= 1 & nrow(phenoSelection) >= 1){
+      
+      ##detect if any of them are in topmed
+      ##we will discard those because we have updated info in topmed
+      selection$phs <- sapply(strsplit( as.character(selection$accession), "[.]"), '[', 1)
+      topmedCheck <- selection[ selection$phs %in% c(topmed$Study.Accession, topmed$Parent.Study.Accession), ]
+      
+      if( nrow(topmedCheck) >= 1 ){
+        print(paste0( topmedCheck$Name[1], " study is included in Topmed"))
+        next()
+      }
+      
+      if( nrow(topmedCheck) == 0){
+        
+        #check if we already included in dbgap selection
+        dbgapCheck <- selection[ selection$Name %in% finalSetDbgap$Name]
+        
+        if( nrow( dbgapCheck )>= 1){
+          print(paste0( selection$Name[1], " study is already included with individual dbgap filter although is not in TopMED"))
+          
+        }else{
+          
+          print(paste0( selection$Name[1], " study is NOT included in Topmed and not included yet"))
+          parentIdOfGroup <- as.character( selection[ Parent.study == "Not Applicable", accession] )
+          tobeIncluded <- c(tobeIncluded, parentIdOfGroup)
+        }
+    }
+    }  
+}
+
+#add the automatic information of the studies to be included
+#taking the lowest number of patients between geno and pheno to be sure we include patients having both
+for( i in 1:length(tobeIncluded)){
+  
+
+  selection <- subsetYesSub[ subsetYesSub$accession == tobeIncluded[i] | 
+                               subsetYesSub$parentId ==  tobeIncluded[i], ]
+  
+  genoSelection <- selection[ unique(grep( "NGS|WXS|WES|WGS", selection$Study.Molecular.Data.Type)), ]
+  genoSelection <- genoSelection[ as.numeric(genoSelection$subjects) >= 500, ]
+  phenoSelection <- selection[ as.numeric( selection$variables ) >= 100 & as.numeric(selection$subjects) >= 500, ]
+  
+  #create the new row
+  Name <- as.character( selection[ selection$parentId == "phsNA", Name])
+  Country <- "TBD"
+  samples <- as.numeric( genoSelection[, "samples"] )
+  subjects <- min( c( as.numeric( genoSelection[, subjects]), as.numeric( phenoSelection[, subjects])))
+  Study.Design <- "TBD"
+  variables <- as.numeric( phenoSelection[, "variables"] )
+  Phenotypic.Data.Type <- "TBD"
+  Study.Molecular.Data.Type <-  as.character(genoSelection[1, Study.Molecular.Data.Type])
+  Study.Markerset <- as.character(genoSelection[1, Study.Markerset])
+  Study.Disease.Focus <- as.character( selection[ selection$parentId == "phsNA", Study.Disease.Focus])
+  Patients.Age <- "TBD"
+  Ancestry..computed. <- as.character( selection[ selection$Ancestry..computed. != "", Ancestry..computed.])
+  Study.Consent <- as.character( selection[ selection$parentId == "phsNA", Study.Consent])
+  accession <- as.character( selection[ selection$parentId == "phsNA", link])
+  link <- paste0("Clinical: <a href='", as.character( phenoSelection$link ), "', target='_blank'>", as.character(phenoSelection$accession) ,"</a>")
+  PubMedLink <- "TBD"
+  Notes <- "TBD"
+  extraLink <- paste0("Genomic: <a href='", as.character( genoSelection$link ), "', target='_blank'>", as.character( genoSelection$accession) ,"</a>") 
+  
+  newRow <- data.frame( Name, Country, samples, subjects, Study.Design, variables, Phenotypic.Data.Type, Study.Molecular.Data.Type, Study.Markerset, 
+               Study.Disease.Focus, Patients.Age, Ancestry..computed., Study.Consent, accession, link, PubMedLink, Notes, extraLink )
+  colnames(newRow) <- colnames( finalSetDbgap)
+  finalSetDbgap <- rbind( finalSetDbgap, newRow)
+  
+}
+
+
+
+
 # Merge both
 finalSetFilterSort <- rbindlist( list(finalSetFilterSort, finalSetDbgap), use.names = T)
 
@@ -200,8 +376,8 @@ finalSetFilterSort$Ancestry <- gsub( ",", ";", finalSetFilterSort$Ancestry)
 finalSetFilterSort$Consent <- gsub(  ",", ";", finalSetFilterSort$Consent)
 
 finalSetFilterSort <- finalSetFilterSort[, c ("Name","Country","Sample_Size","Subject_Count","Study_Design","Phenotypic_Variables",
-                                          "Phenotypic_Data_Type","Molecular_Data_Type","Markerset","Disease_Focus",
-                                          "Patients_Age","Ancestry","Consent","Accession","LinkClinicalAndGenomic",  "LinkGenomic", "PubMedLink","Notes") ]
+                                              "Phenotypic_Data_Type","Molecular_Data_Type","Markerset","Disease_Focus",
+                                              "Patients_Age","Ancestry","Consent","Accession","LinkClinicalAndGenomic",  "LinkGenomic", "PubMedLink","Notes") ]
 
 # Function to hard-code set values 
 setValue <- function(BB_name, select_col, value){ 
@@ -324,7 +500,7 @@ newRows <- function( newEntries, data){
 
 f5b <- newRows( newEntries = c("UK Biobank", "Undiagnosed Disease Network (UDN)", "Boston Children's Biobank", 
                                "Genomics Research and Innovation Network (GRIN)", 
-                               "All of Us", "Simons Simplex Collection (SSC)", "NINDS-Exome Sequencing in Parkinson's Disease", "Pediatric Cardiac Genomics Consortium (PCGC) Study"), data = f5b)
+                               "All of Us", "Simons Simplex Collection (SSC)"), data = f5b)
 
 
 # UK Biobank
@@ -527,42 +703,19 @@ setValue("UIC ACE Exome Sequencing Analysis", "Ancestry", "European(59.5%); Hisp
 # NINDS-Exome Sequencing in Parkinson's Disease
 # phenotypic data phs000089.v4.p2
 # genotypic data phs001103.v1.p2
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Country", "")
 setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Sample_Size", 1223)
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Subject_Count", 618)
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Study_Design", "")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Phenotypic_Variables", 113 )
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Phenotypic_Data_Type", "")
+#setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Study_Design", "")
 setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Molecular_Data_Type", "SNP/CNV Genotypes (NGS); WES")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Markerset", "N/A")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Disease_Focus", "Parkinson Disease ")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease","Patients_Age", "")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Ancestry", "European (1697); Hispanic1 (9); Hispanic2 (13); Other Asian or Pacific Islander (1); Other (21)")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Consent", "GRU --- General research use")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Accession", "<a href='http://', target='_blank'>NEW</a>")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Link", "<a href='http://', target='_blank'>NEW</a>")
+#setValue("NINDS-Exome Sequencing in Parkinson's Disease","Patients_Age", "")
 setValue("NINDS-Exome Sequencing in Parkinson's Disease", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26442452', target='_blank'>26442452</a>; <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=28644039', target='_blank'>28644039</a>")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Notes", "The parent study accession is: phs001172.v1.p2")
 
 # Pediatric Cardiac Genomics Consortium (PCGC) Study
 # genotypic data phs000571.v5.p2
 # phenotypic data phs001194.v2.p2
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Country", "")
 setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Sample_Size", 8411)
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Subject_Count", 9444)
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Study_Design", "")
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Phenotypic_Variables", 435)
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Phenotypic_Data_Type", "")
 setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Molecular_Data_Type", "WGS; WES")
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Markerset", "N/A")
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Disease_Focus", "Heart Defects, Congenital")
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study","Patients_Age", "")
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Ancestry", "European (1443); African (6); East Asian (22); African American (145); Hispanic1 (121); Hispanic2 (135); Other Asian or Pacific Islander (29); South Asian (70); Other (48)")
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Consent", "HMB --- Health/medical/biomedical; DS-CHD --- Disease-specific (congenital heart disease)")
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Accession", "<a href='http://', target='_blank'>NEW</a>")
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Link", "<a href='http://', target='_blank'>NEW</a>")
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=[PMID]', target='_blank'></a>")
-setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Notes", "")
+#setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study","Patients_Age", "")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29351346', target='_blank'>29351346</a>")
 
 
 # Molecular Data-types and study design
@@ -584,8 +737,8 @@ setValue("UIC ACE Exome Sequencing Analysis", "Molecular_Data_Type", "SNP/CNV Ge
 f5b <- f5b[ order(-Subject_Count) ]
 
 colnames(f5b) <- c("Name","Country","Sample Size","Subject Count with Genomic and Clinical Data","Study Design","# Phenotypic Variables Per Patient",
-                        "Phenotypic Data Type","Molecular Data Type","Markerset","Disease/Focus",
-                        "Patients Age (yrs)","Ancestry","Consent","Accession","LinkClinicalAndGenomic", "LinkGenomic","PubMed Link","Notes") 
+                   "Phenotypic Data Type","Molecular Data Type","Markerset","Disease/Focus",
+                   "Patients Age (yrs)","Ancestry","Consent","Accession","LinkClinicalAndGenomic", "LinkGenomic","PubMed Link","Notes") 
 # Re-Order columns
 f5b <- f5b[ ,  c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","# Phenotypic Variables Per Patient",
                  "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
