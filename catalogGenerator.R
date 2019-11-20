@@ -700,22 +700,28 @@ setValue("UIC ACE Exome Sequencing Analysis","Patients_Age", "3-50")
 setValue("UIC ACE Exome Sequencing Analysis", "PubMedLink",  paste0(pubMed,"23956104[PMID]', target='_blank'>23956104</a>"))
 setValue("UIC ACE Exome Sequencing Analysis", "Ancestry", "European(59.5%); Hispanic(17.4%); African American(15.4%); Asian(4.1%); More than one(3.6%)") 
 
-# NINDS-Exome Sequencing in Parkinson's Disease
+# NINDS Parkinson's Disease
 # phenotypic data phs000089.v4.p2
 # genotypic data phs001103.v1.p2
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Sample_Size", 1223)
-#setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Study_Design", "")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "Molecular_Data_Type", "SNP/CNV Genotypes (NGS); WES")
-#setValue("NINDS-Exome Sequencing in Parkinson's Disease","Patients_Age", "")
-setValue("NINDS-Exome Sequencing in Parkinson's Disease", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26442452', target='_blank'>26442452</a>; <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=28644039', target='_blank'>28644039</a>")
+setValue("NINDS Parkinson's Disease", "Country", "USA and Canada")
+setValue("NINDS Parkinson's Disease", "Sample_Size", 1223)
+setValue("NINDS Parkinson's Disease", "Study_Design", "Case-Control")
+setValue("NINDS Parkinson's Disease", "Molecular_Data_Type", "SNP/CNV Genotypes (NGS); WES")
+setValue("NINDS Parkinson's Disease","Patients_Age", "50–69")
+setValue("NINDS Parkinson's Disease", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26442452', target='_blank'>26442452</a>; <a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=23079770', target='_blank'>23079770</a>")
+setValue("NINDS Parkinson's Disease", "Notes",  "Parent study accession: <a href='https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001172.v1.p2', target='_blank'>phs001172.v1.p2</a>")
+
 
 # Pediatric Cardiac Genomics Consortium (PCGC) Study
 # genotypic data phs000571.v5.p2
 # phenotypic data phs001194.v2.p2
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Country", "USA and England")
 setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Sample_Size", 8411)
 setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Molecular_Data_Type", "WGS; WES")
-#setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study","Patients_Age", "")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Study_Design", "Prospective observational cohort")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study","Patients_Age", "Up to 60 Years   (Child, Adult)")
 setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29351346', target='_blank'>29351346</a>")
+setValue("Pediatric Cardiac Genomics Consortium (PCGC) Study", "Notes",  "Parent study accession: <a href='https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001194.v2.p2', target='_blank'>phs001194.v2.p2</a>")
 
 
 # Molecular Data-types and study design
