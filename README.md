@@ -25,7 +25,7 @@ The on line version of the GenoPheno-CatalogShiny Shiny App is available at:
 
 ## Submitting a new entry
 
-Go to the [GenoPheno-CatalogShiny website](https://avillachlab.shinyapps.io/GenoPheno) and click on the "Submit a new dataset" tab at the top of the table. Fill the form accordingly (fields marked with `*` are mandatory) and click the `Submit` button. The new entry submitted has to fulfill the inclusion criteria described above. All new submissions will be validated before being added to the table. 
+Go to the [GenoPheno-CatalogShiny website](https://avillachlab.shinyapps.io/genophenocatalog) and click on the "Submit a new dataset" tab at the top of the table. Fill the form accordingly (fields marked with `*` are mandatory) and click the `Submit` button. The new entry submitted has to fulfill the inclusion criteria described above. All new submissions will be validated before being added to the table. 
 
 ## Correcting an existing entry
 
@@ -43,4 +43,3 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 ## Citation 
-
