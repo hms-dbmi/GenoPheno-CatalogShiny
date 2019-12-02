@@ -123,7 +123,7 @@ ui <- fluidPage(
 
                 br(),
                 
-                column(3, textInput("markerset_submit", HTML("Markerset <br/>  <span class='notbold'>(e.g, grc37, grc38)</span>", ""))), 
+                column(3, textInput("markerset_submit", HTML("Phenptype Markerset <br/>  <span class='notbold'>(genotyping microarrays or on a technology basis; e.g, grc37, grc38)</span>", ""))), 
                 column(3, textInput("notes_submit", HTML("Notes <br/> <span class='notbold'> (additional information)</span>", ""))), 
                 
                 br(), 
@@ -210,7 +210,7 @@ ui <- fluidPage(
                                         <li>Phenotypic data type (e.g., electronic health records -EHR-, questionnaires, clinical notes)</li>
                                         <li>Sample size (total number of genomic samples [e.g., # of WGS samples + # of WES samples])</li>
                                         <li>Molecular data type (e.g., SNP array, whole genome sequencing data -WGS -, whole exome sequencing data -WES- )</li>
-                                        <li>Study Markerset</li>
+                                        <li>Phenotype Markerset (e.g., genotyping microarrays or on a technology basis)</li>
                                         <li>Disease/Focus (e.g., general or disease specific)</li>
                                         <li>Patients age in years</li>
                                         <li>Ancestry</li>
@@ -342,7 +342,7 @@ server <- function(input, output, session) {
     }
 
     colnames(data) <- c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","Number Of Phenotypic Variables Per Patient",
-                         "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
+                         "Phenotypic Data Type","Sample Size","Molecular Data Type","Phenotype Markerset",
                          "Patients Age (yrs)","Ancestry","Consent","Accession Link to the Dataset","Link to Clinical And Genomic Study", "Link to Genomic Study (if different than the clinical)","PubMed ID","Notes")
     data
     
@@ -350,7 +350,7 @@ server <- function(input, output, session) {
 var tips = ['Dataset name (long name and acronym if any)', 'Country (where does the research take place)', 'Subject count with both genomic and clinical data',
 'Study design (e.g., cohort, prospective, longitudinal)','Disease/Focus (e.g., general or disease specific)','Number Of Phenotypic Variables Per Patient',
 'Phenotypic data type (e.g., electronic health records -EHR-, questionnaires, clinical notes)',
-'Sample size (total number of genomic samples [e.g., # of WGS samples + # of WES samples])','Molecular data type (e.g., SNP array, whole genome sequencing data -WGS -, whole exome sequencing data -WES- )','Markerset',
+'Sample size (total number of genomic samples [e.g., # of WGS samples + # of WES samples])','Molecular data type (e.g., SNP array, whole genome sequencing data -WGS -, whole exome sequencing data -WES- )','Phenotype Markerset (e.g., genotyping microarrays or on a technology basis)',
 'Patients Age in years','Ancestry','Consent groups present in the dataset (e.g., biomedical, disease-specific)','Accession link to the dataset (link to the website or contact information to obtain data access)', 
 'Link to clinical/genomic study','Link to genomic study if different than the clinical one','Pubmed identifier number to the key study infrastructure publication/s','Notes'],
     header = table.columns().header();

@@ -743,11 +743,11 @@ setValue("UIC ACE Exome Sequencing Analysis", "Molecular_Data_Type", "SNP/CNV Ge
 f5b <- f5b[ order(-Subject_Count) ]
 
 colnames(f5b) <- c("Name","Country","Sample Size","Subject Count with Genomic and Clinical Data","Study Design","# Phenotypic Variables Per Patient",
-                   "Phenotypic Data Type","Molecular Data Type","Markerset","Disease/Focus",
+                   "Phenotypic Data Type","Molecular Data Type","Phenotype Markerset","Disease/Focus",
                    "Patients Age (yrs)","Ancestry","Consent","Accession","LinkClinicalAndGenomic", "LinkGenomic","PubMed Link","Notes") 
 # Re-Order columns
 f5b <- f5b[ ,  c("Name","Country", "Subject Count with Genomic and Clinical Data","Study Design","Disease/Focus","# Phenotypic Variables Per Patient",
-                 "Phenotypic Data Type","Sample Size","Molecular Data Type","Markerset",
+                 "Phenotypic Data Type","Sample Size","Molecular Data Type","Phenotype Markerset",
                  "Patients Age (yrs)","Ancestry","Consent","Accession","LinkClinicalAndGenomic", "LinkGenomic","PubMed Link","Notes") ]
 
 fwrite(f5b, file="tableData.csv", sep = ',', col.names = TRUE)
