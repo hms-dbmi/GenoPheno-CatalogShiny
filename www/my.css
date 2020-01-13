@@ -1,0 +1,7 @@
+input {
+    width: 100px !important;
+}
+
+td[data-type="factor"] input {
+    width: 100px !important;
+}

@@ -57,9 +57,16 @@ outputDirBckup <- "responsesBackup"
 
 ui <- fluidPage(
 
+  tags$head(includeHTML(("google-analytics.html"))),
   shinyjs::useShinyjs(), 
   shinyjs::inlineCSS(appCSS), 
   shinyjs::inlineCSS(formCSS), 
+  tags$head(
+    tags$link(
+      rel = "stylesheet",
+      type = "text/css",
+      href = "my.css")
+  ),
   
     tags$style(HTML('table.dataTable.hover tbody tr:hover, table.dataTable.display tbody tr:hover {background-color: lightyellow !important;}')),
   
@@ -346,7 +353,7 @@ server <- function(input, output, session) {
                          "Patients Age (yrs)","Ancestry","Consent","Accession Link to the Dataset","Link to Clinical And Genomic Study", "Link to Genomic Study (if different than the clinical)","PubMed ID","Notes")
     data
     
-  }, escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE, pageLength = 30), callback = JS("
+  },  filter = "top", escape = FALSE, rownames = FALSE, options = list(scrollX = TRUE, pageLength = 30), callback = JS("
 var tips = ['Dataset name (long name and acronym if any)', 'Country (where does the research take place)', 'Subject count with both genomic and clinical data',
 'Study design (e.g., cohort, prospective, longitudinal)','Disease/Focus (e.g., general or disease specific)','Number Of Phenotypic Variables Per Patient',
 'Phenotypic data type (e.g., electronic health records -EHR-, questionnaires, clinical notes)',
