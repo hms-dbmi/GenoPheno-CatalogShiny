@@ -510,7 +510,7 @@ setValue("UK Biobank", "Subject_Count", 50050)
 setValue("UK Biobank", "Study_Design", "Prospective study")
 # https://biobank.ndph.ox.ac.uk/showcase/browse.cgi?tk=OZMjnzmOfzLus1OfQ3AKFrr5cSCtYbZS66549
 setValue("UK Biobank", "Phenotypic_Variables", 7291)
-setValue("UK Biobank", "Phenotypic_Data_Type", "Health Record Data; Questionnaires; Physical Measures; Lifestyle")
+setValue("UK Biobank", "Phenotypic_Data_Type", "EHR; Questionnaires; Physical Measurements; Lifestyle")
 setValue("UK Biobank", "Molecular_Data_Type", "WGS; WES")
 setValue("UK Biobank", "Markerset", "Exome: IDT xGen Exome Research Panel v1.0")
 setValue("UK Biobank", "Disease_Focus", "General")
@@ -530,7 +530,7 @@ setValue("Undiagnosed Disease Network (UDN)", "Sample_Size", 462)
 setValue("Undiagnosed Disease Network (UDN)", "Subject_Count", 1042)
 setValue("Undiagnosed Disease Network (UDN)", "Study_Design", "Prospective Longitudinal Cohort")
 setValue("Undiagnosed Disease Network (UDN)", "Phenotypic_Variables", 3965)
-setValue("Undiagnosed Disease Network (UDN)", "Phenotypic_Data_Type", "EMR; Primary symptom reported by patient or caregiver or by clinical experts and HPO terms")
+setValue("Undiagnosed Disease Network (UDN)", "Phenotypic_Data_Type", "HPO terms by clinical experts")
 setValue("Undiagnosed Disease Network (UDN)", "Molecular_Data_Type", "NGS; WGS; WES")
 setValue("Undiagnosed Disease Network (UDN)", "Markerset", "GRCh37(hg19)")
 setValue("Undiagnosed Disease Network (UDN)", "Disease_Focus", "Undiagnosed Diseases/Rare Diseases")
@@ -540,7 +540,7 @@ setValue("Undiagnosed Disease Network (UDN)", "Consent", "NHGRI GRU --- General 
 setValue("Undiagnosed Disease Network (UDN)", "Accession", "<a href='https://dbgap.ncbi.nlm.nih.gov', target='_blank'>Request access through dbGAP</a>")
 setValue("Undiagnosed Disease Network (UDN)", "LinkClinicalAndGenomic", "<a href='https://undiagnosed.hms.harvard.edu/research/', target='_blank'>Undiagnosed Disease Network (UDN)</a>")
 setValue("Undiagnosed Disease Network (UDN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26220576[PMID]', target='_blank'>26220576</a>")
-setValue("Undiagnosed Disease Network (UDN)", "Notes", "<a href='http://undiagnosed.hms.harvard.edu/wp-content/uploads/UDN-Manual-of-Operations_February-2016.pdf', target='_blank'>UDN Manual of Operations</a>")
+setValue("Undiagnosed Disease Network (UDN)", "Notes", "<a href='http://undiagnosed.hms.harvard.edu/wp-content/uploads/UDN-Manual-of-Operations_February-2016.pdf', target='_blank'>UDN Manual of Operations</a>; only accessible via PI collaboration")
 
 # Boston Children's Biobank
 setValue("Boston Children's Biobank", "Country", "USA")
@@ -558,7 +558,7 @@ setValue("Boston Children's Biobank", "Consent", "<a href='http://www.mdpi.com/2
 setValue("Boston Children's Biobank", "Accession", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children's Biobank</a>")
 setValue("Boston Children's Biobank", "LinkClinicalAndGenomic", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children's Biobank</a>")
 setValue("Boston Children's Biobank", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29244735[PMID]', target='_blank'>29244735</a>")
-setValue("Boston Children's Biobank", "Notes", "The parents provide consent until participants are 18")
+setValue("Boston Children's Biobank", "Notes", "The parents provide consent until participants are 18; only accessible via PI collaboration")
 
 # Genomics Research and Innovation Network (GRIN)
 setValue("Genomics Research and Innovation Network (GRIN)", "Country", "USA")
@@ -576,7 +576,7 @@ setValue("Genomics Research and Innovation Network (GRIN)", "Consent", "Research
 setValue("Genomics Research and Innovation Network (GRIN)", "Accession", "<a href='https://www.grinnetwork.org/', target='_blank'>PIC-SURE application programming interface (API) is used to access genotype and phenotype data from databases at each site of care</a>")
 setValue("Genomics Research and Innovation Network (GRIN)", "LinkClinicalAndGenomic", "<a href='https://www.grinnetwork.org/', target='_blank'>Genomics Research and Innovation Network (GRIN)</a>")
 setValue("Genomics Research and Innovation Network (GRIN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=31481752[PMID]', target='_blank'>31481752</a>")
-#setValue("Genomics Research and Innovation Network (GRIN)", "Notes", "")
+setValue("Genomics Research and Innovation Network (GRIN)", "Notes", "Only accessible via PI collaboration")
 
 # H3Africa 
 # setValue("H3Africa", "Country", "Africa") # https://h3africa.org/h3africa.old/images/ConsortiumMeetingDoc/8thConsortiumMeeting/PIpresentations/Mulder_session4_final.pdf
@@ -604,7 +604,7 @@ setValue("All of Us", "Subject_Count", 80000) # https://databrowser.researchallo
 setValue("All of Us", "Study_Design", "Population-based cohort")
 # https://www.nejm.org/doi/full/10.1056/NEJMsr1809937 - EHR Data / Number of ICD10-CM codes around 69,000
 setValue("All of Us", "Phenotypic_Variables", 69000)
-setValue("All of Us", "Phenotypic_Data_Type", "EHR; Surver Questions; Program Physiscal Measurements")
+setValue("All of Us", "Phenotypic_Data_Type", "EHR; Questionnaires; Physical Measurements")
 setValue("All of Us", "Molecular_Data_Type", "WGS")
 #setValue("All of Us", "Markerset", "")
 setValue("All of Us", "Disease_Focus", "General")
@@ -622,7 +622,7 @@ setValue("Simons Simplex Collection (SSC)", "Sample_Size", 4784 )
 setValue("Simons Simplex Collection (SSC)", "Subject_Count", 2392)
 setValue("Simons Simplex Collection (SSC)", "Study_Design", "Family cohort (simplex families with an affected sibling)")
 setValue("Simons Simplex Collection (SSC)", "Phenotypic_Variables", 5459)
-setValue("Simons Simplex Collection (SSC)", "Phenotypic_Data_Type", "Questionnaires; Autism Diagnostic Interview – Revised (ADI-R) ; Autism Diagnostic Observation Schedule (ADOS)")
+setValue("Simons Simplex Collection (SSC)", "Phenotypic_Data_Type", "Questionnaires")
 setValue("Simons Simplex Collection (SSC)", "Molecular_Data_Type", "WGS; WES")
 setValue("Simons Simplex Collection (SSC)", "Markerset", "Genome Reference Consortium Human Build 37 (GRCh37 - hg19)")
 setValue("Simons Simplex Collection (SSC)", "Disease_Focus", "Autism")
