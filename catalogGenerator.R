@@ -498,7 +498,7 @@ newRows <- function( newEntries, data){
   return( data )
 }
 
-f5b <- newRows( newEntries = c("UK Biobank", "Undiagnosed Disease Network (UDN)", "Boston Children's Biobank", 
+f5b <- newRows( newEntries = c("UK Biobank", "Undiagnosed Disease Network (UDN)", "Boston Children PrecisionLink Biobank", 
                                "Genomics Research and Innovation Network (GRIN)", 
                                "All of Us", "Simons Simplex Collection (SSC)"), data = f5b)
 
@@ -542,23 +542,23 @@ setValue("Undiagnosed Disease Network (UDN)", "LinkClinicalAndGenomic", "<a href
 setValue("Undiagnosed Disease Network (UDN)", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=26220576[PMID]', target='_blank'>26220576</a>")
 setValue("Undiagnosed Disease Network (UDN)", "Notes", "<a href='http://undiagnosed.hms.harvard.edu/wp-content/uploads/UDN-Manual-of-Operations_February-2016.pdf', target='_blank'>UDN Manual of Operations</a>; only accessible via PI collaboration")
 
-# Boston Children's Biobank
-setValue("Boston Children's Biobank", "Country", "USA")
-setValue("Boston Children's Biobank", "Sample_Size", 500)
-setValue("Boston Children's Biobank", "Subject_Count", 500 )
-setValue("Boston Children's Biobank", "Study_Design", "Prospective longitudinal cohort")
-setValue("Boston Children's Biobank", "Phenotypic_Variables", 73077)
-setValue("Boston Children's Biobank", "Phenotypic_Data_Type", "EHR")
-setValue("Boston Children's Biobank", "Molecular_Data_Type", "WES")
-#setValue("Boston Children's Biobank", "Markerset", "")
-setValue("Boston Children's Biobank", "Disease_Focus", "General")
-setValue("Boston Children's Biobank","Patients_Age", "0-18 (80.5%); >18 (19.5%)")
-setValue("Boston Children's Biobank", "Ancestry", "White (75%); Black (9.6%); Asian (3.4%); Navite American/Alaska Native (0.2%); Native Hawaiian/Pacific Islander (0.1%); Other (4.3%); Prefere not to answer (1.0%); Unknown (6.3%)")
-setValue("Boston Children's Biobank", "Consent", "<a href='http://www.mdpi.com/2075-4426/7/4/21/s1', target='_blank'>Research Consent</a>")
-setValue("Boston Children's Biobank", "Accession", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children's Biobank</a>")
-setValue("Boston Children's Biobank", "LinkClinicalAndGenomic", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children's Biobank</a>")
-setValue("Boston Children's Biobank", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29244735[PMID]', target='_blank'>29244735</a>")
-setValue("Boston Children's Biobank", "Notes", "The parents provide consent until participants are 18; only accessible via PI collaboration")
+# Boston Children PrecisionLink Biobank
+setValue("Boston Children PrecisionLink Biobank", "Country", "USA")
+setValue("Boston Children PrecisionLink Biobank", "Sample_Size", 500)
+setValue("Boston Children PrecisionLink Biobank", "Subject_Count", 500 )
+setValue("Boston Children PrecisionLink Biobank", "Study_Design", "Prospective longitudinal cohort")
+setValue("Boston Children PrecisionLink Biobank", "Phenotypic_Variables", 73077)
+setValue("Boston Children PrecisionLink Biobank", "Phenotypic_Data_Type", "EHR")
+setValue("Boston Children PrecisionLink Biobank", "Molecular_Data_Type", "WES")
+#setValue("Boston Children PrecisionLink Biobank", "Markerset", "")
+setValue("Boston Children PrecisionLink Biobank", "Disease_Focus", "General")
+setValue("Boston Children PrecisionLink Biobank","Patients_Age", "0-18 (80.5%); >18 (19.5%)")
+setValue("Boston Children PrecisionLink Biobank", "Ancestry", "White (75%); Black (9.6%); Asian (3.4%); Navite American/Alaska Native (0.2%); Native Hawaiian/Pacific Islander (0.1%); Other (4.3%); Prefere not to answer (1.0%); Unknown (6.3%)")
+setValue("Boston Children PrecisionLink Biobank", "Consent", "<a href='http://www.mdpi.com/2075-4426/7/4/21/s1', target='_blank'>Research Consent</a>")
+setValue("Boston Children PrecisionLink Biobank", "Accession", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children PrecisionLink Biobank</a>")
+setValue("Boston Children PrecisionLink Biobank", "LinkClinicalAndGenomic", "<a href='http://biobank.childrens.harvard.edu', target='_blank'>Boston Children PrecisionLink Biobank</a>")
+setValue("Boston Children PrecisionLink Biobank", "PubMedLink",  "<a href='https://www.ncbi.nlm.nih.gov/pubmed?cmd=DetailsSearch&term=29244735[PMID]', target='_blank'>29244735</a>")
+setValue("Boston Children PrecisionLink Biobank", "Notes", "The parents provide consent until participants are 18; only accessible via PI collaboration")
 
 # Genomics Research and Innovation Network (GRIN)
 setValue("Genomics Research and Innovation Network (GRIN)", "Country", "USA")
