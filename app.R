@@ -1,54 +1,7 @@
 library(shiny)
-library(shinyjs)
-library(shinydashboard)
 library(shinythemes)
-library(shinycssloaders)
-library(rdrop2)
 library(shinyalert)
-library(shinyBS)
 library(DT)
-
-token <- readRDS("droptoken.rds")
-drop_acc(dtoken = token)
-outputDir <- "responses"
-
-######################drop################################################################
-# Define global #
-######################################################################################
-fieldsMandatory <- c("email", "dataset_submit", "country_submit", "subjects_submit", 
-                        "disease_submit", "phenoVars_submit", "phenoType_submit", 
-                        "sample_submit", "molecularType_submit", "consent_submit", "accession_submit")
-
-labelMandatory <- function(label) {
-  tagList(
-    label,
-    span("*", class = "mandatory_star")
-  )
-}
-
-
-appCSS <- ".mandatory_star { color: red; }
-   #error { color: red; }"
-
-formCSS <- ".notbold{
-    font-weight:normal  
-}"
-
-fieldsAll <-  c("email", "dataset_submit", "country_submit", "phenoType_submit", "design_submit",  "disease_submit", 
-                "subjects_submit", "sample_submit", "molecularType_submit","markerset_submit","age_submit",
-                "ancestry_submit", "consent_submit", "phenoVars_submit", "pubmed_submit", 
-                   "accession_submit", "linkClinicalGenomic_submit", "linkGenomic_submit","notes_submit")
-
-responsesDir <- file.path("responses")
-responesesBackup <- file.path("responsesBackup")
-epochTime <- function() {
-  as.integer(Sys.time())
-}
-
-
-##Remotely saved in dropbox
-outputDir <- "responses"
-outputDirBckup <- "responsesBackup"
 
 
 ######################################################################################
@@ -58,9 +11,6 @@ outputDirBckup <- "responsesBackup"
 ui <- fluidPage(
 
   tags$head(includeHTML(("google-analytics.html"))),
-  shinyjs::useShinyjs(), 
-  shinyjs::inlineCSS(appCSS), 
-  shinyjs::inlineCSS(formCSS), 
   tags$head(
     tags$link(
       rel = "stylesheet",
@@ -98,61 +48,45 @@ ui <- fluidPage(
               )
     ), 
     tabPanel( value="submit",
-              p("Submit a new dataset"),
-              div(
-                id = "form",
-                column(3, textInput("email", labelMandatory(HTML("<b>Contributor e-mail</b>  <br/>  <span class='notbold'>(e.g., myemail@...)</span>")), "")),
-                column(3, textInput("dataset_submit", labelMandatory(HTML("Data Set Name  <br/>  <span class='notbold'>(e.g., UK Biobank)</span>")), "")),
-                column(3, textInput("country_submit", labelMandatory(HTML("Country  <br/>  <span class='notbold'>(e.g., UK)</span>")), "")),
-                column(3, textInput("disease_submit", labelMandatory(HTML("Disease/Focus <br/>  <span class='notbold'>(e.g, general, cancer)</span>")), "")), 
-                
-                br(),
-                
-                column(3, textInput("subjects_submit", labelMandatory(HTML("Subjects with Genomic and Clinical Data <br/>  <span class='notbold'>(numeric value no commas, e.g., 1000)</span>")), "")),
-                column(3, textInput("phenoVars_submit", labelMandatory(HTML("Number Of Phenotypic Variables Per Patient <br/>  <span class='notbold'>(numeric value without commas, e.g., 1000)</span>")), "")), 
-                column(3, textInput("phenoType_submit", labelMandatory(HTML("Phenotypic Data Type <br/>  <span class='notbold'>(e.g., EHR, questionnaires)</span>")), "")),
-                column(3, textInput("sample_submit", labelMandatory(HTML("Sample Size <br/>  <span class='notbold'>(numeric value without commas,e.g., 1000)</span>")))), 
-                
-                br(),
-                
-                column(3, textInput("molecularType_submit", labelMandatory(HTML("Molecular Data Type <br/>  <span class='notbold'> (e.g., WGS, whole genome sequencing)</span>")))), 
-                column(3,  textInput("consent_submit", labelMandatory(HTML("Consent groups present in the data set <br/>  <span class='notbold'> (e.g., biomedical research)</span>")))), 
-                column(3,  textInput("accession_submit", labelMandatory(HTML("Accession Link to the dataset/webpage <br/>  <span class='notbold'>(e.g., https://dbgap.ncbi.nlm.nih.gov)</span>")))), 
-                column(3, textInput("design_submit", HTML("Study Design <br/>  <span class='notbold'> (e.g., Case Control Study, Prospective Study)</span>"), "")), 
-                
-                br(),
-                
-                column(3, textInput("age_submit", HTML("Patients Age (yrs) <br/> <span class='notbold'> (numeric range, e.g., 40-59, >18)</span>"), "")), 
-                column(3, textInput("ancestry_submit", HTML("Ancestry <br/>  <span class='notbold'>(e.g., european(XX) or european(XX%)...)</span>"), "")), 
-                column(3, textInput("pubmed_submit", HTML("PubMedID to study infrastructure publication <br/>  <span class='notbold'>(e.g., 25826379)</span>"), "")), 
-                column(3, textInput("linkClinicalGenomic_submit", HTML("Link to clinical/genomic study <br/>  <span class='notbold'>(e.g., https://www.ukbiobank.ac.uk/)</span>"), "")), 
-                column(3, textInput("linkGenomic_submit", HTML("Link to genomic study if different then clinical one <br/>  <span class='notbold'>(e.g., https://www.ukbiobank.ac.uk/)</span>"), "")), 
-
-                br(),
-                
-                column(3, textInput("markerset_submit", HTML("Genomic Markerset <br/>  <span class='notbold'>(genotyping microarrays or on a technology basis; e.g, grc37, grc38)</span>", ""))), 
-                column(3, textInput("notes_submit", HTML("Notes <br/> <span class='notbold'> (additional information)</span>", ""))), 
-                
-                br(), 
-                
-                actionButton("submit", "Submit", class = "btn-primary")
-                
-              ),
-              DT::dataTableOutput("responsesTable"),
-              shinyjs::hidden(
-                div(
-                  id = "thankyou_msg",
-                  h3("Thanks, your response was submitted successfully!"),
-                  actionLink("submit_another", "Submit another response")
-                )
-              ), 
-              shinyjs::hidden(
-                span(id = "submit_msg", "Submitting..."),
-                div(id = "error",
-                    div(br(), tags$b("Error: "), span(id = "error_msg"))
-                )
-              )
-              
+              title = p("Submit a new dataset"),
+              fluidRow(
+                sidebarLayout(
+                  sidebarPanel(
+                    tags$p(HTML("To add a new dataset to the catalog, please send an e-mail to <a href='mailto:alba_gutierrez@hms.harvard.edu?subject=GenoPheno%20Catalog%20-%20new%20dataset'>alba_gutierrez@hms.harvard.edu</a> including the following information:")),
+                    tags$h5(HTML("<u>Required</u>")),
+                    p(
+                      HTML("<ol>
+                                <li>Dataset name (long name and acronym if any; e.g., UK Biobank)</li>
+                                <li>Country (where does the research take place; e.g., UK)</li>
+                                <li>Disease/Focus (e.g., general, cancer)</li>
+                                <li>Subject count with both genomic and clinical data (e.g., 1000)</li>
+                                <li>Number of phenotypic variables per patient (e.g., 1000)</li>
+                                <li>Phenotypic data type (e.g., EHR, questionnaires)</li>
+                                <li>Sample size (total number of genomic samples; e.g., 1000)</li>
+                                <li>Molecular data type (e.g., WGS, WES)</li>
+                                <li>Consent groups present in the dataset (e.g., biomedical research)</li>
+                                <li>Accession link to the dataset/webpage (e.g., https://dbgap.ncbi.nlm.nih.gov)</li>
+                                </ol>")
+                    ),
+                    tags$h5(HTML("<u>Optional</u>")),
+                    p(
+                      HTML("<ol>
+                                <li>Study design (e.g., case control study, prospective study)</li>
+                                <li>Patients age in years (e.g., 40-59, >18)</li>
+                                <li>Ancestry (e.g., european(XX%))</li>
+                                <li>PubMed ID of the study infrastructure publication (e.g., 25826379)</li>
+                                <li>Link to clinical/genomic study (e.g., https://www.ukbiobank.ac.uk/)</li>
+                                <li>Link to genomic study if different than the clinical one</li>
+                                <li>Genomic markerset (genotyping microarrays or on a technology basis; e.g., grc37, grc38)</li>
+                                <li>Notes (additional information)</li>
+                                </ol>")
+                    ),
+                    br(),
+                    tags$p(HTML("Please check the inclusion criteria in the <b>About</b> tab before sending a new dataset.")),
+                    width = 12
+                  ),
+                  mainPanel(img(src = 'logo.png', align = "center", height="30px"))
+                ))
     ),
     tabPanel(value="main",
              title = p("Suggest a modification on the current catalog data"),
@@ -378,78 +312,6 @@ for (var i = 0; i < tips.length; i++) {
                       selected = "submission")
     
   })
-  
-  observe({
-    # check if all mandatory fields have a value
-    mandatoryFilled <-
-      vapply(fieldsMandatory,
-             function(x) {
-               !is.null(input[[x]]) && input[[x]] != ""
-             },
-             logical(1))
-    mandatoryFilled <- all(mandatoryFilled)
-    
-    # enable/disable the submit button
-    shinyjs::toggleState(id = "submit", condition = mandatoryFilled)
-  })
-  
-  humanTime <- function() format(Sys.time(), "%Y%m%d-%H%M%OS")
-  
-  formData <- reactive({
-    dataSubmission <- sapply(fieldsAll, function(x) input[[x]])
-    dataSubmission <- c(dataSubmission, timestamp = epochTime())
-    dataSubmission$status <- "Validation Pending"
-    dataSubmission <- t(dataSubmission)
-    dataSubmission
-  })
-  
-  outputDir <- "responses"
-  outputDirBckup <- "responsesBackup"
-
-  saveData <- function(dataSubmission) {
-    dataSubmission <- t(dataSubmission)
-    # Create a unique file name
-    fileName <- sprintf("%s_%s.csv", as.integer(Sys.time()), digest::digest(dataSubmission))
-    dataSubmission <- gsub(",", ";", dataSubmission)
-    # Write the data to a temporary file locally
-    filePath <- file.path(tempdir(), fileName)
-    write.csv(dataSubmission, filePath, quote = TRUE, row.names = FALSE)
-    # Upload the file to Dropbox
-    drop_upload(filePath, path = outputDir)
-    drop_upload(filePath, path = outputDirBckup)
-
-  }
-  
-  
-  # action to take when submit button is pressed
-  observeEvent(input$submit, {
-    shinyjs::disable("submit")
-    shinyjs::show("submit_msg")
-    shinyjs::hide("error")
-    
-    tryCatch({
-      saveData(formData())
-      shinyjs::reset("form")
-      shinyjs::hide("form")
-      shinyjs::show("thankyou_msg")
-    },
-    error = function(err) {
-      shinyjs::html("error_msg", err$message)
-      shinyjs::show(id = "error", anim = TRUE, animType = "fade")
-    },
-    finally = {
-      shinyjs::enable("submit")
-      shinyjs::hide("submit_msg")
-    })
-  })
-  
-  observeEvent(input$submit_another, {
-    shinyjs::show("form")
-    shinyjs::hide("thankyou_msg")
-  })   
-  
-  
-  
   
 }
 
